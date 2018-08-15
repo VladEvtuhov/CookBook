@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CookBook.BLL
+namespace CookBook.Console.Models
 {
-    public class Class1
+    public class RoleViewModel
     {
+        public string Name { get; set; }
     }
 }

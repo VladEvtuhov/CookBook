@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CookBook.BLL
+namespace CookBook.BLL.DTO
 {
-    public class Class1
-    {
+    public class RoleDTO
+    { 
+        public string Name { get; set; }
     }
 }

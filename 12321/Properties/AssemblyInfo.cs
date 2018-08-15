@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("CookBook.DAL")]
+[assembly: AssemblyTitle("12321")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("CookBook.DAL")]
+[assembly: AssemblyProduct("12321")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("44215a70-41aa-4d4d-ae8c-2f63b225260b")]
+[assembly: Guid("37fb9454-9a2b-4247-9a5c-0ea46423584a")]
 
 // Version information for an assembly consists of the following four values:
 //
