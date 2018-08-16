@@ -11,5 +11,6 @@ namespace CookBook.BLL.Interfaces
     {
         void CreateRole(RoleDTO roleDTO);
         IEnumerable<RoleDTO> GetRoles();
+        void RemoveRole(RoleDTO roleDTO);
     }
 }

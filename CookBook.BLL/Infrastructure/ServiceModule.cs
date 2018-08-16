@@ -11,10 +11,6 @@ namespace CookBook.BLL.Infrastructure
 {
     public class ServiceModule : NinjectModule
     {
-        public ServiceModule()
-        {
-
-        }
         public override void Load()
         {
             Bind<IUnitOfWork>().To<EFUnitOfWork>();

@@ -13,9 +13,17 @@ namespace CookBook.DAL.EF
         public static void Serialize<T>(IEnumerable<T> listForSerialize)
         {
             var serializer = new XmlSerializer(typeof(List<T>));
-            using (FileStream fs = new FileStream(typeof(T).Name + ".xml", FileMode.OpenOrCreate))
+            if(File.Exists(typeof(T).Name + ".xml"))
+                using (FileStream fs = new FileStream(typeof(T).Name + ".xml", FileMode.Truncate))
+                {
+                    serializer.Serialize(fs, listForSerialize);
+                }
+            else
             {
-                serializer.Serialize(fs, listForSerialize);
+                using (FileStream fs = new FileStream(typeof(T).Name + ".xml", FileMode.Create))
+                {
+                    serializer.Serialize(fs, listForSerialize);
+                }
             }
         }
 

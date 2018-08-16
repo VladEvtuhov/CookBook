@@ -18,7 +18,7 @@ namespace CookBook.DAL.Entities
         public DateTime CreatedDate { get; set; }
         public string ImageUrl { get; set; }
         public int CreatorId { get; set; }
-        public Users Creator { get; set; }
+        public User Creator { get; set; }
         public ICollection<RecipeRating> RecipesRatings { get; set; }
         public ICollection<Comment> Comments { get; set; }
         public int CookingMethodId { get; set; }

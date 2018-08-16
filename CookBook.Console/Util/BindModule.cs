@@ -9,11 +9,12 @@ using CookBook.BLL.Services;
 
 namespace CookBook.Console.Util
 {
-    public class RoleModule : NinjectModule
+    public class BindModule : NinjectModule
     {
         public override void Load()
         {
             Bind<IRoleService>().To<RoleService>();
+            Bind<IUserService>().To<UserService>();
         }
     }
 }

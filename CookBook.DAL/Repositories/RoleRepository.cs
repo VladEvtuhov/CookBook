@@ -21,16 +21,28 @@ namespace CookBook.DAL.Repositories
             mobileContext.GetRoles().Add(item);
         }
 
-        public void Delete(int id)
+        public void Remove(int id)
         {
             var role = mobileContext.GetRoles().Find(r => r.Id == id);
             if (role != null)
                 mobileContext.GetRoles().Remove(role);
         }
 
+        public void Remove(Role role)
+        {
+            var removedRole = mobileContext.GetRoles().FirstOrDefault(r => r.Name == role.Name);
+            if (removedRole != null)
+                mobileContext.GetRoles().Remove(removedRole);
+        }
+
         public IEnumerable<Role> Find(Func<Role, bool> predicate)
         {
             return mobileContext.GetRoles().Where(predicate).ToList();
+        }
+
+        public Role FirstOrDefault(Func<Role, bool> predicate)
+        {
+            return mobileContext.GetRoles().FirstOrDefault(predicate);
         }
 
         public Role Get(int id)

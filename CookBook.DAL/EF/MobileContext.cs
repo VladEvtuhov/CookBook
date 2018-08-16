@@ -9,12 +9,23 @@ namespace CookBook.DAL.EF
 {
     public class MobileContext
     {
-        private List<Role> roles = GenericSerializer.Deserialize<Role>();
+        private readonly List<Role> roles = GenericSerializer.Deserialize<Role>();
+        private readonly List<User> users = GenericSerializer.Deserialize<User>();
+        private readonly List<UserRoles> userRoles = GenericSerializer.Deserialize<UserRoles>();
         
         public List<Role> GetRoles()
         {
             return roles;
         }
 
+        public List<User> GetUsers()
+        {
+            return users;
+        }
+
+        public List<UserRoles> GetUserRoles()
+        {
+            return userRoles;
+        }
     }
 }

@@ -10,6 +10,7 @@ namespace CookBook.DAL.Interfaces
     public interface IUnitOfWork
     {
         IRepository<Role> Roles { get; }
+        IRepository<User> Users { get; }
         void Save();
     }
 }

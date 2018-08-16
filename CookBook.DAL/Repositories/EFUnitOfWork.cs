@@ -11,8 +11,9 @@ namespace CookBook.DAL.Repositories
 {
     public class EFUnitOfWork : IUnitOfWork
     {
-        private MobileContext mobileContext;
+        private readonly MobileContext mobileContext;
         private RoleRepository roleRepository;
+        private UserRepository userRepository;
 
         public EFUnitOfWork()
         {
@@ -27,9 +28,22 @@ namespace CookBook.DAL.Repositories
             }
         }
 
+        public IRepository<User> Users
+        {
+            get
+            {
+                if (userRepository == null)
+                    userRepository = new UserRepository(mobileContext);
+                return userRepository;
+            }
+        }
+
         public void Save()
         {
-            GenericSerializer.Serialize(roleRepository.GetAll());
+            if(roleRepository != null)
+                GenericSerializer.Serialize(roleRepository.GetAll());
+            if (userRepository != null)
+                GenericSerializer.Serialize(userRepository.GetAll());
         }
     }
 }
