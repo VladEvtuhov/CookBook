@@ -32,6 +32,7 @@ namespace CookBook.Console
                 System.Console.WriteLine("Menu\n");
                 System.Console.WriteLine("1 - roles");
                 System.Console.WriteLine("2 - users");
+                System.Console.WriteLine("3 - role admin");
                 System.Console.WriteLine("0 - exit");
                 input = Convert.ToInt32(System.Console.ReadLine());
                 switch (input)
@@ -46,11 +47,71 @@ namespace CookBook.Console
                             UsersMenu(kernel);
                             break;
                         }
+                    case 3:
+                        {
+                            RoleAdminMenu(kernel);
+                            break;
+                        }
                     default:
                         {
                             break;
                         }
                 }
+            }
+        }
+
+        public static void RoleAdminMenu(IKernel kernel)
+        {
+            int? input = null;
+            UsersRolesController usersRolesController = new UsersRolesController(kernel.Get<UserRoleService>());
+            while(input != 0)
+            {
+                System.Console.Clear();
+                System.Console.WriteLine("1 - get user roles");
+                System.Console.WriteLine("2 - set role");
+                System.Console.WriteLine("3 - pick up a role");
+                System.Console.WriteLine("0 - back");
+                input = Convert.ToInt32(System.Console.ReadLine());
+                System.Console.Clear();
+                switch (input)
+                {
+                    case 1:
+                        {
+                            System.Console.WriteLine("Enter email:");
+                            var email = System.Console.ReadLine();
+                            var roles = usersRolesController.GetUserRoles(email);
+                            System.Console.WriteLine(email + " roles: ");
+                            foreach (var role in roles)
+                            {
+                                System.Console.WriteLine(role);
+                            }
+                            System.Console.ReadKey();
+                            break;
+                        }
+                    case 2:
+                        {
+                            System.Console.WriteLine("Enter email:");
+                            var email = System.Console.ReadLine();
+                            System.Console.WriteLine("Enter role:");
+                            var role = System.Console.ReadLine();
+                            usersRolesController.SetRole(email, role);
+                            break;
+                        }
+                    case 3:
+                        {
+                            System.Console.WriteLine("Enter email:");
+                            var email = System.Console.ReadLine();
+                            System.Console.WriteLine("Enter role:");
+                            var role = System.Console.ReadLine();
+                            usersRolesController.PickUpRole(email, role);
+                            break;
+                        }
+                    default:
+                        {
+                            break;
+                        }
+                }
+
             }
         }
 

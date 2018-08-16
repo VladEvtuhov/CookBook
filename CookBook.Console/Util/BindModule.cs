@@ -15,6 +15,7 @@ namespace CookBook.Console.Util
         {
             Bind<IRoleService>().To<RoleService>();
             Bind<IUserService>().To<UserService>();
+            Bind<IUserRoleService>().To<UserRoleService>();
         }
     }
 }
