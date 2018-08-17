@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Ninject;
 using Ninject.Modules;
 using CookBook.Console.Util;
 using CookBook.BLL.Infrastructure;
-using CookBook.BLL.Interfaces;
 using CookBook.BLL.Services;
-using CookBook.BLL.DTO;
 using CookBook.Console.Controllers;
 using CookBook.Console.Models;
 
@@ -33,6 +27,7 @@ namespace CookBook.Console
                 System.Console.WriteLine("1 - roles");
                 System.Console.WriteLine("2 - users");
                 System.Console.WriteLine("3 - role admin");
+                System.Console.WriteLine("4 - recipes");
                 System.Console.WriteLine("0 - exit");
                 input = Convert.ToInt32(System.Console.ReadLine());
                 switch (input)
@@ -52,11 +47,110 @@ namespace CookBook.Console
                             RoleAdminMenu(kernel);
                             break;
                         }
+                    case 4:
+                        {
+                            RecipeMenu(kernel);
+                            break;
+                        }
                     default:
                         {
                             break;
                         }
                 }
+            }
+        }
+
+        public static void RecipeMenu(IKernel kernel)
+        {
+            int? input = null;
+            RecipeController recipeController = new RecipeController(kernel.Get<RecipeService>());
+            while (input != 0)
+            {
+                System.Console.Clear();
+                System.Console.WriteLine("1 - get recipes");
+                System.Console.WriteLine("2 - get recipe");
+                System.Console.WriteLine("3 - set recipe");
+                System.Console.WriteLine("4 - delete recipe");
+                System.Console.WriteLine("5 - edit recipe");
+                System.Console.WriteLine("0 - back");
+                input = Convert.ToInt32(System.Console.ReadLine());
+                System.Console.Clear();
+                switch (input)
+                {
+                    case 1:
+                        {
+                            var recipes = recipeController.GetAll();
+                            foreach(var recipe in recipes)
+                            {
+                                System.Console.WriteLine(recipe.Headline + "  |  "+recipe.ShortDescription+"  |  "+recipe.Content+"  |  "+recipe.CreatedDate);
+                            }
+                            System.Console.ReadKey();
+                            break;
+                        }
+                    case 2:
+                        {
+                            System.Console.WriteLine("Enter id:");
+                            int id = Convert.ToInt32(System.Console.ReadLine());
+                            try
+                            {
+                                var recipe = recipeController.Get(id);
+                                System.Console.WriteLine(recipe.Headline + "  |  " + recipe.ShortDescription + "  |  " + recipe.Content + "  |  " + recipe.CreatedDate);
+                            }
+                            catch(Exception e)
+                            {
+                                System.Console.WriteLine(e.Message);
+                            }
+                            System.Console.ReadKey();
+                            break;
+                        }
+                    case 3:
+                        {
+                            var createRecipe = CreateRecipe();
+                            try
+                            {
+                                recipeController.Create(createRecipe);
+                            }catch(Exception e)
+                            {
+                                System.Console.WriteLine(e.Message);
+                                System.Console.ReadKey();
+                            }
+                            break;
+                        }
+                    case 4:
+                        {
+                            System.Console.WriteLine("Enter id:");
+                            int id = Convert.ToInt32(System.Console.ReadLine());
+                            try
+                            {
+                                recipeController.Remove(id);
+                            }catch(Exception e)
+                            {
+                                System.Console.WriteLine(e.Message);
+                                System.Console.ReadKey();
+                            }
+                            break;
+                        }
+                    case 5:
+                        {
+                            System.Console.WriteLine("Enter id:");
+                            int id = Convert.ToInt32(System.Console.ReadLine());
+                            var editRecipe = CreateRecipe();
+                            try
+                            {
+                                recipeController.Update(id, editRecipe);
+                            }catch(Exception e)
+                            {
+                                System.Console.WriteLine(e.Message);
+                                System.Console.ReadKey();
+                            }
+                            break;
+                        }
+                    default:
+                        {
+                            break;
+                        }
+                }
+
             }
         }
 
@@ -333,6 +427,30 @@ namespace CookBook.Console
                         }
                 }
             }
+        }
+
+        private static CreateRecipeViewModel CreateRecipe()
+        {
+            CreateRecipeViewModel createRecipe = new CreateRecipeViewModel();
+            System.Console.WriteLine("Enter Headline:");
+            createRecipe.Headline = System.Console.ReadLine();
+            System.Console.WriteLine("Enter short description:");
+            createRecipe.ShortDescription = System.Console.ReadLine();
+            System.Console.WriteLine("Enter Content:");
+            createRecipe.Content = System.Console.ReadLine();
+            System.Console.WriteLine("Enter ImageUrl:");
+            createRecipe.ImageUrl = System.Console.ReadLine();
+            System.Console.WriteLine("Enter Category name:");
+            createRecipe.Category = System.Console.ReadLine();
+            System.Console.WriteLine("Enter creators email:");
+            createRecipe.CreatorEmail = System.Console.ReadLine();
+            System.Console.WriteLine("Enter country:");
+            createRecipe.Country = System.Console.ReadLine();
+            System.Console.WriteLine("Enter cooking method:");
+            createRecipe.CookingMethod = System.Console.ReadLine();
+            System.Console.WriteLine("Enter ingridient type:");
+            createRecipe.IngredientType = System.Console.ReadLine();
+            return createRecipe;
         }
 
         public static IKernel Binding()

@@ -50,16 +50,22 @@ namespace CookBook.DAL.Repositories
 
         public void Remove(int id)
         {
-            var product = mobileContext.GetProducts().FirstOrDefault(p => p.Id == id);
-            if (product != null)
-                mobileContext.GetProducts().Remove(product);
+            if (mobileContext.GetRecipeProducts().FirstOrDefault(p => p.ProductId == id) == null)
+            {
+                var product = mobileContext.GetProducts().FirstOrDefault(p => p.Id == id);
+                if (product != null)
+                    mobileContext.GetProducts().Remove(product);
+            }
         }
 
         public void Remove(Product item)
         {
-            var product = mobileContext.GetProducts().FirstOrDefault(p => p == item);
-            if (product != null)
-                mobileContext.GetProducts().Remove(product);
+            if (mobileContext.GetRecipeProducts().FirstOrDefault(p => p.ProductId == item.Id) == null)
+            {
+                var product = mobileContext.GetProducts().FirstOrDefault(p => p == item);
+                if (product != null)
+                    mobileContext.GetProducts().Remove(product);
+            }
         }
 
         public void Update(Product item)

@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace CookBook.DAL.Entities
 {
-    public class Countries
+    public class RecipeProduct
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public int RecipeId { get; set; }
+        public int ProductId { get; set; }
     }
 }

@@ -25,6 +25,9 @@ namespace CookBook.DAL.Repositories
         public void Create(UserRoles item)
         {
             mobileContext.GetUserRoles().Add(item);
+            var user = mobileContext.GetUsers().First(u => u.Id == item.UserId);
+            var role = mobileContext.GetRoles().First(r => r.Id == item.RoleId);
+            user.Roles.Add(role);
         }
 
         public IEnumerable<UserRoles> Find(Func<UserRoles, bool> predicate)
@@ -51,19 +54,34 @@ namespace CookBook.DAL.Repositories
         {
             var userRole = mobileContext.GetUserRoles().FirstOrDefault(r => r.Id == id);
             if (userRole != null)
+            {
+                var user = mobileContext.GetUsers().First(u => u.Id == userRole.UserId);
+                var role = mobileContext.GetRoles().First(r => r.Id == userRole.RoleId);
+                user.Roles.Remove(role);
                 mobileContext.GetUserRoles().Remove(userRole);
+            }
         }
 
         public void Remove(UserRoles item)
         {
             var userRole = mobileContext.GetUserRoles().FirstOrDefault(r => r.RoleId == item.RoleId && r.UserId == item.UserId);
             if (userRole != null)
+            {
+                var user = mobileContext.GetUsers().First(u => u.Id == userRole.UserId);
+                var role = mobileContext.GetRoles().First(r => r.Id == userRole.RoleId);
+                user.Roles.Remove(role);
                 mobileContext.GetUserRoles().Remove(userRole);
+            }
         }
 
         public void Update(UserRoles item)
         {
-            throw new NotImplementedException();
+            var userRole = mobileContext.GetUserRoles().FirstOrDefault(p => p.Id == item.Id);
+            if (userRole != null)
+            {
+                userRole.RoleId = item.RoleId;
+                userRole.UserId = item.UserId;
+            }
         }
     }
 }

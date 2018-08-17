@@ -15,6 +15,11 @@ namespace CookBook.DAL.Interfaces
         IRepository<Product> Products { get; }
         IRepository<Category> Categories { get; }
         IRepository<CookingMethod> CookingMethods { get; }
+        IRepository<Country> Countries { get; }
+        IRepository<IngredientType> IngridientTypes { get; }
+        IRepository<Recipe> Recipes { get; }
+        IRepository<RecipeProduct> RecipeProducts { get; }
+        IRepository<Comment> Comments { get; }
         void Save();
     }
 }

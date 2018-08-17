@@ -50,16 +50,22 @@ namespace CookBook.DAL.Repositories
 
         public void Remove(int id)
         {
-            var cookingMethod = mobileContext.GetCookingMethods().FirstOrDefault(p => p.Id == id);
-            if (cookingMethod != null)
-                mobileContext.GetCookingMethods().Remove(cookingMethod);
+            if (mobileContext.GetRecipes().FirstOrDefault(r => r.CookingMethodId == id) == null)
+            {
+                var cookingMethod = mobileContext.GetCookingMethods().FirstOrDefault(p => p.Id == id);
+                if (cookingMethod != null)
+                    mobileContext.GetCookingMethods().Remove(cookingMethod);
+            }
         }
 
         public void Remove(CookingMethod item)
         {
-            var cookingMethod = mobileContext.GetCookingMethods().FirstOrDefault(p => p == item);
-            if (cookingMethod != null)
-                mobileContext.GetCookingMethods().Remove(cookingMethod);
+            if (mobileContext.GetRecipes().FirstOrDefault(r => r.CookingMethodId == item.Id) == null)
+            {
+                var cookingMethod = mobileContext.GetCookingMethods().FirstOrDefault(p => p == item);
+                if (cookingMethod != null)
+                    mobileContext.GetCookingMethods().Remove(cookingMethod);
+            }
         }
 
         public void Update(CookingMethod item)

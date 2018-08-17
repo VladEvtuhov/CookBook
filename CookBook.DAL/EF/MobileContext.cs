@@ -15,6 +15,12 @@ namespace CookBook.DAL.EF
         private readonly List<Product> products = GenericSerializer.Deserialize<Product>();
         private readonly List<Category> categories = GenericSerializer.Deserialize<Category>();
         private readonly List<CookingMethod> cookingMethods = GenericSerializer.Deserialize<CookingMethod>();
+        private readonly List<Country> countries = GenericSerializer.Deserialize<Country>();
+        private readonly List<IngredientType> ingridientTypes = GenericSerializer.Deserialize<IngredientType>();
+        private readonly List<Recipe> recipes = GenericSerializer.Deserialize<Recipe>();
+        private readonly List<RecipeProduct> recipeProducts = GenericSerializer.Deserialize<RecipeProduct>();
+        private readonly List<RecipeRating> recipeRatings = GenericSerializer.Deserialize<RecipeRating>();
+        private readonly List<Comment> comments = GenericSerializer.Deserialize<Comment>();
         
         public List<Role> GetRoles()
         {
@@ -44,6 +50,36 @@ namespace CookBook.DAL.EF
         public List<CookingMethod> GetCookingMethods()
         {
             return cookingMethods;
+        }
+
+        public List<Country> GetCountries()
+        {
+            return countries;
+        }
+
+        public List<IngredientType> GetIngredientTypes()
+        {
+            return ingridientTypes;
+        }
+
+        public List<Recipe> GetRecipes()
+        {
+            return recipes;
+        }
+
+        public List<RecipeProduct> GetRecipeProducts()
+        {
+            return recipeProducts;
+        }
+
+        public List<RecipeRating> GetRecipeRatings()
+        {
+            return recipeRatings;
+        }
+
+        public List<Comment> GetComments()
+        {
+            return comments;
         }
     }
 }

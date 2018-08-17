@@ -38,6 +38,8 @@ namespace CookBook.BLL.Services
 
         public void CreateUser(RegisterUserDTO registerUserDTO)
         {
+            if (registerUserDTO.Password.Length < 6)
+                throw new ValidationException("min password length = 6", "");
             var user = database.Users.FirstOrDefault(u => u.Email == registerUserDTO.Email);
             if (user != null)
                 throw new ValidationException("User is already exist", "");

@@ -15,9 +15,10 @@ namespace CookBook.DAL.Entities
         public bool EmailConfirmed { get; set; }
         public bool IsDeleted { get; set; }
         public string ImageUrl { get; set; }
-        public List<Recipes> UserRecipes { get; set; }
+        public List<Recipe> UserRecipes { get; set; }
         public List<Comment> Comments { get; set; }
         public List<RecipeRating> RecipesRatings { get; set; }
+        public List<Role> Roles { get; set; }
         public string Password { get; set; }
         public string UserName { get; set; }
         public double AvgRating { get; set; }
@@ -27,9 +28,10 @@ namespace CookBook.DAL.Entities
         {
             EmailConfirmed = false;
             IsDeleted = false;
-            UserRecipes = new List<Recipes>();
+            UserRecipes = new List<Recipe>();
             Comments = new List<Comment>();
             RecipesRatings = new List<RecipeRating>();
+            Roles = new List<Role>();
             AvgRating = 0;
         }
     }

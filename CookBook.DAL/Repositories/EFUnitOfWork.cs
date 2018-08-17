@@ -18,6 +18,11 @@ namespace CookBook.DAL.Repositories
         private ProductsRepository productsRepository;
         private CategoriesRepository categoriesRepository;
         private CookingMethodsRepository cookingMethodsRepository;
+        private CountriesRepository countriesRepository;
+        private IngridientTypesRepository ingridientTypesRepository;
+        private RecipesRepository recipesRepository;
+        private RecipeProductsRepository recipeProductsRepository;
+        private CommentsRepository commentsRepository;
 
         public EFUnitOfWork()
         {
@@ -82,6 +87,55 @@ namespace CookBook.DAL.Repositories
             }
         }
 
+        public IRepository<Country> Countries {
+            get
+            {
+                if (countriesRepository == null)
+                    countriesRepository = new CountriesRepository(mobileContext);
+                return countriesRepository;
+            }
+        }
+
+        public IRepository<IngredientType> IngridientTypes
+        {
+            get
+            {
+                if (ingridientTypesRepository == null)
+                    ingridientTypesRepository = new IngridientTypesRepository(mobileContext);
+                return ingridientTypesRepository;
+            }
+        }
+
+        public IRepository<Recipe> Recipes
+        {
+            get
+            {
+                if (recipesRepository == null)
+                    recipesRepository = new RecipesRepository(mobileContext);
+                return recipesRepository;
+            }
+        }
+
+        public IRepository<RecipeProduct> RecipeProducts
+        {
+            get
+            {
+                if (recipeProductsRepository == null)
+                    recipeProductsRepository = new RecipeProductsRepository(mobileContext);
+                return recipeProductsRepository;
+            }
+        }
+
+        public IRepository<Comment> Comments
+        {
+            get
+            {
+                if (commentsRepository == null)
+                    commentsRepository = new CommentsRepository(mobileContext);
+                return commentsRepository;
+            }
+        }
+
         public void Save()
         {
             if(roleRepository != null)
@@ -96,6 +150,16 @@ namespace CookBook.DAL.Repositories
                 GenericSerializer.Serialize(categoriesRepository.GetAll());
             if (cookingMethodsRepository != null)
                 GenericSerializer.Serialize(cookingMethodsRepository.GetAll());
+            if (countriesRepository != null)
+                GenericSerializer.Serialize(countriesRepository.GetAll());
+            if (ingridientTypesRepository != null)
+                GenericSerializer.Serialize(ingridientTypesRepository.GetAll());
+            if (recipesRepository != null)
+                GenericSerializer.Serialize(recipesRepository.GetAll());
+            if (recipeProductsRepository != null)
+                GenericSerializer.Serialize(recipeProductsRepository.GetAll());
+            if (commentsRepository != null)
+                GenericSerializer.Serialize(commentsRepository.GetAll());
         }
     }
 }
