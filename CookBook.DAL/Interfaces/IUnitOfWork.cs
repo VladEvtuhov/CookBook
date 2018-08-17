@@ -12,6 +12,9 @@ namespace CookBook.DAL.Interfaces
         IRepository<Role> Roles { get; }
         IRepository<User> Users { get; }
         IRepository<UserRoles> UsersRoles { get; }
+        IRepository<Product> Products { get; }
+        IRepository<Category> Categories { get; }
+        IRepository<CookingMethod> CookingMethods { get; }
         void Save();
     }
 }

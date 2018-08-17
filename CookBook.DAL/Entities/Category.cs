@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CookBook.DAL.Entities
 {
-    public class Products
+    public class Category
     {
         public int Id { get; set; }
         public string Name { get; set; }

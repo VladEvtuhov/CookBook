@@ -14,15 +14,15 @@ namespace CookBook.DAL.Entities
         public string Content { get; set; }
         public double AvgRating { get; set; }
         public int CategoryId { get; set; }
-        public Categories Category { get; set; }
+        public Category Category { get; set; }
         public DateTime CreatedDate { get; set; }
         public string ImageUrl { get; set; }
         public int CreatorId { get; set; }
         public User Creator { get; set; }
-        public ICollection<RecipeRating> RecipesRatings { get; set; }
-        public ICollection<Comment> Comments { get; set; }
+        public List<RecipeRating> RecipesRatings { get; set; }
+        public List<Comment> Comments { get; set; }
         public int CookingMethodId { get; set; }
-        public CookingMethods CookingMethod { get; set; }
+        public CookingMethod CookingMethod { get; set; }
         public int CountryId { get; set; }
         public Countries Country { get; set; }
         public int IngredientTypeId { get; set; }

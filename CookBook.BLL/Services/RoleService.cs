@@ -25,7 +25,7 @@ namespace CookBook.BLL.Services
                 throw new ValidationException("Role is already exist", "");
             var role = new Role()
             {
-                Id = database.Roles.GetAll().Count() == 0? 1: database.Roles.GetAll().Last().Id + 1,
+                Id = database.Roles.GetAll().Count() == 0? 1: database.Roles.GetAll().OrderBy(o => o.Id).Last().Id + 1,
                 Name = roleDTO.Name
             };
             database.Roles.Create(role);

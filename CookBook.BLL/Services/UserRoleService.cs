@@ -57,7 +57,7 @@ namespace CookBook.BLL.Services
                 throw new ValidationException("User already has this role", "");
             UserRoles userRoles = new UserRoles()
             {
-                Id = database.UsersRoles.GetAll().Count() == 0 ? 1 : database.UsersRoles.GetAll().Last().Id + 1,
+                Id = database.UsersRoles.GetAll().Count() == 0 ? 1 : database.UsersRoles.GetAll().OrderBy(o => o.Id).Last().Id + 1,
                 RoleId = role.Id,
                 UserId = user.Id
             };

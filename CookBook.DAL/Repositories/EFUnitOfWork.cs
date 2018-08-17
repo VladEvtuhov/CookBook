@@ -15,6 +15,9 @@ namespace CookBook.DAL.Repositories
         private RoleRepository roleRepository;
         private UserRepository userRepository;
         private UserRolesRepository userRolesRepository;
+        private ProductsRepository productsRepository;
+        private CategoriesRepository categoriesRepository;
+        private CookingMethodsRepository cookingMethodsRepository;
 
         public EFUnitOfWork()
         {
@@ -49,6 +52,36 @@ namespace CookBook.DAL.Repositories
             }
         }
 
+        public IRepository<Product> Products
+        {
+            get
+            {
+                if (productsRepository == null)
+                    productsRepository = new ProductsRepository(mobileContext);
+                return productsRepository;
+            }
+        }
+
+        public IRepository<Category> Categories
+        {
+            get
+            {
+                if (categoriesRepository == null)
+                    categoriesRepository = new CategoriesRepository(mobileContext);
+                return categoriesRepository;
+            }
+        }
+
+        public IRepository<CookingMethod> CookingMethods
+        {
+            get
+            {
+                if (cookingMethodsRepository == null)
+                    cookingMethodsRepository = new CookingMethodsRepository(mobileContext);
+                return cookingMethodsRepository;
+            }
+        }
+
         public void Save()
         {
             if(roleRepository != null)
@@ -57,6 +90,12 @@ namespace CookBook.DAL.Repositories
                 GenericSerializer.Serialize(userRepository.GetAll());
             if (userRolesRepository != null)
                 GenericSerializer.Serialize(userRolesRepository.GetAll());
+            if (productsRepository != null)
+                GenericSerializer.Serialize(productsRepository.GetAll());
+            if (categoriesRepository != null)
+                GenericSerializer.Serialize(categoriesRepository.GetAll());
+            if (cookingMethodsRepository != null)
+                GenericSerializer.Serialize(cookingMethodsRepository.GetAll());
         }
     }
 }

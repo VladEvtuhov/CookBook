@@ -8,7 +8,6 @@ using System.Xml.Serialization;
 
 namespace CookBook.DAL.Entities
 {
-    [XmlRoot(ElementName = "embellishments", IsNullable = false)]
     public class User
     {
         public int Id { get; set; }
@@ -16,12 +15,9 @@ namespace CookBook.DAL.Entities
         public bool EmailConfirmed { get; set; }
         public bool IsDeleted { get; set; }
         public string ImageUrl { get; set; }
-        [XmlIgnore]
-        public ICollection<Recipes> UserRecipes { get; set; }
-        [XmlIgnore]
-        public ICollection<Comment> Comments { get; set; }
-        [XmlIgnore]
-        public ICollection<RecipeRating> RecipesRatings { get; set; }
+        public List<Recipes> UserRecipes { get; set; }
+        public List<Comment> Comments { get; set; }
+        public List<RecipeRating> RecipesRatings { get; set; }
         public string Password { get; set; }
         public string UserName { get; set; }
         public double AvgRating { get; set; }

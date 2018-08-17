@@ -43,7 +43,7 @@ namespace CookBook.BLL.Services
                 throw new ValidationException("User is already exist", "");
             User newbie = new User()
             {
-                Id = database.Users.GetAll().Count() == 0 ? 1 : database.Users.GetAll().Last().Id + 1,
+                Id = database.Users.GetAll().Count() == 0 ? 1 : database.Users.GetAll().OrderBy(o => o.Id).Last().Id + 1,
                 Email = registerUserDTO.Email,
                 ImageUrl = "http://missingkids-stage.adobecqms.net/etc/clientlibs/ncmec/poster/images/poster/en_US/noPhotoAvailable.jpg",
                 Password = registerUserDTO.Password.GetHashCode().ToString(),

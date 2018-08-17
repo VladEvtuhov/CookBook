@@ -12,6 +12,9 @@ namespace CookBook.DAL.EF
         private readonly List<Role> roles = GenericSerializer.Deserialize<Role>();
         private readonly List<User> users = GenericSerializer.Deserialize<User>();
         private readonly List<UserRoles> userRoles = GenericSerializer.Deserialize<UserRoles>();
+        private readonly List<Product> products = GenericSerializer.Deserialize<Product>();
+        private readonly List<Category> categories = GenericSerializer.Deserialize<Category>();
+        private readonly List<CookingMethod> cookingMethods = GenericSerializer.Deserialize<CookingMethod>();
         
         public List<Role> GetRoles()
         {
@@ -26,6 +29,21 @@ namespace CookBook.DAL.EF
         public List<UserRoles> GetUserRoles()
         {
             return userRoles;
+        }
+
+        public List<Product> GetProducts()
+        {
+            return products;
+        }
+
+        public List<Category> GetCategories()
+        {
+            return categories;
+        }
+
+        public List<CookingMethod> GetCookingMethods()
+        {
+            return cookingMethods;
         }
     }
 }

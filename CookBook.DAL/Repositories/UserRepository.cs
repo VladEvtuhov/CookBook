@@ -59,7 +59,7 @@ namespace CookBook.DAL.Repositories
 
         public void Remove(User item)
         {
-            var user = mobileContext.GetUsers().FirstOrDefault(u => u.Email == item.Email);
+            var user = mobileContext.GetUsers().FirstOrDefault(u => u == item);
             if(user != null)
             {
                 mobileContext.GetUsers().Remove(user);
