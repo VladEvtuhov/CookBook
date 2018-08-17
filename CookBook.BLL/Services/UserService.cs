@@ -22,9 +22,7 @@ namespace CookBook.BLL.Services
 
         public void ConfirmEmail(string email)
         {
-            var user = database.Users.FirstOrDefault(u => u.Email == email);
-            if(user == null)
-                throw new ValidationException("User not found", "");
+            var user = GetCurrentUser(email);
             user.EmailConfirmed = true;
             database.Users.Update(user);
             database.Save();
@@ -32,9 +30,7 @@ namespace CookBook.BLL.Services
 
         public void ChangeAboutUser(string email, string about)
         {
-            var user = database.Users.FirstOrDefault(u => u.Email == email);
-            if(user == null)
-                throw new ValidationException("User not found", "");
+            var user = GetCurrentUser(email);
             user.About = about;
             database.Users.Update(user);
             database.Save();
@@ -61,10 +57,19 @@ namespace CookBook.BLL.Services
 
         public void DeleteUser(string email)
         {
+            var user = GetCurrentUser(email);
+            user.IsDeleted = true;
+            database.Users.Update(user);
+            database.Save();
+        }
+
+        public void RestoreUser(string email)
+        {
             var user = database.Users.FirstOrDefault(u => u.Email == email);
             if (user == null)
                 throw new ValidationException("User not found", "");
-            database.Users.Remove(user.Id);
+            user.IsDeleted = false;
+            database.Users.Update(user);
             database.Save();
         }
 
@@ -84,6 +89,16 @@ namespace CookBook.BLL.Services
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<User, UserDTO>()).CreateMapper();
             return mapper.Map<IEnumerable<User>, List<UserDTO>>(database.Users.GetAll());
+        }
+
+        private User GetCurrentUser(string email)
+        {
+            var user = database.Users.FirstOrDefault(u => u.Email == email);
+            if (user == null)
+                throw new ValidationException("User not found", "");
+            if(user.IsDeleted)
+                throw new ValidationException("User is deleted", "");
+            return user;
         }
     }
 }

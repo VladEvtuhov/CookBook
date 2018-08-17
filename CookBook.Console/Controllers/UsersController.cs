@@ -36,6 +36,11 @@ namespace CookBook.Console.Controllers
             userService.DeleteUser(email);
         }
 
+        public void RestoreUser(string email)
+        {
+            userService.RestoreUser(email);
+        }
+
         public void ConfirmEmail(string email)
         {
             userService.ConfirmEmail(email);

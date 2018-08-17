@@ -94,7 +94,15 @@ namespace CookBook.Console
                             var email = System.Console.ReadLine();
                             System.Console.WriteLine("Enter role:");
                             var role = System.Console.ReadLine();
-                            usersRolesController.SetRole(email, role);
+                            try
+                            {
+                                usersRolesController.SetRole(email, role);
+                            }
+                            catch(Exception e)
+                            {
+                                System.Console.WriteLine(e.Message);
+                                System.Console.ReadKey();
+                            }
                             break;
                         }
                     case 3:
@@ -103,7 +111,14 @@ namespace CookBook.Console
                             var email = System.Console.ReadLine();
                             System.Console.WriteLine("Enter role:");
                             var role = System.Console.ReadLine();
-                            usersRolesController.PickUpRole(email, role);
+                            try
+                            {
+                                usersRolesController.PickUpRole(email, role);
+                            }catch(Exception e)
+                            {
+                                System.Console.WriteLine(e.Message);
+                                System.Console.ReadKey();
+                            }
                             break;
                         }
                     default:
@@ -151,7 +166,8 @@ namespace CookBook.Console
                             }
                             catch (Exception e)
                             {
-                                System.Console.WriteLine(e);
+                                System.Console.WriteLine(e.Message);
+                                System.Console.ReadKey();
                             }
                             break;
                         }
@@ -165,7 +181,8 @@ namespace CookBook.Console
                             }
                             catch (Exception e)
                             {
-                                System.Console.WriteLine(e);
+                                System.Console.WriteLine(e.Message);
+                                System.Console.ReadKey();
                             }
                             break;
                         }
@@ -191,6 +208,7 @@ namespace CookBook.Console
                 System.Console.WriteLine("5 - get user by id");
                 System.Console.WriteLine("6 - get user by email");
                 System.Console.WriteLine("7 - set new information about user");
+                System.Console.WriteLine("8 - restore user");
                 System.Console.WriteLine("0 - back");
                 input = Convert.ToInt32(System.Console.ReadLine());
                 System.Console.Clear();
@@ -224,7 +242,8 @@ namespace CookBook.Console
                             }
                             catch (Exception e)
                             {
-                                System.Console.WriteLine(e);
+                                System.Console.WriteLine(e.Message);
+                                System.Console.ReadKey();
                             }
                             break;
                         }
@@ -238,7 +257,8 @@ namespace CookBook.Console
                             }
                             catch (Exception e)
                             {
-                                System.Console.WriteLine(e);
+                                System.Console.WriteLine(e.Message);
+                                System.Console.ReadKey();
                             }
                             break;
                         }
@@ -246,7 +266,14 @@ namespace CookBook.Console
                         {
                             System.Console.WriteLine("Enter email:");
                             var email = System.Console.ReadLine();
-                            usersController.ConfirmEmail(email);
+                            try
+                            {
+                                usersController.ConfirmEmail(email);
+                            }catch(Exception e)
+                            {
+                                System.Console.WriteLine(e.Message);
+                                System.Console.ReadKey();
+                            }
                             break;
                         }
                     case 5:
@@ -275,7 +302,29 @@ namespace CookBook.Console
                             var email = System.Console.ReadLine();
                             System.Console.WriteLine("About:");
                             var about = System.Console.ReadLine();
-                            usersController.SetAbout(email, about);
+                            try
+                            {
+                                usersController.SetAbout(email, about);
+                            }catch(Exception e)
+                            {
+                                System.Console.WriteLine(e.Message);
+                                System.Console.ReadKey();
+                            }
+                            break;
+                        }
+                    case 8:
+                        {
+                            System.Console.WriteLine("Enter a email of restoring user:");
+                            var email = System.Console.ReadLine();
+                            try
+                            {
+                                usersController.RestoreUser(email);
+                            }
+                            catch (Exception e)
+                            {
+                                System.Console.WriteLine(e.Message);
+                                System.Console.ReadKey();
+                            }
                             break;
                         }
                     default:
