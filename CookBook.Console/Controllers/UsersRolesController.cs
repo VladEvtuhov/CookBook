@@ -25,7 +25,7 @@ namespace CookBook.Console.Controllers
             userRoleService.PickUpRole(email, role);
         }
 
-        public IList<string> GetUserRoles(string email)
+        public List<string> GetUserRoles(string email)
         {
             return userRoleService.GetUserRoles(email);
         }

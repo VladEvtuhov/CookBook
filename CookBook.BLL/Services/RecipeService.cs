@@ -4,11 +4,8 @@ using CookBook.BLL.Infrastructure;
 using CookBook.BLL.Interfaces;
 using CookBook.DAL.Entities;
 using CookBook.DAL.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CookBook.BLL.Services
 {
@@ -26,6 +23,9 @@ namespace CookBook.BLL.Services
             recipe.Id = database.Recipes.GetAll().Count() == 0 ? 1 : database.Recipes.GetAll().OrderBy(o => o.Id).Last().Id + 1;
             database.Recipes.Create(recipe);
             database.Save();
+            var creator = database.Users.FirstOrDefault(c => c.Email == recipeDTO.CreatorEmail);
+            creator.UserRecipes.Add(recipe);
+            database.Save();
         }
 
         public void Edit(int id, CreateRecipeDTO recipeDTO)
@@ -36,16 +36,23 @@ namespace CookBook.BLL.Services
             database.Save();
         }
 
-        public RecipeInfoDTO Get(int id)
+        public IEnumerable<RecipesInfoDTO> GetUserRecipes(string email)
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Recipe, RecipeInfoDTO>()).CreateMapper();
-            return mapper.Map<Recipe, RecipeInfoDTO>(database.Recipes.FirstOrDefault(u => u.Id == id));
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Recipe, RecipesInfoDTO>()).CreateMapper();
+            return mapper.Map<IEnumerable<Recipe>, List<RecipesInfoDTO>>(database.Recipes.Find(n => n.Creator.Email == email));
         }
 
-        public IEnumerable<RecipeInfoDTO> GetAll()
+        public RecipesInfoDTO Get(int id)
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Recipe, RecipeInfoDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<Recipe>, List<RecipeInfoDTO>>(database.Recipes.GetAll());
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Recipe, RecipesInfoDTO>()).CreateMapper();
+            return mapper.Map<Recipe, RecipesInfoDTO>(database.Recipes.FirstOrDefault(u => u.Id == id));
+        }
+
+        public IEnumerable<RecipesInfoDTO> GetAll()
+        {
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Recipe, RecipesInfoDTO>()).CreateMapper();
+            var info = mapper.Map<IEnumerable<Recipe>, List<RecipesInfoDTO>>(database.Recipes.GetAll());
+            return info;
         }
 
         public void Remove(int id)
@@ -53,6 +60,7 @@ namespace CookBook.BLL.Services
             if (database.Recipes.FirstOrDefault(r => r.Id == id) == null)
                 throw new ValidationException("Recipe not found", "");
             database.Recipes.Remove(id);
+            database.Save();
         }
 
         private Recipe SetRecipe(CreateRecipeDTO recipeDTO)

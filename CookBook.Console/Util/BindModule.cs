@@ -17,6 +17,14 @@ namespace CookBook.Console.Util
             Bind<IUserService>().To<UserService>();
             Bind<IUserRoleService>().To<UserRoleService>();
             Bind<IRecipeService>().To<RecipeService>();
+            Bind<ICategoryService>().To<CategoryService>();
+            Bind<ICommentService>().To<CommentService>();
+            Bind<ICookingMethodService>().To<CookingMethodService>();
+            Bind<ICountryService>().To<CountryService>();
+            Bind<IIngredientTypeService>().To<IngredientTypeService>();
+            Bind<IProductService>().To<ProductService>();
+            Bind<IRecipeProductsService>().To<RecipeProductsService>();
+            Bind<IRecipeRatingService>().To<RecipeRatingService>();
         }
     }
 }

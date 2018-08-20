@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace CookBook.DAL.Entities
@@ -15,24 +12,22 @@ namespace CookBook.DAL.Entities
         public string Content { get; set; }
         public double AvgRating { get; set; }
         public int CategoryId { get; set; }
-        [XmlIgnore]
         public Category Category { get; set; }
         public DateTime CreatedDate { get; set; }
         public string ImageUrl { get; set; }
         public int CreatorId { get; set; }
-        [XmlIgnore]
         public User Creator { get; set; }
+        [XmlIgnore]
         public List<RecipeRating> RecipesRatings { get; set; }
+        [XmlIgnore]
         public List<Comment> Comments { get; set; }
+        [XmlIgnore]
         public List<Product> Products { get; set; }
         public int CookingMethodId { get; set; }
-        [XmlIgnore]
         public CookingMethod CookingMethod { get; set; }
         public int CountryId { get; set; }
-        [XmlIgnore]
         public Country Country { get; set; }
         public int IngredientTypeId { get; set; }
-        [XmlIgnore]
         public IngredientType IngredientType { get; set; }
 
         public Recipe()

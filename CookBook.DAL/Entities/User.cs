@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Xml.Serialization;
 
 namespace CookBook.DAL.Entities
@@ -15,9 +10,13 @@ namespace CookBook.DAL.Entities
         public bool EmailConfirmed { get; set; }
         public bool IsDeleted { get; set; }
         public string ImageUrl { get; set; }
+        [XmlIgnore]
         public List<Recipe> UserRecipes { get; set; }
+        [XmlIgnore]
         public List<Comment> Comments { get; set; }
+        [XmlIgnore]
         public List<RecipeRating> RecipesRatings { get; set; }
+        [XmlIgnore]
         public List<Role> Roles { get; set; }
         public string Password { get; set; }
         public string UserName { get; set; }

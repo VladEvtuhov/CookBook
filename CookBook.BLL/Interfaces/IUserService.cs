@@ -17,5 +17,6 @@ namespace CookBook.BLL.Interfaces
         UserDTO GetUser(string email);
         void CreateUser(RegisterUserDTO registerUserDTO);
         void ChangeAboutUser(string email, string about);
+        bool Login(string email, string password);
     }
 }

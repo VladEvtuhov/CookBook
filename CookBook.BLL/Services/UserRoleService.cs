@@ -27,7 +27,7 @@ namespace CookBook.BLL.Services
                 var rolesId = database.UsersRoles.Find(r => r.UserId == user.Id);
                 foreach(var roleId in rolesId)
                 {
-                    roles.Add(database.Roles.Get(roleId.Id).Name);
+                    roles.Add(database.Roles.Get(roleId.RoleId).Name);
                 }
             }
             return roles;

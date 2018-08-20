@@ -21,7 +21,27 @@ namespace CookBook.DAL.EF
         private readonly List<RecipeProduct> recipeProducts = GenericSerializer.Deserialize<RecipeProduct>();
         private readonly List<RecipeRating> recipeRatings = GenericSerializer.Deserialize<RecipeRating>();
         private readonly List<Comment> comments = GenericSerializer.Deserialize<Comment>();
-        
+
+        public MobileContext()
+        {
+            foreach (var user in users)
+            {
+                var rolesId = userRoles.Where(s => s.UserId == user.Id).Select(s => s.RoleId).ToList();
+                user.Roles.AddRange(roles.Where(s => rolesId.Contains(s.Id)).ToList());
+                user.Comments.AddRange(comments.Where(s => s.CreatorId == user.Id).ToList());
+                user.RecipesRatings.AddRange(recipeRatings.Where(s => s.CreatorId == user.Id).ToList());
+                user.UserRecipes.AddRange(recipes.Where(s => s.CreatorId == user.Id));
+            }
+            foreach(var recipe in recipes)
+            {
+                var productsId = recipeProducts.Where(s => s.RecipeId == recipe.Id).Select(s => s.ProductId).ToList();
+                recipe.Products.AddRange(products.Where(s => productsId.Contains(s.Id)).ToList());
+                recipe.Comments.AddRange(comments.Where(s => s.RecipeId == recipe.Id).ToList());
+                recipe.RecipesRatings.AddRange(recipeRatings.Where(s => s.RecipeId == recipe.Id).ToList());
+            }
+
+        }
+
         public List<Role> GetRoles()
         {
             return roles;

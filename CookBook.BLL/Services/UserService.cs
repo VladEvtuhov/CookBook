@@ -93,6 +93,16 @@ namespace CookBook.BLL.Services
             return mapper.Map<IEnumerable<User>, List<UserDTO>>(database.Users.GetAll());
         }
 
+        public bool Login(string email, string password)
+        {
+            var user = database.Users.FirstOrDefault(u => u.Email == email);
+            if (user == null)
+                throw new ValidationException("User not found", "");
+            if (user.Password != password.GetHashCode().ToString() || user.IsDeleted)
+                return false;
+            return true;
+        }
+
         private User GetCurrentUser(string email)
         {
             var user = database.Users.FirstOrDefault(u => u.Email == email);

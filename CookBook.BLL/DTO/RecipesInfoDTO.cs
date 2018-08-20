@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace CookBook.BLL.DTO
 {
-    public class RecipeInfoDTO
+    public class RecipesInfoDTO
     {
+        public int Id { get; set; }
         public string Headline { get; set; }
         public string ShortDescription { get; set; }
         public string Content { get; set; }

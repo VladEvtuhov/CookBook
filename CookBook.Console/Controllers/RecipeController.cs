@@ -18,16 +18,16 @@ namespace CookBook.Console.Controllers
             recipeService = _recipeService;
         }
 
-        public IEnumerable<RecipeViewModel> GetAll()
+        public IEnumerable<RecipesViewModel> GetAll()
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<RecipeInfoDTO, RecipeViewModel>()).CreateMapper();
-            return mapper.Map<IEnumerable<RecipeInfoDTO>, List<RecipeViewModel>>(recipeService.GetAll());
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<RecipesInfoDTO, RecipesViewModel>()).CreateMapper();
+            return mapper.Map<IEnumerable<RecipesInfoDTO>, List<RecipesViewModel>>(recipeService.GetAll());
         }
 
-        public RecipeViewModel Get(int id)
+        public RecipesViewModel Get(int id)
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<RecipeInfoDTO, RecipeViewModel>()).CreateMapper();
-            return mapper.Map<RecipeInfoDTO, RecipeViewModel>(recipeService.Get(id));
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<RecipesInfoDTO, RecipesViewModel>()).CreateMapper();
+            return mapper.Map<RecipesInfoDTO, RecipesViewModel>(recipeService.Get(id));
         }
 
         public void Create(CreateRecipeViewModel item)
@@ -35,6 +35,12 @@ namespace CookBook.Console.Controllers
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<CreateRecipeViewModel, CreateRecipeDTO>()).CreateMapper();
             var recipe = mapper.Map<CreateRecipeViewModel, CreateRecipeDTO>(item);
             recipeService.Create(recipe);
+        }
+
+        public IEnumerable<RecipesViewModel> GetUserRecipes(string email)
+        {
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<RecipesInfoDTO, RecipesViewModel>()).CreateMapper();
+            return mapper.Map<IEnumerable<RecipesInfoDTO>, List<RecipesViewModel>>(recipeService.GetUserRecipes(email));
         }
 
         public void Update(int id, CreateRecipeViewModel item)

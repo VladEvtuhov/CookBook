@@ -20,6 +20,7 @@ namespace CookBook.DAL.Interfaces
         IRepository<Recipe> Recipes { get; }
         IRepository<RecipeProduct> RecipeProducts { get; }
         IRepository<Comment> Comments { get; }
+        IRepository<RecipeRating> RecipeRatings { get; }
         void Save();
     }
 }

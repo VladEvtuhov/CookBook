@@ -24,7 +24,11 @@ namespace CookBook.DAL.Repositories
         public void Create(RecipeRating item)
         {
             var recipeRating = mobileContext.GetRecipeRatings().FirstOrDefault(p => p.CreatorId == item.CreatorId && p.RecipeId == item.RecipeId);
-            if (recipeRating == null)
+            if (recipeRating != null)
+            {
+                Update(item);
+            }
+            else
             {
                 mobileContext.GetRecipeRatings().Add(item);
                 item.Creator.RecipesRatings.Add(item);
@@ -76,7 +80,7 @@ namespace CookBook.DAL.Repositories
 
         public void Update(RecipeRating item)
         {
-            var recipeRating = mobileContext.GetRecipeRatings().FirstOrDefault(p => p.Id == item.Id);
+            var recipeRating = mobileContext.GetRecipeRatings().FirstOrDefault(p => p.CreatorId == item.CreatorId && p.RecipeId == item.RecipeId);
             if (recipeRating != null)
             {
                 recipeRating.Rating = item.Rating;

@@ -62,5 +62,10 @@ namespace CookBook.Console.Controllers
         {
             userService.ChangeAboutUser(email, about);
         }
+
+        public bool Login(string email, string password)
+        {
+            return userService.Login(email, password);
+        }
     }
 }

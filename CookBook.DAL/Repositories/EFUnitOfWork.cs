@@ -23,6 +23,7 @@ namespace CookBook.DAL.Repositories
         private RecipesRepository recipesRepository;
         private RecipeProductsRepository recipeProductsRepository;
         private CommentsRepository commentsRepository;
+        private RecipeRatingsRepository recipeRatingsRepository;
 
         public EFUnitOfWork()
         {
@@ -136,6 +137,16 @@ namespace CookBook.DAL.Repositories
             }
         }
 
+        public IRepository<RecipeRating> RecipeRatings
+        {
+            get
+            {
+                if (recipeRatingsRepository == null)
+                    recipeRatingsRepository = new RecipeRatingsRepository(mobileContext);
+                return recipeRatingsRepository;
+            }
+        }
+
         public void Save()
         {
             if(roleRepository != null)
@@ -160,6 +171,8 @@ namespace CookBook.DAL.Repositories
                 GenericSerializer.Serialize(recipeProductsRepository.GetAll());
             if (commentsRepository != null)
                 GenericSerializer.Serialize(commentsRepository.GetAll());
+            if (recipeRatingsRepository != null)
+                GenericSerializer.Serialize(recipeRatingsRepository.GetAll());
         }
     }
 }

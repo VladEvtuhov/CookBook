@@ -7,14 +7,10 @@ using System.Threading.Tasks;
 
 namespace CookBook.Console.Models
 {
-    public class RecipeViewModel
+    public class CommentViewModel
     {
-        public string Headline { get; set; }
-        public string ShortDescription { get; set; }
         public string Content { get; set; }
-        public double AvgRating { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public string ImageUrl { get; set; }
+        public DateTime CreatedTime { get; set; }
         public UserDTO Creator { get; set; }
     }
 }
