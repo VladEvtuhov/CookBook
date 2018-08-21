@@ -11,76 +11,70 @@ namespace CookBook.DAL.Repositories
 {
     public class RecipeRatingsRepository : IRepository<RecipeRating>
     {
-        readonly MobileContext mobileContext;
-        public RecipeRatingsRepository(MobileContext _mc)
+        readonly ApplicationDbContext mobileContext;
+        public RecipeRatingsRepository(ApplicationDbContext _mc)
         {
             mobileContext = _mc;
         }
         public int Count()
         {
-            return mobileContext.GetRecipeRatings().Count();
+            return mobileContext.RecipeRatings.Count();
         }
 
         public void Create(RecipeRating item)
         {
-            var recipeRating = mobileContext.GetRecipeRatings().FirstOrDefault(p => p.CreatorId == item.CreatorId && p.RecipeId == item.RecipeId);
+            var recipeRating = mobileContext.RecipeRatings.FirstOrDefault(p => p.CreatorId == item.CreatorId && p.RecipeId == item.RecipeId);
             if (recipeRating != null)
             {
                 Update(item);
             }
             else
             {
-                mobileContext.GetRecipeRatings().Add(item);
-                item.Creator.RecipesRatings.Add(item);
-                item.Recipe.RecipesRatings.Add(item);
+                mobileContext.RecipeRatings.Add(item);
             }
         }
 
         public IEnumerable<RecipeRating> Find(Func<RecipeRating, bool> predicate)
         {
-            return mobileContext.GetRecipeRatings().Where(predicate).ToList();
+            return mobileContext.RecipeRatings.Where(predicate).ToList();
         }
 
         public RecipeRating FirstOrDefault(Func<RecipeRating, bool> predicate)
         {
-            return mobileContext.GetRecipeRatings().FirstOrDefault(predicate);
+            return mobileContext.RecipeRatings.FirstOrDefault(predicate);
         }
 
         public RecipeRating Get(int id)
         {
-            return mobileContext.GetRecipeRatings().Find(p => p.Id == id);
+            return mobileContext.RecipeRatings.First(p => p.Id == id);
         }
 
         public IEnumerable<RecipeRating> GetAll()
         {
-            return mobileContext.GetRecipeRatings();
+            return mobileContext.RecipeRatings;
         }
 
         public void Remove(int id)
         {
-            var recipeRating = mobileContext.GetRecipeRatings().FirstOrDefault(p => p.Id == id);
+            var recipeRating = mobileContext.RecipeRatings.FirstOrDefault(p => p.Id == id);
             if (recipeRating != null)
             {
-                recipeRating.Recipe.RecipesRatings.Remove(recipeRating);
-                recipeRating.Creator.RecipesRatings.Remove(recipeRating);
-                mobileContext.GetRecipeRatings().Remove(recipeRating);
+                mobileContext.RecipeRatings.Remove(recipeRating);
             }
         }
 
         public void Remove(RecipeRating item)
         {
-            var recipeRating = mobileContext.GetRecipeRatings().FirstOrDefault(p => p == item);
+            var recipeRating = mobileContext.RecipeRatings.FirstOrDefault(p => p == item);
             if (recipeRating != null)
             {
-                recipeRating.Recipe.RecipesRatings.Remove(recipeRating);
-                recipeRating.Creator.RecipesRatings.Remove(recipeRating);
-                mobileContext.GetRecipeRatings().Remove(recipeRating);
+                mobileContext.RecipeRatings.Remove(recipeRating);
             }
         }
 
         public void Update(RecipeRating item)
         {
-            var recipeRating = mobileContext.GetRecipeRatings().FirstOrDefault(p => p.CreatorId == item.CreatorId && p.RecipeId == item.RecipeId);
+            var recipeRating = mobileContext.RecipeRatings.FirstOrDefault(p => p.CreatorId == item.CreatorId && p.RecipeId == item.RecipeId);
             if (recipeRating != null)
             {
                 recipeRating.Rating = item.Rating;

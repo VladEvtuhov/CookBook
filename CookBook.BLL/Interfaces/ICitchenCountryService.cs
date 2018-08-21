@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace CookBook.BLL.Interfaces
 {
-    public interface ICountryService
+    public interface ICitchenCountryService
     {
-        IEnumerable<CountryDTO> GetAll();
+        IEnumerable<CitchenCountryDTO> GetAll();
         void SetCountry(string name);
     }
 }

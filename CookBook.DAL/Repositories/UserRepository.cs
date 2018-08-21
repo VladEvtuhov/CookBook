@@ -9,77 +9,75 @@ using System.Threading.Tasks;
 
 namespace CookBook.DAL.Repositories
 {
-    public class UserRepository : IRepository<User>
+    public class UserRepository : IRepository<ApplicationUser>
     {
-        readonly MobileContext mobileContext;
-        public UserRepository(MobileContext _mc)
+        readonly ApplicationDbContext mobileContext;
+        public UserRepository(ApplicationDbContext _mc)
         {
             mobileContext = _mc;
         }
         public int Count()
         {
-            return mobileContext.GetUsers().Count();
+            return mobileContext.Users.Count();
         }
 
-        public void Create(User item)
+        public void Create(ApplicationUser item)
         {
-            var user = mobileContext.GetUsers().FirstOrDefault(u => u.Email == item.Email);
+            var user = mobileContext.Users.FirstOrDefault(u => u.Email == item.Email);
             if(user == null)
-                mobileContext.GetUsers().Add(item);
+                mobileContext.Users.Add(item);
         }
 
-        public IEnumerable<User> Find(Func<User, bool> predicate)
+        public IEnumerable<ApplicationUser> Find(Func<ApplicationUser, bool> predicate)
         {
-            return mobileContext.GetUsers().Where(predicate).ToList();
+            return mobileContext.Users.Where(predicate).ToList();
         }
 
-        public User FirstOrDefault(Func<User, bool> predicate)
+        public ApplicationUser FirstOrDefault(Func<ApplicationUser, bool> predicate)
         {
-            return mobileContext.GetUsers().FirstOrDefault(predicate);
+            return mobileContext.Users.FirstOrDefault(predicate);
         }
 
-        public User Get(int id)
+        public ApplicationUser Get(int id)
         {
-            return mobileContext.GetUsers().Find(u => u.Id == id);
+            //Todo: remove ToString();
+            return mobileContext.Users.First(u => u.Id == id.ToString());
         }
 
-        public IEnumerable<User> GetAll()
+        public IEnumerable<ApplicationUser> GetAll()
         {
-            return mobileContext.GetUsers();
+            return mobileContext.Users;
         }
 
         public void Remove(int id)
         {
-            var user = mobileContext.GetUsers().FirstOrDefault(u => u.Id == id);
+            //Todo: remove ToString();
+            var user = mobileContext.Users.FirstOrDefault(u => u.Id == id.ToString());
             if(user != null)
             {
-                mobileContext.GetUsers().Remove(user);
+                mobileContext.Users.Remove(user);
             }
         }
 
-        public void Remove(User item)
+        public void Remove(ApplicationUser item)
         {
-            var user = mobileContext.GetUsers().FirstOrDefault(u => u == item);
+            var user = mobileContext.Users.FirstOrDefault(u => u == item);
             if(user != null)
             {
-                mobileContext.GetUsers().Remove(user);
+                mobileContext.Users.Remove(user);
             }
         }
 
-        public void Update(User item)
+        public void Update(ApplicationUser item)
         {
-            var user = mobileContext.GetUsers().FirstOrDefault(u => u.Id == item.Id);
+            var user = mobileContext.Users.FirstOrDefault(u => u.Id == item.Id);
             if (user != null) {
                 user.Information = item.Information;
                 user.AverageRating = item.AverageRating;
-                user.Comments = item.Comments;
                 user.EmailConfirmed = item.EmailConfirmed;
                 user.ImageUrl = item.ImageUrl;
                 user.IsDeleted = item.IsDeleted;
-                user.Password = item.Password;
-                user.RecipesRatings = item.RecipesRatings;
                 user.UserName = item.UserName;
-                user.UserRecipes = item.UserRecipes;
             }
         }
     }

@@ -16,6 +16,6 @@ namespace CookBook.BLL.DTO
         public string ImageUrl { get; set; }
         public double AverageRating { get; set; }
         public string CreationDate { get; set; }
-        public User Creator { get; set; }
+        public ApplicationUser Creator { get; set; }
     }
 }

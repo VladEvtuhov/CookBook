@@ -502,7 +502,7 @@ namespace CookBook.Console
                         }
                     case 2:
                         {
-                            CountryController countryController = new CountryController(kernel.Get<CountryService>());
+                            CitchenCountryController countryController = new CitchenCountryController(kernel.Get<CountryService>());
                             var countries = countryController.GetAll();
                             foreach (var country in countries)
                             {
@@ -553,7 +553,7 @@ namespace CookBook.Console
                         {
                             System.Console.WriteLine("Enter a new country:");
                             var value = System.Console.ReadLine();
-                            CountryController countryController = new CountryController(kernel.Get<CountryService>());
+                            CitchenCountryController countryController = new CitchenCountryController(kernel.Get<CountryService>());
                             try
                             {
                                 countryController.SetCountry(value);

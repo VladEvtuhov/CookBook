@@ -11,81 +11,73 @@ namespace CookBook.DAL.Repositories
 {
     public class RecipesRepository : IRepository<Recipe>
     {
-        readonly MobileContext mobileContext;
-        public RecipesRepository(MobileContext _mc)
+        readonly ApplicationDbContext mobileContext;
+        public RecipesRepository(ApplicationDbContext _mc)
         {
             mobileContext = _mc;
         }
         public int Count()
         {
-            return mobileContext.GetRecipes().Count();
+            return mobileContext.Recipes.Count();
         }
 
         public void Create(Recipe item)
         {
-            mobileContext.GetRecipes().Add(item);
-            item.Creator.UserRecipes.Add(item);
+            mobileContext.Recipes.Add(item);
         }
 
         public IEnumerable<Recipe> Find(Func<Recipe, bool> predicate)
         {
-            return mobileContext.GetRecipes().Where(predicate).ToList();
+            return mobileContext.Recipes.Where(predicate).ToList();
         }
 
         public Recipe FirstOrDefault(Func<Recipe, bool> predicate)
         {
-            return mobileContext.GetRecipes().FirstOrDefault(predicate);
+            return mobileContext.Recipes.FirstOrDefault(predicate);
         }
 
         public Recipe Get(int id)
         {
-            return mobileContext.GetRecipes().Find(u => u.Id == id);
+            return mobileContext.Recipes.First(u => u.Id == id);
         }
 
         public IEnumerable<Recipe> GetAll()
         {
-            return mobileContext.GetRecipes();
+            return mobileContext.Recipes;
         }
 
         public void Remove(int id)
         {
-            var recipe = mobileContext.GetRecipes().FirstOrDefault(u => u.Id == id);
+            var recipe = mobileContext.Recipes.FirstOrDefault(u => u.Id == id);
             if (recipe != null)
             {
-                recipe.Creator.UserRecipes.Remove(recipe);
-                mobileContext.GetRecipes().Remove(recipe);
+                mobileContext.Recipes.Remove(recipe);
             }
         }
 
         public void Remove(Recipe item)
         {
-            var recipe = mobileContext.GetRecipes().FirstOrDefault(u => u == item);
+            var recipe = mobileContext.Recipes.FirstOrDefault(u => u == item);
             if (recipe != null)
             {
-                recipe.Creator.UserRecipes.Remove(recipe);
-                mobileContext.GetRecipes().Remove(recipe);
+                mobileContext.Recipes.Remove(recipe);
             }
         }
 
         public void Update(Recipe item)
         {
-            var recipe = mobileContext.GetRecipes().FirstOrDefault(u => u.Id == item.Id);
+            var recipe = mobileContext.Recipes.FirstOrDefault(u => u.Id == item.Id);
             if (recipe != null)
             {
                 recipe.Content = item.Content;
                 recipe.Title = item.Title;
                 recipe.ImageUrl = item.ImageUrl;
                 recipe.ShortDescription = item.ShortDescription;
-                recipe.CategoryId = item.Category.Id;
                 recipe.Category = item.Category;
-                recipe.CookingMethodId = item.CookingMethod.Id;
                 recipe.CookingMethod = item.CookingMethod;
-                recipe.CountryId = item.Country.Id;
                 recipe.Country = item.Country;
                 recipe.UpdateDate = DateTime.Now;
-                recipe.CreatorId = item.Creator.Id;
                 recipe.Creator = item.Creator;
-                recipe.IngredientTypeId = item.IngredientType.Id;
                 recipe.IngredientType = item.IngredientType;
             }
         }

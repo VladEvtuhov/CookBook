@@ -11,68 +11,62 @@ namespace CookBook.DAL.Repositories
 {
     public class CommentsRepository : IRepository<Comment>
     {
-        readonly MobileContext mobileContext;
-        public CommentsRepository(MobileContext _mc)
+        readonly ApplicationDbContext mobileContext;
+        public CommentsRepository(ApplicationDbContext _mc)
         {
             mobileContext = _mc;
         }
         public int Count()
         {
-            return mobileContext.GetComments().Count();
+            return mobileContext.Comments.Count();
         }
 
         public void Create(Comment item)
         {
-            mobileContext.GetComments().Add(item);
-            item.Creator.Comments.Add(item);
-            item.Recipe.Comments.Add(item);
+            mobileContext.Comments.Add(item);
         }
 
         public IEnumerable<Comment> Find(Func<Comment, bool> predicate)
         {
-            return mobileContext.GetComments().Where(predicate).ToList();
+            return mobileContext.Comments.Where(predicate).ToList();
         }
 
         public Comment FirstOrDefault(Func<Comment, bool> predicate)
         {
-            return mobileContext.GetComments().FirstOrDefault(predicate);
+            return mobileContext.Comments.FirstOrDefault(predicate);
         }
 
         public Comment Get(int id)
         {
-            return mobileContext.GetComments().Find(p => p.Id == id);
+            return mobileContext.Comments.First(p => p.Id == id);
         }
 
         public IEnumerable<Comment> GetAll()
         {
-            return mobileContext.GetComments();
+            return mobileContext.Comments;
         }
 
         public void Remove(int id)
         {
-            var comment = mobileContext.GetComments().FirstOrDefault(p => p.Id == id);
+            var comment = mobileContext.Comments.FirstOrDefault(p => p.Id == id);
             if (comment != null)
             {
-                comment.Creator.Comments.Remove(comment);
-                comment.Recipe.Comments.Remove(comment);
-                mobileContext.GetComments().Remove(comment);
+                mobileContext.Comments.Remove(comment);
             }
         }
 
         public void Remove(Comment item)
         {
-            var comment = mobileContext.GetComments().FirstOrDefault(p => p == item);
+            var comment = mobileContext.Comments.FirstOrDefault(p => p == item);
             if (comment != null)
             {
-                comment.Creator.Comments.Remove(comment);
-                comment.Recipe.Comments.Remove(comment);
-                mobileContext.GetComments().Remove(comment);
+                mobileContext.Comments.Remove(comment);
             }
         }
 
         public void Update(Comment item)
         {
-            var comment = mobileContext.GetComments().FirstOrDefault(p => p.Id == item.Id);
+            var comment = mobileContext.Comments.FirstOrDefault(p => p.Id == item.Id);
             if (comment != null)
             {
                 comment.Content = item.Content;

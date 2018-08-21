@@ -11,66 +11,60 @@ namespace CookBook.DAL.Repositories
 {
     public class CookingMethodsRepository : IRepository<CookingMethod>
     {
-        readonly MobileContext mobileContext;
-        public CookingMethodsRepository(MobileContext _mc)
+        readonly ApplicationDbContext mobileContext;
+        public CookingMethodsRepository(ApplicationDbContext _mc)
         {
             mobileContext = _mc;
         }
         public int Count()
         {
-            return mobileContext.GetCookingMethods().Count();
+            return mobileContext.CookingMethods.Count();
         }
 
         public void Create(CookingMethod item)
         {
-            var cookingMethod = mobileContext.GetCookingMethods().FirstOrDefault(p => p.Name == item.Name);
+            var cookingMethod = mobileContext.CookingMethods.FirstOrDefault(p => p.Name == item.Name);
             if (cookingMethod == null)
-                mobileContext.GetCookingMethods().Add(item);
+                mobileContext.CookingMethods.Add(item);
         }
 
         public IEnumerable<CookingMethod> Find(Func<CookingMethod, bool> predicate)
         {
-            return mobileContext.GetCookingMethods().Where(predicate).ToList();
+            return mobileContext.CookingMethods.Where(predicate).ToList();
         }
 
         public CookingMethod FirstOrDefault(Func<CookingMethod, bool> predicate)
         {
-            return mobileContext.GetCookingMethods().FirstOrDefault(predicate);
+            return mobileContext.CookingMethods.FirstOrDefault(predicate);
         }
 
         public CookingMethod Get(int id)
         {
-            return mobileContext.GetCookingMethods().Find(p => p.Id == id);
+            return mobileContext.CookingMethods.First(p => p.Id == id);
         }
 
         public IEnumerable<CookingMethod> GetAll()
         {
-            return mobileContext.GetCookingMethods();
+            return mobileContext.CookingMethods;
         }
 
         public void Remove(int id)
         {
-            if (mobileContext.GetRecipes().FirstOrDefault(r => r.CookingMethodId == id) == null)
-            {
-                var cookingMethod = mobileContext.GetCookingMethods().FirstOrDefault(p => p.Id == id);
-                if (cookingMethod != null)
-                    mobileContext.GetCookingMethods().Remove(cookingMethod);
-            }
+            var cookingMethod = mobileContext.CookingMethods.FirstOrDefault(p => p.Id == id);
+            if (cookingMethod != null)
+                mobileContext.CookingMethods.Remove(cookingMethod);
         }
 
         public void Remove(CookingMethod item)
         {
-            if (mobileContext.GetRecipes().FirstOrDefault(r => r.CookingMethodId == item.Id) == null)
-            {
-                var cookingMethod = mobileContext.GetCookingMethods().FirstOrDefault(p => p == item);
-                if (cookingMethod != null)
-                    mobileContext.GetCookingMethods().Remove(cookingMethod);
-            }
+            var cookingMethod = mobileContext.CookingMethods.FirstOrDefault(p => p == item);
+            if (cookingMethod != null)
+                mobileContext.CookingMethods.Remove(cookingMethod);
         }
 
         public void Update(CookingMethod item)
         {
-            var cookingMethod = mobileContext.GetCookingMethods().FirstOrDefault(p => p.Id == item.Id);
+            var cookingMethod = mobileContext.CookingMethods.FirstOrDefault(p => p.Id == item.Id);
             if (cookingMethod != null)
             {
                 cookingMethod.Name = item.Name;

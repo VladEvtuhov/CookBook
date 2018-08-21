@@ -11,66 +11,60 @@ namespace CookBook.DAL.Repositories
 {
     public class IngridientTypesRepository : IRepository<IngredientType>
     {
-        readonly MobileContext mobileContext;
-        public IngridientTypesRepository(MobileContext _mc)
+        readonly ApplicationDbContext mobileContext;
+        public IngridientTypesRepository(ApplicationDbContext _mc)
         {
             mobileContext = _mc;
         }
         public int Count()
         {
-            return mobileContext.GetIngredientTypes().Count();
+            return mobileContext.IngredientTypes.Count();
         }
 
         public void Create(IngredientType item)
         {
-            var ingridientType = mobileContext.GetIngredientTypes().FirstOrDefault(p => p.Name == item.Name);
+            var ingridientType = mobileContext.IngredientTypes.FirstOrDefault(p => p.Name == item.Name);
             if (ingridientType == null)
-                mobileContext.GetIngredientTypes().Add(item);
+                mobileContext.IngredientTypes.Add(item);
         }
 
         public IEnumerable<IngredientType> Find(Func<IngredientType, bool> predicate)
         {
-            return mobileContext.GetIngredientTypes().Where(predicate).ToList();
+            return mobileContext.IngredientTypes.Where(predicate).ToList();
         }
 
         public IngredientType FirstOrDefault(Func<IngredientType, bool> predicate)
         {
-            return mobileContext.GetIngredientTypes().FirstOrDefault(predicate);
+            return mobileContext.IngredientTypes.FirstOrDefault(predicate);
         }
 
         public IngredientType Get(int id)
         {
-            return mobileContext.GetIngredientTypes().Find(p => p.Id == id);
+            return mobileContext.IngredientTypes.First(p => p.Id == id);
         }
 
         public IEnumerable<IngredientType> GetAll()
         {
-            return mobileContext.GetIngredientTypes();
+            return mobileContext.IngredientTypes;
         }
 
         public void Remove(int id)
         {
-            if (mobileContext.GetRecipes().FirstOrDefault(r => r.IngredientTypeId == id) == null)
-            {
-                var ingridientType = mobileContext.GetIngredientTypes().FirstOrDefault(p => p.Id == id);
-                if (ingridientType != null)
-                    mobileContext.GetIngredientTypes().Remove(ingridientType);
-            }
+            var ingridientType = mobileContext.IngredientTypes.FirstOrDefault(p => p.Id == id);
+            if (ingridientType != null)
+                mobileContext.IngredientTypes.Remove(ingridientType);
         }
 
         public void Remove(IngredientType item)
         {
-            if (mobileContext.GetRecipes().FirstOrDefault(r => r.IngredientTypeId == item.Id) == null)
-            {
-                var ingridientType = mobileContext.GetIngredientTypes().FirstOrDefault(p => p == item);
-                if (ingridientType != null)
-                    mobileContext.GetIngredientTypes().Remove(ingridientType);
-            }
+            var ingridientType = mobileContext.IngredientTypes.FirstOrDefault(p => p == item);
+            if (ingridientType != null)
+                mobileContext.IngredientTypes.Remove(ingridientType);
         }
 
         public void Update(IngredientType item)
         {
-            var ingridientType = mobileContext.GetIngredientTypes().FirstOrDefault(p => p.Id == item.Id);
+            var ingridientType = mobileContext.IngredientTypes.FirstOrDefault(p => p.Id == item.Id);
             if (ingridientType != null)
             {
                 ingridientType.Name = item.Name;

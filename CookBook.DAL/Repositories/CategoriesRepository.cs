@@ -11,66 +11,60 @@ namespace CookBook.DAL.Repositories
 {
     public class CategoriesRepository : IRepository<Category>
     {
-        readonly MobileContext mobileContext;
-        public CategoriesRepository(MobileContext _mc)
+        readonly ApplicationDbContext mobileContext;
+        public CategoriesRepository(ApplicationDbContext _mc)
         {
             mobileContext = _mc;
         }
         public int Count()
         {
-            return mobileContext.GetCategories().Count();
+            return mobileContext.Categories.Count();
         }
 
         public void Create(Category item)
         {
-            var category = mobileContext.GetCategories().FirstOrDefault(p => p.Name == item.Name);
+            var category = mobileContext.Categories.FirstOrDefault(p => p.Name == item.Name);
             if (category == null)
-                mobileContext.GetCategories().Add(item);
+                mobileContext.Categories.Add(item);
         }
 
         public IEnumerable<Category> Find(Func<Category, bool> predicate)
         {
-            return mobileContext.GetCategories().Where(predicate).ToList();
+            return mobileContext.Categories.Where(predicate).ToList();
         }
 
         public Category FirstOrDefault(Func<Category, bool> predicate)
         {
-            return mobileContext.GetCategories().FirstOrDefault(predicate);
+            return mobileContext.Categories.FirstOrDefault(predicate);
         }
 
         public Category Get(int id)
         {
-            return mobileContext.GetCategories().Find(p => p.Id == id);
+            return mobileContext.Categories.First(p => p.Id == id);
         }
 
         public IEnumerable<Category> GetAll()
         {
-            return mobileContext.GetCategories();
+            return mobileContext.Categories;
         }
 
         public void Remove(int id)
         {
-            if (mobileContext.GetRecipes().FirstOrDefault(r => r.CategoryId == id) == null)
-            {
-                var category = mobileContext.GetCategories().FirstOrDefault(p => p.Id == id);
-                if (category != null)
-                    mobileContext.GetCategories().Remove(category);
-            }
+            var category = mobileContext.Categories.FirstOrDefault(p => p.Id == id);
+            if (category != null)
+                mobileContext.Categories.Remove(category);
         }
 
         public void Remove(Category item)
         {
-            if (mobileContext.GetRecipes().FirstOrDefault(r => r.CategoryId == item.Id) == null)
-            {
-                var category = mobileContext.GetCategories().FirstOrDefault(p => p == item);
-                if (category != null)
-                    mobileContext.GetCategories().Remove(category);
-            }
+            var category = mobileContext.Categories.FirstOrDefault(p => p == item);
+            if (category != null)
+                mobileContext.Categories.Remove(category);
         }
 
         public void Update(Category item)
         {
-            var category = mobileContext.GetCategories().FirstOrDefault(p => p.Id == item.Id);
+            var category = mobileContext.Categories.FirstOrDefault(p => p.Id == item.Id);
             if (category != null)
             {
                 category.Name = item.Name;

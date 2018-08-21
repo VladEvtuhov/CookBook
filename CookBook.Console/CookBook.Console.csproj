@@ -58,7 +58,7 @@
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\CookingMethodController.cs" />
-    <Compile Include="Controllers\CountryController.cs" />
+    <Compile Include="Controllers\CitchenCountryController.cs" />
     <Compile Include="Controllers\IngredientTypeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\RatingController.cs" />
@@ -69,7 +69,7 @@
     <Compile Include="Models\CategoryViewModel.cs" />
     <Compile Include="Models\CommentViewModel.cs" />
     <Compile Include="Models\CookingMethodViewModel.cs" />
-    <Compile Include="Models\CountryViewModel.cs" />
+    <Compile Include="Models\CitchenCountryViewModel.cs" />
     <Compile Include="Models\CreateRecipeViewModel.cs" />
     <Compile Include="Models\IngredientTypeViewModel.cs" />
     <Compile Include="Models\RecipesViewModel.cs" />

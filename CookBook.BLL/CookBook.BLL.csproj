@@ -53,7 +53,7 @@
     <Compile Include="DTO\CategoryDTO.cs" />
     <Compile Include="DTO\CommentDTO.cs" />
     <Compile Include="DTO\CookingMethodDTO.cs" />
-    <Compile Include="DTO\CountryDTO.cs" />
+    <Compile Include="DTO\CitchenCountryDTO.cs" />
     <Compile Include="DTO\IngredientTypeDTO.cs" />
     <Compile Include="DTO\ProductDTO.cs" />
     <Compile Include="DTO\CreateRecipeDTO.cs" />
@@ -67,7 +67,7 @@
     <Compile Include="Interfaces\ICategoryService.cs" />
     <Compile Include="Interfaces\ICommentService.cs" />
     <Compile Include="Interfaces\ICookingMethodService.cs" />
-    <Compile Include="Interfaces\ICountryService.cs" />
+    <Compile Include="Interfaces\ICitchenCountryService.cs" />
     <Compile Include="Interfaces\IIngredientTypeService.cs" />
     <Compile Include="Interfaces\IProductService.cs" />
     <Compile Include="Interfaces\IRecipeProductsService.cs" />

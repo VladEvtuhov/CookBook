@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace CookBook.BLL.Services
 {
-    public class CountryService:ICountryService
+    public class CountryService:ICitchenCountryService
     {
         IUnitOfWork database;
         public CountryService(IUnitOfWork _database)
@@ -20,10 +20,10 @@ namespace CookBook.BLL.Services
             database = _database;
         }
 
-        public IEnumerable<CountryDTO> GetAll()
+        public IEnumerable<CitchenCountryDTO> GetAll()
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Country, CountryDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<Country>, List<CountryDTO>>(database.Countries.GetAll());
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<CitchenCountry, CitchenCountryDTO>()).CreateMapper();
+            return mapper.Map<IEnumerable<CitchenCountry>, List<CitchenCountryDTO>>(database.Countries.GetAll());
         }
 
         public void SetCountry(string name)
@@ -31,7 +31,7 @@ namespace CookBook.BLL.Services
             var country = database.Countries.FirstOrDefault(c => c.Name == name);
             if (country != null)
                 throw new ValidationException("Country is already exist", "");
-            country = new Country()
+            country = new CitchenCountry()
             {
                 Id = database.Countries.Count() == 0 ? 1 : database.Countries.GetAll().OrderBy(o => o.Id).Last().Id + 1,
                 Name = name

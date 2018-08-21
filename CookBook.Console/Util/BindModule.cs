@@ -20,7 +20,7 @@ namespace CookBook.Console.Util
             Bind<ICategoryService>().To<CategoryService>();
             Bind<ICommentService>().To<CommentService>();
             Bind<ICookingMethodService>().To<CookingMethodService>();
-            Bind<ICountryService>().To<CountryService>();
+            Bind<ICitchenCountryService>().To<CountryService>();
             Bind<IIngredientTypeService>().To<IngredientTypeService>();
             Bind<IProductService>().To<ProductService>();
             Bind<IRecipeProductsService>().To<RecipeProductsService>();

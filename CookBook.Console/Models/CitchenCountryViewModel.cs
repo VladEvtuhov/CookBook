@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CookBook.BLL.DTO
+namespace CookBook.Console.Models
 {
-    public class CountryDTO
+    public class CitchenCountryViewModel
     {
         public string Name { get; set; }
     }

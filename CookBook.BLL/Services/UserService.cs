@@ -44,7 +44,7 @@ namespace CookBook.BLL.Services
             var user = database.Users.FirstOrDefault(u => u.Email == registerUserDTO.Email);
             if (user != null)
                 throw new ValidationException("User is already exist", "");
-            User newbie = new User()
+            ApplicationUser newbie = new ApplicationUser()
             {
                 Id = database.Users.GetAll().Count() == 0 ? 1 : database.Users.GetAll().OrderBy(o => o.Id).Last().Id + 1,
                 Email = registerUserDTO.Email,
@@ -81,8 +81,8 @@ namespace CookBook.BLL.Services
             var user = database.Users.FirstOrDefault(u => u.Id == id);
             if (user == null)
                 throw new ValidationException("User not found", "");
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<User, UserDTO>()).CreateMapper();
-            return mapper.Map<User, UserDTO>(user);
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ApplicationUser, UserDTO>()).CreateMapper();
+            return mapper.Map<ApplicationUser, UserDTO>(user);
         }
 
         public UserDTO GetUser(string email)
@@ -90,14 +90,14 @@ namespace CookBook.BLL.Services
             var user = database.Users.FirstOrDefault(u => u.Email == email);
             if (user == null)
                 throw new ValidationException("User not found", "");
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<User, UserDTO>()).CreateMapper();
-            return mapper.Map<User, UserDTO>(user);
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ApplicationUser, UserDTO>()).CreateMapper();
+            return mapper.Map<ApplicationUser, UserDTO>(user);
         }
 
         public IEnumerable<UserDTO> GetUsers()
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<User, UserDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<User>, List<UserDTO>>(database.Users.GetAll());
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ApplicationUser, UserDTO>()).CreateMapper();
+            return mapper.Map<IEnumerable<ApplicationUser>, List<UserDTO>>(database.Users.GetAll());
         }
 
         public bool Login(string email, string password)
@@ -111,7 +111,7 @@ namespace CookBook.BLL.Services
             return true;
         }
 
-        private User GetCurrentUser(string email)
+        private ApplicationUser GetCurrentUser(string email)
         {
             var user = database.Users.FirstOrDefault(u => u.Email == email);
             if (user == null)

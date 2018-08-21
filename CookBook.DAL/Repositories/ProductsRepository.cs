@@ -11,66 +11,60 @@ namespace CookBook.DAL.Repositories
 {
     public class ProductsRepository : IRepository<Product>
     {
-        readonly MobileContext mobileContext;
-        public ProductsRepository(MobileContext _mc)
+        readonly ApplicationDbContext mobileContext;
+        public ProductsRepository(ApplicationDbContext _mc)
         {
             mobileContext = _mc;
         }
         public int Count()
         {
-            return mobileContext.GetProducts().Count();
+            return mobileContext.Products.Count();
         }
 
         public void Create(Product item)
         {
-            var product = mobileContext.GetProducts().FirstOrDefault(p => p.Name == item.Name);
+            var product = mobileContext.Products.FirstOrDefault(p => p.Name == item.Name);
             if (product == null)
-                mobileContext.GetProducts().Add(item);
+                mobileContext.Products.Add(item);
         }
 
         public IEnumerable<Product> Find(Func<Product, bool> predicate)
         {
-            return mobileContext.GetProducts().Where(predicate).ToList();
+            return mobileContext.Products.Where(predicate).ToList();
         }
 
         public Product FirstOrDefault(Func<Product, bool> predicate)
         {
-            return mobileContext.GetProducts().FirstOrDefault(predicate);
+            return mobileContext.Products.FirstOrDefault(predicate);
         }
 
         public Product Get(int id)
         {
-            return mobileContext.GetProducts().Find(p => p.Id == id);
+            return mobileContext.Products.First(p => p.Id == id);
         }
 
         public IEnumerable<Product> GetAll()
         {
-            return mobileContext.GetProducts();
+            return mobileContext.Products;
         }
 
         public void Remove(int id)
         {
-            if (mobileContext.GetRecipeProducts().FirstOrDefault(p => p.ProductId == id) == null)
-            {
-                var product = mobileContext.GetProducts().FirstOrDefault(p => p.Id == id);
-                if (product != null)
-                    mobileContext.GetProducts().Remove(product);
-            }
+            var product = mobileContext.Products.FirstOrDefault(p => p.Id == id);
+            if (product != null)
+                mobileContext.Products.Remove(product);
         }
 
         public void Remove(Product item)
         {
-            if (mobileContext.GetRecipeProducts().FirstOrDefault(p => p.ProductId == item.Id) == null)
-            {
-                var product = mobileContext.GetProducts().FirstOrDefault(p => p == item);
-                if (product != null)
-                    mobileContext.GetProducts().Remove(product);
-            }
+            var product = mobileContext.Products.FirstOrDefault(p => p == item);
+            if (product != null)
+                mobileContext.Products.Remove(product);
         }
 
         public void Update(Product item)
         {
-            var product = mobileContext.GetProducts().FirstOrDefault(p => p.Id == item.Id);
+            var product = mobileContext.Products.FirstOrDefault(p => p.Id == item.Id);
             if(product != null)
             {
                 product.Name = item.Name;

@@ -17,17 +17,17 @@ namespace CookBook.DAL.Entities
         public DateTime UpdateDate { get; set; }
         public string ImageUrl { get; set; }
         public int CreatorId { get; set; }
-        public User Creator { get; set; }
+        public ApplicationUser Creator { get; set; }
         [XmlIgnore]
         public List<RecipeRating> RecipesRatings { get; set; }
         [XmlIgnore]
         public List<Comment> Comments { get; set; }
         [XmlIgnore]
-        public List<Product> Products { get; set; }
+        public List<RecipeProduct> Products { get; set; }
         public int CookingMethodId { get; set; }
         public CookingMethod CookingMethod { get; set; }
         public int CountryId { get; set; }
-        public Country Country { get; set; }
+        public CitchenCountry Country { get; set; }
         public int IngredientTypeId { get; set; }
         public IngredientType IngredientType { get; set; }
 
@@ -35,7 +35,7 @@ namespace CookBook.DAL.Entities
         {
             RecipesRatings = new List<RecipeRating>();
             Comments = new List<Comment>();
-            Products = new List<Product>();
+            Products = new List<RecipeProduct>();
             CreationDate = DateTime.Now;
             UpdateDate = DateTime.Now;
             AverageRating = 0;

@@ -1,6 +1,7 @@
 ﻿using CookBook.DAL.EF;
 using CookBook.DAL.Entities;
 using CookBook.DAL.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,50 +12,30 @@ namespace CookBook.DAL.Repositories
 {
     public class EFUnitOfWork : IUnitOfWork
     {
-        private readonly MobileContext mobileContext;
-        private RoleRepository roleRepository;
+        private readonly ApplicationDbContext applicationDbContext;
         private UserRepository userRepository;
-        private UserRolesRepository userRolesRepository;
         private ProductsRepository productsRepository;
         private CategoriesRepository categoriesRepository;
         private CookingMethodsRepository cookingMethodsRepository;
-        private CountriesRepository countriesRepository;
+        private CitchenCountriesRepository countriesRepository;
         private IngridientTypesRepository ingridientTypesRepository;
         private RecipesRepository recipesRepository;
         private RecipeProductsRepository recipeProductsRepository;
         private CommentsRepository commentsRepository;
         private RecipeRatingsRepository recipeRatingsRepository;
 
-        public EFUnitOfWork()
+        public EFUnitOfWork(DbContextOptions<ApplicationDbContext> options)
         {
-            mobileContext = new MobileContext();
-        }
-        public IRepository<Role> Roles {
-            get
-            {
-                if (roleRepository == null)
-                    roleRepository = new RoleRepository(mobileContext);
-                return roleRepository;
-            }
+            applicationDbContext = new ApplicationDbContext(options);
         }
 
-        public IRepository<User> Users
+        public IRepository<ApplicationUser> Users
         {
             get
             {
                 if (userRepository == null)
-                    userRepository = new UserRepository(mobileContext);
+                    userRepository = new UserRepository(applicationDbContext);
                 return userRepository;
-            }
-        }
-
-        public IRepository<UserRoles> UsersRoles
-        {
-            get
-            {
-                if (userRolesRepository == null)
-                    userRolesRepository = new UserRolesRepository(mobileContext);
-                return userRolesRepository;
             }
         }
 
@@ -63,7 +44,7 @@ namespace CookBook.DAL.Repositories
             get
             {
                 if (productsRepository == null)
-                    productsRepository = new ProductsRepository(mobileContext);
+                    productsRepository = new ProductsRepository(applicationDbContext);
                 return productsRepository;
             }
         }
@@ -73,7 +54,7 @@ namespace CookBook.DAL.Repositories
             get
             {
                 if (categoriesRepository == null)
-                    categoriesRepository = new CategoriesRepository(mobileContext);
+                    categoriesRepository = new CategoriesRepository(applicationDbContext);
                 return categoriesRepository;
             }
         }
@@ -83,16 +64,16 @@ namespace CookBook.DAL.Repositories
             get
             {
                 if (cookingMethodsRepository == null)
-                    cookingMethodsRepository = new CookingMethodsRepository(mobileContext);
+                    cookingMethodsRepository = new CookingMethodsRepository(applicationDbContext);
                 return cookingMethodsRepository;
             }
         }
 
-        public IRepository<Country> Countries {
+        public IRepository<CitchenCountry> Countries {
             get
             {
                 if (countriesRepository == null)
-                    countriesRepository = new CountriesRepository(mobileContext);
+                    countriesRepository = new CitchenCountriesRepository(applicationDbContext);
                 return countriesRepository;
             }
         }
@@ -102,7 +83,7 @@ namespace CookBook.DAL.Repositories
             get
             {
                 if (ingridientTypesRepository == null)
-                    ingridientTypesRepository = new IngridientTypesRepository(mobileContext);
+                    ingridientTypesRepository = new IngridientTypesRepository(applicationDbContext);
                 return ingridientTypesRepository;
             }
         }
@@ -112,7 +93,7 @@ namespace CookBook.DAL.Repositories
             get
             {
                 if (recipesRepository == null)
-                    recipesRepository = new RecipesRepository(mobileContext);
+                    recipesRepository = new RecipesRepository(applicationDbContext);
                 return recipesRepository;
             }
         }
@@ -122,7 +103,7 @@ namespace CookBook.DAL.Repositories
             get
             {
                 if (recipeProductsRepository == null)
-                    recipeProductsRepository = new RecipeProductsRepository(mobileContext);
+                    recipeProductsRepository = new RecipeProductsRepository(applicationDbContext);
                 return recipeProductsRepository;
             }
         }
@@ -132,7 +113,7 @@ namespace CookBook.DAL.Repositories
             get
             {
                 if (commentsRepository == null)
-                    commentsRepository = new CommentsRepository(mobileContext);
+                    commentsRepository = new CommentsRepository(applicationDbContext);
                 return commentsRepository;
             }
         }
@@ -142,37 +123,14 @@ namespace CookBook.DAL.Repositories
             get
             {
                 if (recipeRatingsRepository == null)
-                    recipeRatingsRepository = new RecipeRatingsRepository(mobileContext);
+                    recipeRatingsRepository = new RecipeRatingsRepository(applicationDbContext);
                 return recipeRatingsRepository;
             }
         }
 
         public void Save()
         {
-            if(roleRepository != null)
-                GenericSerializer.Serialize(roleRepository.GetAll());
-            if (userRepository != null)
-                GenericSerializer.Serialize(userRepository.GetAll());
-            if (userRolesRepository != null)
-                GenericSerializer.Serialize(userRolesRepository.GetAll());
-            if (productsRepository != null)
-                GenericSerializer.Serialize(productsRepository.GetAll());
-            if (categoriesRepository != null)
-                GenericSerializer.Serialize(categoriesRepository.GetAll());
-            if (cookingMethodsRepository != null)
-                GenericSerializer.Serialize(cookingMethodsRepository.GetAll());
-            if (countriesRepository != null)
-                GenericSerializer.Serialize(countriesRepository.GetAll());
-            if (ingridientTypesRepository != null)
-                GenericSerializer.Serialize(ingridientTypesRepository.GetAll());
-            if (recipesRepository != null)
-                GenericSerializer.Serialize(recipesRepository.GetAll());
-            if (recipeProductsRepository != null)
-                GenericSerializer.Serialize(recipeProductsRepository.GetAll());
-            if (commentsRepository != null)
-                GenericSerializer.Serialize(commentsRepository.GetAll());
-            if (recipeRatingsRepository != null)
-                GenericSerializer.Serialize(recipeRatingsRepository.GetAll());
+            applicationDbContext.SaveChanges();
         }
     }
 }
