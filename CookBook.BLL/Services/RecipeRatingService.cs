@@ -37,7 +37,7 @@ namespace CookBook.BLL.Services
             };
             database.RecipeRatings.Create(recipeRating);
             database.Save();
-            recipe.AvgRating = recipe.RecipesRatings.Select(s => s.Rating).ToList().Average();
+            recipe.AverageRating = recipe.RecipesRatings.Select(s => s.Rating).ToList().Average();
             database.Save();
         }
     }

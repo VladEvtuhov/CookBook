@@ -78,6 +78,7 @@ namespace CookBook.DAL.Repositories
             {
                 recipeProduct.RecipeId = item.RecipeId;
                 recipeProduct.ProductId = item.ProductId;
+                recipeProduct.Quantity = item.Quantity;
             }
         }
     }

@@ -57,6 +57,7 @@
     <Compile Include="DTO\IngredientTypeDTO.cs" />
     <Compile Include="DTO\ProductDTO.cs" />
     <Compile Include="DTO\CreateRecipeDTO.cs" />
+    <Compile Include="DTO\RecipeProductDTO.cs" />
     <Compile Include="DTO\RecipesInfoDTO.cs" />
     <Compile Include="DTO\RegisterUserDTO.cs" />
     <Compile Include="DTO\RoleDTO.cs" />

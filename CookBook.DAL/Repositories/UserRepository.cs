@@ -70,8 +70,8 @@ namespace CookBook.DAL.Repositories
         {
             var user = mobileContext.GetUsers().FirstOrDefault(u => u.Id == item.Id);
             if (user != null) {
-                user.About = item.About;
-                user.AvgRating = item.AvgRating;
+                user.Information = item.Information;
+                user.AverageRating = item.AverageRating;
                 user.Comments = item.Comments;
                 user.EmailConfirmed = item.EmailConfirmed;
                 user.ImageUrl = item.ImageUrl;

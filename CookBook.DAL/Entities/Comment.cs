@@ -10,11 +10,11 @@ namespace CookBook.DAL.Entities
         public int RecipeId { get; set; }
         public Recipe Recipe { get; set; }
         public string Content { get; set; }
-        public DateTime CreatedTime { get; set; }
+        public DateTime CreationDate { get; set; }
 
         public Comment()
         {
-            CreatedTime = DateTime.Now;
+            CreationDate = DateTime.Now;
         }
     }
 }

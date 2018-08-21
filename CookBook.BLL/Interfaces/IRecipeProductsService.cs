@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CookBook.BLL.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,6 @@ namespace CookBook.BLL.Interfaces
     public interface IRecipeProductsService
     {
         IEnumerable<string> GetProducts(int id);
-        void UpdateProducts(int id, List<string> products);
+        void UpdateProducts(int id, List<RecipeProductDTO> products);
     }
 }

@@ -31,13 +31,14 @@ namespace CookBook.BLL.Services
         public void ChangeAboutUser(string email, string about)
         {
             var user = GetCurrentUser(email);
-            user.About = about;
+            user.Information = about;
             database.Users.Update(user);
             database.Save();
         }
 
         public void CreateUser(RegisterUserDTO registerUserDTO)
         {
+            CheckOnValidEmail(registerUserDTO.Email);
             if (registerUserDTO.Password.Length < 6)
                 throw new ValidationException("min password length = 6", "");
             var user = database.Users.FirstOrDefault(u => u.Email == registerUserDTO.Email);
@@ -50,8 +51,8 @@ namespace CookBook.BLL.Services
                 ImageUrl = "http://missingkids-stage.adobecqms.net/etc/clientlibs/ncmec/poster/images/poster/en_US/noPhotoAvailable.jpg",
                 Password = registerUserDTO.Password.GetHashCode().ToString(),
                 UserName = registerUserDTO.Email,
-                AvgRating = 0,
-                About = ""
+                AverageRating = 0,
+                Information = ""
             };
             database.Users.Create(newbie);
             database.Save();
@@ -77,14 +78,20 @@ namespace CookBook.BLL.Services
 
         public UserDTO GetUser(int id)
         {
+            var user = database.Users.FirstOrDefault(u => u.Id == id);
+            if (user == null)
+                throw new ValidationException("User not found", "");
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<User, UserDTO>()).CreateMapper();
-            return mapper.Map<User, UserDTO>(database.Users.FirstOrDefault(u => u.Id == id));
+            return mapper.Map<User, UserDTO>(user);
         }
 
         public UserDTO GetUser(string email)
         {
+            var user = database.Users.FirstOrDefault(u => u.Email == email);
+            if (user == null)
+                throw new ValidationException("User not found", "");
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<User, UserDTO>()).CreateMapper();
-            return mapper.Map<User, UserDTO>(database.Users.FirstOrDefault(u => u.Email == email));
+            return mapper.Map<User, UserDTO>(user);
         }
 
         public IEnumerable<UserDTO> GetUsers()
@@ -95,6 +102,7 @@ namespace CookBook.BLL.Services
 
         public bool Login(string email, string password)
         {
+            CheckOnValidEmail(email);
             var user = database.Users.FirstOrDefault(u => u.Email == email);
             if (user == null)
                 throw new ValidationException("User not found", "");
@@ -111,6 +119,17 @@ namespace CookBook.BLL.Services
             if(user.IsDeleted)
                 throw new ValidationException("User is deleted", "");
             return user;
+        }
+        private void CheckOnValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+            }
+            catch
+            {
+                throw new ValidationException("Email is not valid", "");
+            }
         }
     }
 }

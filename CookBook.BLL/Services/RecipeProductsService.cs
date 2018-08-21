@@ -1,4 +1,5 @@
-﻿using CookBook.BLL.Infrastructure;
+﻿using CookBook.BLL.DTO;
+using CookBook.BLL.Infrastructure;
 using CookBook.BLL.Interfaces;
 using CookBook.DAL.Entities;
 using CookBook.DAL.Interfaces;
@@ -33,7 +34,7 @@ namespace CookBook.BLL.Services
             return products;
         }
 
-        public void UpdateProducts(int id, List<string> products)
+        public void UpdateProducts(int id, List<RecipeProductDTO> products)
         {
             var recipe = database.Recipes.Get(id);
             if (recipe == null)
@@ -44,21 +45,21 @@ namespace CookBook.BLL.Services
             }
             foreach(var product in products)
             {
-                var _product = database.Products.FirstOrDefault(s => s.Name == product);
+                var _product = database.Products.FirstOrDefault(s => s.Name == product.Name);
                 if(_product == null)
                 {
                     _product = new Product()
                     {
                         Id = database.Products.GetAll().Count() == 0 ? 1 : database.Products.GetAll().OrderBy(o => o.Id).Last().Id + 1,
-                        Name = product
+                        Name = product.Name
                     };
                     database.Products.Create(_product);
                 }
-                AddProduct(recipe.Id, _product.Id);
+                AddProduct(product.Quantity, recipe.Id, _product.Id);
             }
         }
 
-        private void AddProduct(int recipeId, int productId)
+        private void AddProduct(string quantity, int recipeId, int productId)
         {
             var recipe = database.Recipes.FirstOrDefault(s => s.Id == recipeId);
             var product = database.Products.FirstOrDefault(s => s.Id == productId);
@@ -66,7 +67,8 @@ namespace CookBook.BLL.Services
             {
                 Id = database.RecipeProducts.GetAll().Count() == 0 ? 1 : database.RecipeProducts.GetAll().OrderBy(o => o.Id).Last().Id + 1,
                 RecipeId = recipeId,
-                ProductId = productId
+                ProductId = productId,
+                Quantity = quantity
             };
             database.RecipeProducts.Create(recipeProduct);
             recipe.Products.Add(product);

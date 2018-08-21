@@ -14,15 +14,17 @@ namespace CookBook.Console
     {
         private static string userEmail = null;
         private static List<string> userRoles = new List<string>();
+        
         static void Main(string[] args)
         {
+            Logger.InitLogger();
             var kernel = Binding();
             Menu(kernel);
         }
 
         public static void Menu(IKernel kernel)
         {
-            int? input = null;
+            int input = -1;
             while(input != 0)
             {
                 System.Console.Clear();
@@ -37,7 +39,7 @@ namespace CookBook.Console
                 if (userRoles.Contains("admin"))
                     System.Console.WriteLine("7 - admin menu");
                 System.Console.WriteLine("0 - exit");
-                input = Convert.ToInt32(System.Console.ReadLine());
+                int.TryParse(System.Console.ReadLine(), out input);
                 switch (input)
                 {
                     case 1:
@@ -47,9 +49,9 @@ namespace CookBook.Console
                             foreach(var recipe in recipes)
                             {
                                 System.Console.WriteLine(recipe.Id);
-                                System.Console.WriteLine(recipe.Headline);
+                                System.Console.WriteLine(recipe.Title);
                                 System.Console.WriteLine(recipe.ShortDescription);
-                                System.Console.WriteLine(recipe.AvgRating);
+                                System.Console.WriteLine(recipe.AverageRating);
                                 System.Console.WriteLine("--------------------------------------------------------");
                             }
                             System.Console.ReadKey();
@@ -59,16 +61,16 @@ namespace CookBook.Console
                         {
                             RecipeController recipeController = new RecipeController(kernel.Get<RecipeService>());
                             System.Console.WriteLine("Enter id:");
-                            int id = Convert.ToInt32(System.Console.ReadLine());
+                            int.TryParse(System.Console.ReadLine(), out int id);
                             try
                             {
                                 var recipe = recipeController.Get(id);
                                 System.Console.WriteLine(recipe.Creator.Email);
-                                System.Console.WriteLine(recipe.CreatedDate);
-                                System.Console.WriteLine(recipe.Headline);
+                                System.Console.WriteLine(recipe.CreationDate);
+                                System.Console.WriteLine(recipe.Title);
                                 System.Console.WriteLine(recipe.ShortDescription);
                                 System.Console.WriteLine(recipe.Content);
-                                System.Console.WriteLine(recipe.AvgRating);
+                                System.Console.WriteLine(recipe.AverageRating);
                                 System.Console.WriteLine("Comments:");
                                 CommentController commentController = new CommentController(kernel.Get<CommentService>());
                                 var comments = commentController.GetComments(id);
@@ -77,7 +79,7 @@ namespace CookBook.Console
                                     System.Console.WriteLine("--------------------------------------------------------");
                                     System.Console.WriteLine(comment.Creator.Email);
                                     System.Console.WriteLine(comment.Content);
-                                    System.Console.WriteLine(comment.CreatedTime);
+                                    System.Console.WriteLine(comment.CreationDate);
                                 }
                                 if(userRoles.Count != 0)
                                 {
@@ -98,6 +100,7 @@ namespace CookBook.Console
                             catch (Exception e)
                             {
                                 System.Console.WriteLine(e.Message);
+                                Logger.Log.Error(e);
                             }
                             System.Console.ReadKey();
                             break;
@@ -120,6 +123,7 @@ namespace CookBook.Console
                             }
                             catch (Exception e)
                             {
+                                Logger.Log.Error(e);
                                 System.Console.WriteLine(e.Message);
                                 System.Console.ReadKey();
                             }
@@ -132,15 +136,23 @@ namespace CookBook.Console
                             var email = System.Console.ReadLine();
                             System.Console.WriteLine("Enter password:");
                             var password = System.Console.ReadLine();
-                            if (usersController.Login(email, password))
+                            try
                             {
-                                UsersRolesController usersRolesController = new UsersRolesController(kernel.Get<UserRoleService>());
-                                userEmail = email;
-                                userRoles = usersRolesController.GetUserRoles(email);
-                                System.Console.WriteLine("Login was successfull");
+                                if (usersController.Login(email, password))
+                                {
+                                    UsersRolesController usersRolesController = new UsersRolesController(kernel.Get<UserRoleService>());
+                                    userEmail = email;
+                                    userRoles = usersRolesController.GetUserRoles(email);
+                                    System.Console.WriteLine("Login was successfull");
+                                }
+                                else
+                                    System.Console.WriteLine("Incorrect data");
+                            }catch(Exception e)
+                            {
+                                Logger.Log.Error(e);
+                                System.Console.WriteLine(e.Message);
+                                System.Console.ReadKey();
                             }
-                            else
-                                System.Console.WriteLine("Incorrect data");
                             System.Console.ReadKey();
                             break;
                         }
@@ -150,20 +162,24 @@ namespace CookBook.Console
                             RecipeController recipeController = new RecipeController(kernel.Get<RecipeService>());
                             System.Console.WriteLine("Enter email:");
                             var email = System.Console.ReadLine();
-                            var user = usersController.Get(email);
-                            if (user != null)
+                            try
                             {
-                                System.Console.WriteLine(user.Email + "  |  " + user.UserName + "  |  " + user.AvgRating + "  |  " + user.IsDeleted.ToString() + "  |  " + user.About);
+                                var user = usersController.Get(email);
+                                System.Console.WriteLine(user.Email + "  |  " + user.UserName + "  |  " + user.AverageRating + "  |  " + user.IsDeleted.ToString() + "  |  " + user.Information);
                                 System.Console.WriteLine("Recipes:");
                                 var recipes = recipeController.GetUserRecipes(email);
-                                foreach(var recipe in recipes)
+                                foreach (var recipe in recipes)
                                 {
                                     System.Console.WriteLine(recipe.Id);
-                                    System.Console.WriteLine(recipe.Headline);
+                                    System.Console.WriteLine(recipe.Title);
                                     System.Console.WriteLine(recipe.ShortDescription);
-                                    System.Console.WriteLine(recipe.AvgRating);
+                                    System.Console.WriteLine(recipe.AverageRating);
                                     System.Console.WriteLine("--------------------------------------------------------");
                                 }
+                            }catch(Exception e)
+                            {
+                                Logger.Log.Error(e);
+                                System.Console.WriteLine(e.Message);
                             }
                             System.Console.ReadKey();
                             break;
@@ -178,12 +194,17 @@ namespace CookBook.Console
                         }
                     case 7:
                         {
-                            AdminMenu(kernel);
+                            if(userRoles.Contains("admin"))
+                                AdminMenu(kernel);
+                            break;
+                        }
+                    case 0:
+                        {
                             break;
                         }
                     default:
                         {
-                            break;
+                            continue;
                         }
                 }
             }
@@ -191,7 +212,7 @@ namespace CookBook.Console
 
         public static void AuthMenu(IKernel kernel)
         {
-            int? input = null;
+            int input = -1;
             while (input != 0)
             {
                 System.Console.Clear();
@@ -205,7 +226,7 @@ namespace CookBook.Console
                     System.Console.WriteLine("6 - set products for recipe");
                 }
                 System.Console.WriteLine("0 - back");
-                input = Convert.ToInt32(System.Console.ReadLine());
+                int.TryParse(System.Console.ReadLine(), out input);
                 System.Console.Clear();
                 switch (input)
                 {
@@ -213,14 +234,15 @@ namespace CookBook.Console
                         {
                             RatingController ratingController = new RatingController(kernel.Get<RecipeRatingService>());
                             System.Console.WriteLine("Enter recipe id:");
-                            int id = Convert.ToInt32(System.Console.ReadLine());
+                            int.TryParse(System.Console.ReadLine(), out int id);
                             System.Console.WriteLine("Enter rating value(1-5):");
-                            int value = Convert.ToInt32(System.Console.ReadLine());
+                            int.TryParse(System.Console.ReadLine(), out int value);
                             try
                             {
                                 ratingController.SetRaiting(id, value, userEmail);
                             }catch(Exception e)
                             {
+                                Logger.Log.Error(e);
                                 System.Console.WriteLine(e.Message);
                                 System.Console.ReadKey();
                             }
@@ -237,6 +259,7 @@ namespace CookBook.Console
                             }
                             catch (Exception e)
                             {
+                                Logger.Log.Error(e);
                                 System.Console.WriteLine(e.Message);
                                 System.Console.ReadKey();
                             }
@@ -259,6 +282,7 @@ namespace CookBook.Console
                                     }
                                     catch (Exception e)
                                     {
+                                        Logger.Log.Error(e);
                                         System.Console.WriteLine(e.Message);
                                     }
                                 }else
@@ -277,7 +301,7 @@ namespace CookBook.Console
                                 if (email == userEmail || userRoles.Contains("admin"))
                                 {
                                     System.Console.WriteLine("Enter id:");
-                                    int id = Convert.ToInt32(System.Console.ReadLine());
+                                    int.TryParse(System.Console.ReadLine(), out int id);
                                     var editRecipe = CreateRecipe();
                                     editRecipe.CreatorEmail = email;
                                     try
@@ -286,6 +310,7 @@ namespace CookBook.Console
                                     }
                                     catch (Exception e)
                                     {
+                                        Logger.Log.Error(e);
                                         System.Console.WriteLine(e.Message);
                                     }
                                 }
@@ -305,13 +330,14 @@ namespace CookBook.Console
                                 if (email == userEmail || userRoles.Contains("admin"))
                                 {
                                     System.Console.WriteLine("Enter id:");
-                                    int id = Convert.ToInt32(System.Console.ReadLine());
+                                    int.TryParse(System.Console.ReadLine(), out int id);
                                     try
                                     {
                                         recipeController.Remove(id);
                                     }
                                     catch (Exception e)
                                     {
+                                        Logger.Log.Error(e);
                                         System.Console.WriteLine(e.Message);
                                     }
                                 }
@@ -331,10 +357,17 @@ namespace CookBook.Console
                                 {
                                     ProductController productController = new ProductController(kernel.Get<RecipeProductsService>());
                                     System.Console.WriteLine("Enter id:");
-                                    int id = Convert.ToInt32(System.Console.ReadLine());
+                                    int.TryParse(System.Console.ReadLine(), out int id);
                                     System.Console.WriteLine("Enter products through a space:");
-                                    var products = System.Console.ReadLine().Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
-                                    productController.UpdateProducts(id, new List<string>(products));
+                                    var _products = System.Console.ReadLine().Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+                                    List<ProductViewModel> products = new List<ProductViewModel>();
+                                    foreach(var product in _products)
+                                    {
+                                        var productQuantity = product.Split(new string[] { "-" }, StringSplitOptions.RemoveEmptyEntries);
+                                        var recipeProduct = new ProductViewModel() { Name = productQuantity[0], Quantity = productQuantity[1] };
+                                        products.Add(recipeProduct);
+                                    }
+                                    productController.UpdateProducts(id, products);
                                 }
                             }
                             break;
@@ -350,7 +383,7 @@ namespace CookBook.Console
         public static void AdminMenu(IKernel kernel)
         {
             UsersRolesController usersRolesController = new UsersRolesController(kernel.Get<UserRoleService>());
-            int? input = null;
+            int input = -1;
             while (input != 0)
             {
                 System.Console.Clear();
@@ -361,7 +394,7 @@ namespace CookBook.Console
                 System.Console.WriteLine("5 - roles menu");
                 System.Console.WriteLine("6 - info menu");
                 System.Console.WriteLine("0 - back");
-                input = Convert.ToInt32(System.Console.ReadLine());
+                int.TryParse(System.Console.ReadLine(), out input);
                 System.Console.Clear();
                 switch (input)
                 {
@@ -390,6 +423,7 @@ namespace CookBook.Console
                             }
                             catch (Exception e)
                             {
+                                Logger.Log.Error(e);
                                 System.Console.WriteLine(e.Message);
                                 System.Console.ReadKey();
                             }
@@ -407,6 +441,7 @@ namespace CookBook.Console
                             }
                             catch (Exception e)
                             {
+                                Logger.Log.Error(e);
                                 System.Console.WriteLine(e.Message);
                                 System.Console.ReadKey();
                             }
@@ -437,7 +472,7 @@ namespace CookBook.Console
 
         public static void InfoMenu(IKernel kernel)
         {
-            int? input = null;
+            int input = -1;
             while (input != 0)
             {
                 System.Console.Clear();
@@ -450,7 +485,7 @@ namespace CookBook.Console
                 System.Console.WriteLine("7 - set ingredient types");
                 System.Console.WriteLine("8 - set categories");
                 System.Console.WriteLine("0 - back");
-                input = Convert.ToInt32(System.Console.ReadLine());
+                int.TryParse(System.Console.ReadLine(), out input);
                 System.Console.Clear();
                 switch (input)
                 {
@@ -508,6 +543,7 @@ namespace CookBook.Console
                                 cookingMethodController.SetCookingMethod(value);
                             }catch(Exception e)
                             {
+                                Logger.Log.Error(e);
                                 System.Console.WriteLine(e.Message);
                                 System.Console.ReadKey();
                             }
@@ -524,6 +560,7 @@ namespace CookBook.Console
                             }
                             catch (Exception e)
                             {
+                                Logger.Log.Error(e);
                                 System.Console.WriteLine(e.Message);
                                 System.Console.ReadKey();
                             }
@@ -540,6 +577,7 @@ namespace CookBook.Console
                             }
                             catch (Exception e)
                             {
+                                Logger.Log.Error(e);
                                 System.Console.WriteLine(e.Message);
                                 System.Console.ReadKey();
                             }
@@ -556,6 +594,7 @@ namespace CookBook.Console
                             }
                             catch (Exception e)
                             {
+                                Logger.Log.Error(e);
                                 System.Console.WriteLine(e.Message);
                                 System.Console.ReadKey();
                             }
@@ -571,7 +610,7 @@ namespace CookBook.Console
 
         public static void RolesMenu(IKernel kernel)
         {
-            int? input = null;
+            int input = -1;
             RolesController rolesController = new RolesController(kernel.Get<RoleService>());
             while (input != 0)
             {
@@ -580,7 +619,7 @@ namespace CookBook.Console
                 System.Console.WriteLine("2 - add role");
                 System.Console.WriteLine("3 - remove role");
                 System.Console.WriteLine("0 - back");
-                input = Convert.ToInt32(System.Console.ReadLine());
+                int.TryParse(System.Console.ReadLine(), out input);
                 System.Console.Clear();
                 switch (input)
                 {
@@ -605,6 +644,7 @@ namespace CookBook.Console
                             }
                             catch (Exception e)
                             {
+                                Logger.Log.Error(e);
                                 System.Console.WriteLine(e.Message);
                                 System.Console.ReadKey();
                             }
@@ -620,6 +660,7 @@ namespace CookBook.Console
                             }
                             catch (Exception e)
                             {
+                                Logger.Log.Error(e);
                                 System.Console.WriteLine(e.Message);
                                 System.Console.ReadKey();
                             }
@@ -635,7 +676,7 @@ namespace CookBook.Console
 
         public static void UsersMenu(IKernel kernel)
         {
-            int? input = null;
+            int input = -1;
             UsersController usersController = new UsersController(kernel.Get<UserService>());
             while(input != 0)
             {
@@ -647,7 +688,7 @@ namespace CookBook.Console
                 System.Console.WriteLine("5 - get user by email");
                 System.Console.WriteLine("6 - restore user");
                 System.Console.WriteLine("0 - back");
-                input = Convert.ToInt32(System.Console.ReadLine());
+                int.TryParse(System.Console.ReadLine(), out input);
                 System.Console.Clear();
                 switch (input)
                 {
@@ -657,7 +698,7 @@ namespace CookBook.Console
                             System.Console.WriteLine("Users: ");
                             foreach (var user in users)
                             {
-                                System.Console.WriteLine(user.Email + "  |  " + user.UserName + "  |  " + user.AvgRating + "  |  " + user.IsDeleted.ToString() + "  |  " + user.About);
+                                System.Console.WriteLine(user.Email + "  |  " + user.UserName + "  |  " + user.AverageRating + "  |  " + user.IsDeleted.ToString() + "  |  " + user.Information);
                             }
                             System.Console.ReadKey();
                             break;
@@ -672,6 +713,7 @@ namespace CookBook.Console
                             }
                             catch (Exception e)
                             {
+                                Logger.Log.Error(e);
                                 System.Console.WriteLine(e.Message);
                                 System.Console.ReadKey();
                             }
@@ -686,6 +728,7 @@ namespace CookBook.Console
                                 usersController.ConfirmEmail(email);
                             }catch(Exception e)
                             {
+                                Logger.Log.Error(e);
                                 System.Console.WriteLine(e.Message);
                                 System.Console.ReadKey();
                             }
@@ -694,10 +737,10 @@ namespace CookBook.Console
                     case 4:
                         {
                             System.Console.WriteLine("Enter id:");
-                            var id = Convert.ToInt32(System.Console.ReadLine());
+                            int.TryParse(System.Console.ReadLine(), out int id);
                             var user = usersController.Get(id);
                             if(user != null)
-                                System.Console.WriteLine(user.Email + "  |  " + user.UserName + "  |  " + user.AvgRating + "  |  " + user.IsDeleted.ToString() + "  |  " + user.About);
+                                System.Console.WriteLine(user.Email + "  |  " + user.UserName + "  |  " + user.AverageRating + "  |  " + user.IsDeleted.ToString() + "  |  " + user.Information);
                             System.Console.ReadKey();
                             break;
                         }
@@ -707,7 +750,7 @@ namespace CookBook.Console
                             var email = System.Console.ReadLine();
                             var user = usersController.Get(email);
                             if(user != null)
-                                System.Console.WriteLine(user.Email + "  |  " + user.UserName + "  |  " + user.AvgRating + "  |  " + user.IsDeleted.ToString() + "  |  " + user.About);
+                                System.Console.WriteLine(user.Email + "  |  " + user.UserName + "  |  " + user.AverageRating + "  |  " + user.IsDeleted.ToString() + "  |  " + user.Information);
                             System.Console.ReadKey();
                             break;
                         }
@@ -721,6 +764,7 @@ namespace CookBook.Console
                             }
                             catch (Exception e)
                             {
+                                Logger.Log.Error(e);
                                 System.Console.WriteLine(e.Message);
                                 System.Console.ReadKey();
                             }
@@ -737,8 +781,8 @@ namespace CookBook.Console
         private static CreateRecipeViewModel CreateRecipe()
         {
             CreateRecipeViewModel createRecipe = new CreateRecipeViewModel();
-            System.Console.WriteLine("Enter Headline:");
-            createRecipe.Headline = System.Console.ReadLine();
+            System.Console.WriteLine("Enter Title:");
+            createRecipe.Title = System.Console.ReadLine();
             System.Console.WriteLine("Enter short description:");
             createRecipe.ShortDescription = System.Console.ReadLine();
             System.Console.WriteLine("Enter Content:");

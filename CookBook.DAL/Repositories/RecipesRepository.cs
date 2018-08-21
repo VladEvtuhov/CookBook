@@ -73,7 +73,7 @@ namespace CookBook.DAL.Repositories
             if (recipe != null)
             {
                 recipe.Content = item.Content;
-                recipe.Headline = item.Headline;
+                recipe.Title = item.Title;
                 recipe.ImageUrl = item.ImageUrl;
                 recipe.ShortDescription = item.ShortDescription;
                 recipe.CategoryId = item.Category.Id;
@@ -82,6 +82,7 @@ namespace CookBook.DAL.Repositories
                 recipe.CookingMethod = item.CookingMethod;
                 recipe.CountryId = item.Country.Id;
                 recipe.Country = item.Country;
+                recipe.UpdateDate = DateTime.Now;
                 recipe.CreatorId = item.Creator.Id;
                 recipe.Creator = item.Creator;
                 recipe.IngredientTypeId = item.IngredientType.Id;

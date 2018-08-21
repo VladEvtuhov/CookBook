@@ -20,8 +20,8 @@ namespace CookBook.DAL.Entities
         public List<Role> Roles { get; set; }
         public string Password { get; set; }
         public string UserName { get; set; }
-        public double AvgRating { get; set; }
-        public string About { get; set; }
+        public double AverageRating { get; set; }
+        public string Information { get; set; }
 
         public User()
         {
@@ -31,7 +31,7 @@ namespace CookBook.DAL.Entities
             Comments = new List<Comment>();
             RecipesRatings = new List<RecipeRating>();
             Roles = new List<Role>();
-            AvgRating = 0;
+            AverageRating = 0;
         }
     }
 }

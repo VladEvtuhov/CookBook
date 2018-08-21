@@ -44,8 +44,11 @@ namespace CookBook.BLL.Services
 
         public RecipesInfoDTO Get(int id)
         {
+            var recipe = database.Recipes.FirstOrDefault(u => u.Id == id);
+            if (recipe == null)
+                throw new ValidationException("An error occurred during receipt retrieving", "");
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Recipe, RecipesInfoDTO>()).CreateMapper();
-            return mapper.Map<Recipe, RecipesInfoDTO>(database.Recipes.FirstOrDefault(u => u.Id == id));
+            return mapper.Map<Recipe, RecipesInfoDTO>(recipe);
         }
 
         public IEnumerable<RecipesInfoDTO> GetAll()
@@ -74,7 +77,7 @@ namespace CookBook.BLL.Services
                 throw new ValidationException("Unknown info", "");
             Recipe recipe = new Recipe()
             {
-                Headline = recipeDTO.Headline,
+                Title = recipeDTO.Title,
                 ShortDescription = recipeDTO.ShortDescription,
                 Content = recipeDTO.Content,
                 Category = category,

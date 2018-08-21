@@ -10,7 +10,7 @@ namespace CookBook.BLL.DTO
     public class CommentDTO
     {
         public string Content { get; set; }
-        public DateTime CreatedTime { get; set; }
+        public DateTime CreationDate { get; set; }
         public UserDTO Creator { get; set; }
     }
 }

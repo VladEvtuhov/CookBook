@@ -18,8 +18,10 @@ namespace CookBook.Console.Controllers
             productService = _productService;
         }
 
-        public void UpdateProducts(int id, List<string> products)
+        public void UpdateProducts(int id, List<ProductViewModel> _products)
         {
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ProductViewModel, RecipeProductDTO>()).CreateMapper();
+            var products = mapper.Map<IEnumerable<ProductViewModel>, List<RecipeProductDTO>>(_products);
             productService.UpdateProducts(id, products);
         }
     }
