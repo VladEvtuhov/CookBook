@@ -2,10 +2,7 @@
 using CookBook.BLL.DTO;
 using CookBook.BLL.Interfaces;
 using CookBook.Console.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CookBook.Console.Controllers
@@ -30,11 +27,11 @@ namespace CookBook.Console.Controllers
             return mapper.Map<RecipesInfoDTO, RecipesViewModel>(recipeService.Get(id));
         }
 
-        public void Create(CreateRecipeViewModel item)
+        public async Task CreateAsync(CreateRecipeViewModel item)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<CreateRecipeViewModel, CreateRecipeDTO>()).CreateMapper();
             var recipe = mapper.Map<CreateRecipeViewModel, CreateRecipeDTO>(item);
-            recipeService.Create(recipe);
+            await recipeService.CreateAsync(recipe);
         }
 
         public IEnumerable<RecipesViewModel> GetUserRecipes(string email)
@@ -43,11 +40,11 @@ namespace CookBook.Console.Controllers
             return mapper.Map<IEnumerable<RecipesInfoDTO>, List<RecipesViewModel>>(recipeService.GetUserRecipes(email));
         }
 
-        public void Update(int id, CreateRecipeViewModel item)
+        public async Task UpdateAsync(int id, CreateRecipeViewModel item)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<CreateRecipeViewModel, CreateRecipeDTO>()).CreateMapper();
             var recipe = mapper.Map<CreateRecipeViewModel, CreateRecipeDTO>(item);
-            recipeService.Edit(id, recipe);
+            await recipeService.EditAsync(id, recipe);
         }
 
         public void Remove(int id)

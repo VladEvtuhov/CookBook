@@ -11,6 +11,11 @@ namespace CookBook.Console.Util
 {
     public class BindModule : NinjectModule
     {
+        /*private string connectionString;
+        public BindModule(string _connectionString)
+        {
+            connectionString = _connectionString;
+        }*/
         public override void Load()
         {
             Bind<IRoleService>().To<RoleService>();

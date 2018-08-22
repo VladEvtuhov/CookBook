@@ -1,24 +1,22 @@
 ﻿using CookBook.DAL.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace CookBook.DAL.Interfaces
 {
     public interface IUnitOfWork
     {
-        IRepository<ApplicationUser> Users { get; }
-        IRepository<Product> Products { get; }
-        IRepository<Category> Categories { get; }
-        IRepository<CookingMethod> CookingMethods { get; }
-        IRepository<CitchenCountry> Countries { get; }
-        IRepository<IngredientType> IngridientTypes { get; }
-        IRepository<Recipe> Recipes { get; }
-        IRepository<RecipeProduct> RecipeProducts { get; }
-        IRepository<Comment> Comments { get; }
-        IRepository<RecipeRating> RecipeRatings { get; }
+        UserManager<ApplicationUser> UserManager { get; }
+        RoleManager<IdentityRole> RoleManager { get; }
+        IRepository<Product> ProductManager { get; }
+        IRepository<Category> CategoryManager { get; }
+        IRepository<CookingMethod> CookingMethodManager { get; }
+        IRepository<CitchenCountry> CitchenCountryManager { get; }
+        IRepository<IngredientType> IngridientTypeManager { get; }
+        IRepository<Recipe> RecipeManager { get; }
+        IRepository<RecipeProduct> RecipeProductManager { get; }
+        IRepository<Comment> CommentManager { get; }
+        IRepository<RecipeRating> RecipeRatingManager { get; }
         void Save();
     }
 }

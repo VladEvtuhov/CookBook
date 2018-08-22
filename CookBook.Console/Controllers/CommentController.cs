@@ -20,7 +20,7 @@ namespace CookBook.Console.Controllers
 
         public void AddComment(int id, string email, string content)
         {
-            commentService.CreateComment(id, email, content);
+            commentService.CreateCommentAsync(id, email, content);
         }
 
         public List<CommentViewModel> GetComments(int id)

@@ -20,28 +20,20 @@ namespace CookBook.Console.Controllers
             roleService = _roleService;
         }
 
-        public void Add(string name)
+        public async Task AddAsync(string name)
         {
-            RoleDTO roleDTO = new RoleDTO()
-            {
-                Name = name
-            };
-            roleService.CreateRole(roleDTO);
+            await roleService.CreateRoleAsync(name);
         }
 
         public void Remove(string name)
         {
-            RoleDTO roleDTO = new RoleDTO()
-            {
-                Name = name
-            };
-            roleService.RemoveRole(roleDTO);
+            roleService.RemoveRoleAsync(name);
         }
-
+        //Todo: here maybe fatal error
         public IEnumerable<RoleViewModel> GetAll()
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<RoleDTO, RoleViewModel>()).CreateMapper();
-            return mapper.Map<IEnumerable<RoleDTO>, List<RoleViewModel>>(roleService.GetRoles());
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<string, RoleViewModel>()).CreateMapper();
+            return mapper.Map<IEnumerable<string>, List<RoleViewModel>>(roleService.GetRoles());
         }
     }
 }

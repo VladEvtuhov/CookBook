@@ -1,8 +1,4 @@
 ﻿using CookBook.BLL.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CookBook.Console.Controllers
@@ -15,9 +11,9 @@ namespace CookBook.Console.Controllers
             recipeRatingService = _recipeRatingService;
         }
 
-        public void SetRaiting(int id, int value, string email)
+        public async Task SetRaitingAsync(int id, int value, string email)
         {
-            recipeRatingService.SetRating(id, email, value);
+            await recipeRatingService.SetRatingAsync(id, email, value);
         }
     }
 }

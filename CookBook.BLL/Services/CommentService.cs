@@ -7,6 +7,7 @@ using CookBook.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CookBook.BLL.Services
 {
@@ -18,29 +19,28 @@ namespace CookBook.BLL.Services
             database = _database;
         }
 
-        public void CreateComment(int id, string email, string message)
+        public async Task CreateCommentAsync(int id, string email, string message)
         {
-            var recipe = database.Recipes.FirstOrDefault(r => r.Id == id);
-            var user = database.Users.FirstOrDefault(u => u.Email == email);
+            var recipe = database.RecipeManager.FirstOrDefault(r => r.Id == id);
+            var user = await database.UserManager.FindByEmailAsync(email);
             if (recipe == null || user == null)
                 throw new ValidationException("Unknown information", "");
             Comment comment = new Comment()
             {
-                Id = database.Comments.Count() == 0 ? 1 : database.Comments.GetAll().OrderBy(o => o.Id).Last().Id + 1,
                 CreatorId = user.Id,
                 Creator = user,
                 RecipeId = recipe.Id,
                 Recipe = recipe,
                 Content = message
             };
-            database.Comments.Create(comment);
+            database.CommentManager.Create(comment);
             database.Save();
         }
 
         public List<CommentDTO> GetRecipeComments(int id)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Comment, CommentDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<Comment>, List<CommentDTO>>(database.Recipes.Get(id).Comments);
+            return mapper.Map<IEnumerable<Comment>, List<CommentDTO>>(database.RecipeManager.Get(id).Comments);
         }
     }
 }

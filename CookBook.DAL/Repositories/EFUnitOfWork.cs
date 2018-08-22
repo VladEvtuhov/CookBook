@@ -1,131 +1,95 @@
 ﻿using CookBook.DAL.EF;
 using CookBook.DAL.Entities;
+using CookBook.DAL.Identity;
 using CookBook.DAL.Interfaces;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CookBook.DAL.Repositories
 {
     public class EFUnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext applicationDbContext;
-        private UserRepository userRepository;
-        private ProductsRepository productsRepository;
-        private CategoriesRepository categoriesRepository;
-        private CookingMethodsRepository cookingMethodsRepository;
-        private CitchenCountriesRepository countriesRepository;
-        private IngridientTypesRepository ingridientTypesRepository;
-        private RecipesRepository recipesRepository;
-        private RecipeProductsRepository recipeProductsRepository;
-        private CommentsRepository commentsRepository;
-        private RecipeRatingsRepository recipeRatingsRepository;
+        private ApplicationUserManager userManager;
+        private ApplicationRoleManager roleManager;
+        private ProductsRepository productManager;
+        private CategoriesRepository categoryManager;
+        private CookingMethodsRepository cookingMethodManager;
+        private CitchenCountriesRepository citchenCountryManager;
+        private IngridientTypesRepository ingredientTypeManager;
+        private RecipesRepository recipeManager;
+        private RecipeProductsRepository recipeProductManager;
+        private CommentsRepository commentManager;
+        private RecipeRatingsRepository recipeRatingManager;
 
-        public EFUnitOfWork(DbContextOptions<ApplicationDbContext> options)
+        public EFUnitOfWork(string connectionString)
         {
-            applicationDbContext = new ApplicationDbContext(options);
+            applicationDbContext = new ApplicationDbContext(connectionString);
+            userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(applicationDbContext));
+            roleManager = new ApplicationRoleManager(new RoleStore<IdentityRole>(applicationDbContext));
+            productManager = new ProductsRepository(applicationDbContext);
+            categoryManager = new CategoriesRepository(applicationDbContext);
+            cookingMethodManager = new CookingMethodsRepository(applicationDbContext);
+            citchenCountryManager = new CitchenCountriesRepository(applicationDbContext);
+            ingredientTypeManager = new IngridientTypesRepository(applicationDbContext);
+            recipeManager = new RecipesRepository(applicationDbContext);
+            recipeProductManager = new RecipeProductsRepository(applicationDbContext);
+            commentManager = new CommentsRepository(applicationDbContext);
+            recipeRatingManager = new RecipeRatingsRepository(applicationDbContext);
         }
 
-        public IRepository<ApplicationUser> Users
+        public UserManager<ApplicationUser> UserManager
         {
-            get
-            {
-                if (userRepository == null)
-                    userRepository = new UserRepository(applicationDbContext);
-                return userRepository;
-            }
+            get { return userManager; }
         }
 
-        public IRepository<Product> Products
+        public RoleManager<IdentityRole> RoleManager
         {
-            get
-            {
-                if (productsRepository == null)
-                    productsRepository = new ProductsRepository(applicationDbContext);
-                return productsRepository;
-            }
+            get { return roleManager; }
         }
 
-        public IRepository<Category> Categories
+        public IRepository<Product> ProductManager
         {
-            get
-            {
-                if (categoriesRepository == null)
-                    categoriesRepository = new CategoriesRepository(applicationDbContext);
-                return categoriesRepository;
-            }
+            get { return productManager; }
         }
 
-        public IRepository<CookingMethod> CookingMethods
+        public IRepository<Category> CategoryManager
         {
-            get
-            {
-                if (cookingMethodsRepository == null)
-                    cookingMethodsRepository = new CookingMethodsRepository(applicationDbContext);
-                return cookingMethodsRepository;
-            }
+            get { return categoryManager; }
         }
 
-        public IRepository<CitchenCountry> Countries {
-            get
-            {
-                if (countriesRepository == null)
-                    countriesRepository = new CitchenCountriesRepository(applicationDbContext);
-                return countriesRepository;
-            }
+        public IRepository<CookingMethod> CookingMethodManager
+        {
+            get { return cookingMethodManager; }
         }
 
-        public IRepository<IngredientType> IngridientTypes
+        public IRepository<CitchenCountry> CitchenCountryManager
         {
-            get
-            {
-                if (ingridientTypesRepository == null)
-                    ingridientTypesRepository = new IngridientTypesRepository(applicationDbContext);
-                return ingridientTypesRepository;
-            }
+            get { return citchenCountryManager; }
         }
 
-        public IRepository<Recipe> Recipes
+        public IRepository<IngredientType> IngridientTypeManager
         {
-            get
-            {
-                if (recipesRepository == null)
-                    recipesRepository = new RecipesRepository(applicationDbContext);
-                return recipesRepository;
-            }
+            get { return ingredientTypeManager; }
+        }
+        public IRepository<Recipe> RecipeManager
+        {
+            get { return recipeManager; }
         }
 
-        public IRepository<RecipeProduct> RecipeProducts
+        public IRepository<RecipeProduct> RecipeProductManager
         {
-            get
-            {
-                if (recipeProductsRepository == null)
-                    recipeProductsRepository = new RecipeProductsRepository(applicationDbContext);
-                return recipeProductsRepository;
-            }
+            get { return recipeProductManager; }
         }
 
-        public IRepository<Comment> Comments
+        public IRepository<Comment> CommentManager
         {
-            get
-            {
-                if (commentsRepository == null)
-                    commentsRepository = new CommentsRepository(applicationDbContext);
-                return commentsRepository;
-            }
+            get { return commentManager; }
         }
-
-        public IRepository<RecipeRating> RecipeRatings
+        public IRepository<RecipeRating> RecipeRatingManager
         {
-            get
-            {
-                if (recipeRatingsRepository == null)
-                    recipeRatingsRepository = new RecipeRatingsRepository(applicationDbContext);
-                return recipeRatingsRepository;
-            }
+            get { return recipeRatingManager; }
         }
 
         public void Save()

@@ -21,14 +21,14 @@ namespace CookBook.BLL.Services
         }
         public IEnumerable<string> GetProducts(int id)
         {
-            var recipe = database.Recipes.FirstOrDefault(u => u.Id == id);
+            var recipe = database.RecipeManager.FirstOrDefault(u => u.Id == id);
             List<string> products = new List<string>();
             if (recipe != null)
             {
-                var productsId = database.RecipeProducts.Find(r => r.RecipeId == recipe.Id);
+                var productsId = database.RecipeProductManager.Find(r => r.RecipeId == recipe.Id);
                 foreach (var productId in productsId)
                 {
-                    products.Add(database.Products.Get(productId.Id).Name);
+                    products.Add(database.ProductManager.Get(productId.Id).Name);
                 }
             }
             return products;
@@ -36,24 +36,23 @@ namespace CookBook.BLL.Services
 
         public void UpdateProducts(int id, List<RecipeProductDTO> products)
         {
-            var recipe = database.Recipes.Get(id);
+            var recipe = database.RecipeManager.Get(id);
             if (recipe == null)
                 throw new ValidationException("Recipe not found", "");
             foreach(var product in recipe.Products)
             {
-                database.RecipeProducts.Remove(database.RecipeProducts.FirstOrDefault(s => s.ProductId == product.Id && s.RecipeId == id));
+                database.RecipeProductManager.Remove(database.RecipeProductManager.FirstOrDefault(s => s.ProductId == product.Id && s.RecipeId == id));
             }
             foreach(var product in products)
             {
-                var _product = database.Products.FirstOrDefault(s => s.Name == product.Name);
+                var _product = database.ProductManager.FirstOrDefault(s => s.Name == product.Name);
                 if(_product == null)
                 {
                     _product = new Product()
                     {
-                        Id = database.Products.GetAll().Count() == 0 ? 1 : database.Products.GetAll().OrderBy(o => o.Id).Last().Id + 1,
                         Name = product.Name
                     };
-                    database.Products.Create(_product);
+                    database.ProductManager.Create(_product);
                 }
                 AddProduct(product.Quantity, recipe.Id, _product.Id);
             }
@@ -61,17 +60,16 @@ namespace CookBook.BLL.Services
 
         private void AddProduct(string quantity, int recipeId, int productId)
         {
-            var recipe = database.Recipes.FirstOrDefault(s => s.Id == recipeId);
-            var product = database.Products.FirstOrDefault(s => s.Id == productId);
+            var recipe = database.RecipeManager.FirstOrDefault(s => s.Id == recipeId);
+            var product = database.ProductManager.FirstOrDefault(s => s.Id == productId);
             RecipeProduct recipeProduct = new RecipeProduct()
             {
-                Id = database.RecipeProducts.GetAll().Count() == 0 ? 1 : database.RecipeProducts.GetAll().OrderBy(o => o.Id).Last().Id + 1,
                 RecipeId = recipeId,
                 ProductId = productId,
                 Quantity = quantity
             };
-            database.RecipeProducts.Create(recipeProduct);
-            recipe.Products.Add(product);
+            database.RecipeProductManager.Create(recipeProduct);
+            //recipe.Products.Add(product);
             database.Save();
         }
     }

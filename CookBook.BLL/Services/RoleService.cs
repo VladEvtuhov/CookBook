@@ -4,6 +4,7 @@ using CookBook.BLL.Infrastructure;
 using CookBook.BLL.Interfaces;
 using CookBook.DAL.Entities;
 using CookBook.DAL.Interfaces;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,34 +20,28 @@ namespace CookBook.BLL.Services
         {
             database = _database;
         }
-        public void CreateRole(RoleDTO roleDTO)
+        public async Task CreateRoleAsync(string role)
         {
-            if (database.Roles.Find(s => s.Name == roleDTO.Name).Count() != 0)
+            var isRoleExist = await database.RoleManager.RoleExistsAsync(role);
+            if (isRoleExist)
                 throw new ValidationException("Role is already exist", "");
-            var role = new Role()
-            {
-                Id = database.Roles.GetAll().Count() == 0? 1: database.Roles.GetAll().OrderBy(o => o.Id).Last().Id + 1,
-                Name = roleDTO.Name
-            };
-            database.Roles.Create(role);
+            var newbieRole = new IdentityRole { Name = "reader" };
+            var roleResult = database.RoleManager.CreateAsync(newbieRole).Result;
             database.Save();
         }
 
-        public IEnumerable<RoleDTO> GetRoles()
+        public IEnumerable<string> GetRoles()
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Role, RoleDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<Role>, List<RoleDTO>>(database.Roles.GetAll());
+            return database.RoleManager.Roles.Select(n => n.Name).ToList();
         }
 
-        public void RemoveRole(RoleDTO roleDTO)
+        public async Task RemoveRoleAsync(string role)
         {
-            if (database.Roles.Find(s => s.Name == roleDTO.Name).Count() == 0)
+            var isRoleExist = await database.RoleManager.RoleExistsAsync(role);
+            if (!isRoleExist)
                 throw new ValidationException("Role not found", "");
-            var role = new Role()
-            {
-                Name = roleDTO.Name
-            };
-            database.Roles.Remove(role);
+            var foundedRole = await database.RoleManager.FindByNameAsync(role);
+            await database.RoleManager.DeleteAsync(foundedRole);
             database.Save();
         }
     }

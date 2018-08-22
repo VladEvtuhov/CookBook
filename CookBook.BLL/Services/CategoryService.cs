@@ -23,20 +23,19 @@ namespace CookBook.BLL.Services
         public IEnumerable<CategoryDTO> GetAll()
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Category, CategoryDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<Category>, List<CategoryDTO>>(database.Categories.GetAll());
+            return mapper.Map<IEnumerable<Category>, List<CategoryDTO>>(database.CategoryManager.GetAll());
         }
 
         public void SetCategory(string name)
         {
-            var category = database.Categories.FirstOrDefault(c => c.Name == name);
+            var category = database.CategoryManager.FirstOrDefault(c => c.Name == name);
             if (category != null)
                 throw new ValidationException("Category is already exist", "");
             category = new Category()
             {
-                Id = database.Categories.Count() == 0 ? 1 : database.Categories.GetAll().OrderBy(o => o.Id).Last().Id + 1,
                 Name = name
             };
-            database.Categories.Create(category);
+            database.CategoryManager.Create(category);
             database.Save();
         }
     }

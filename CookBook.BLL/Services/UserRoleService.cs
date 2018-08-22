@@ -5,8 +5,6 @@ using CookBook.DAL.Entities;
 using CookBook.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CookBook.BLL.Services
@@ -19,49 +17,39 @@ namespace CookBook.BLL.Services
             database = _database;
         }
 
-        public List<string> GetUserRoles(string email)
+        public async Task<IList<string>> GetUserRolesAsync(string email)
         {
-            var user = database.Users.FirstOrDefault(u => u.Email == email);
-            List<string> roles = new List<string>();
+            var user = await database.UserManager.FindByEmailAsync(email);
+            IList<string> roles = new List<string>();
             if (user != null) {
-                var rolesId = database.UsersRoles.Find(r => r.UserId == user.Id);
-                foreach(var roleId in rolesId)
-                {
-                    roles.Add(database.Roles.Get(roleId.RoleId).Name);
-                }
+                roles = await database.UserManager.GetRolesAsync(user.Id);
             }
             return roles;
         }
 
-        public void PickUpRole(string email, string _role)
+        public async Task PickUpRoleAsync(string email, string _role)
         {
-            var user = database.Users.FirstOrDefault(u => u.Email == email);
-            var role = database.Roles.FirstOrDefault(r => r.Name == _role);
+            var user = await database.UserManager.FindByEmailAsync(email);
+            var role = await database.RoleManager.FindByNameAsync(_role);
             if(user == null || role == null)
                 throw new ValidationException("Incorrect data", "");
-            var userRole = database.UsersRoles.FirstOrDefault(r => r.RoleId == role.Id && r.UserId == user.Id);
-            if(userRole == null)
+            var userRole = database.UserManager.GetRolesAsync(user.Id);
+            if(!userRole.Result.Contains(role.Name))
                 throw new ValidationException("User and role combination not found", "");
-            database.UsersRoles.Remove(userRole);
+            await database.UserManager.RemoveFromRoleAsync(user.Id, role.Name);
             database.Save();
         }
 
-        public void SetRole(string email, string _role)
+        public async Task SetRoleAsync(string email, string _role)
         {
-            var user = database.Users.FirstOrDefault(u => u.Email == email);
-            var role = database.Roles.FirstOrDefault(r => r.Name == _role);
+            var user = await database.UserManager.FindByEmailAsync(email);
+            var role = await database.RoleManager.FindByNameAsync(_role);
             if (user == null || role == null)
                 throw new ValidationException("Incorrect data", "");
-            var userRole = database.UsersRoles.FirstOrDefault(r => r.RoleId == role.Id && r.UserId == user.Id);
-            if (userRole != null)
+            var userRole = database.UserManager.GetRolesAsync(user.Id);
+            if (userRole.Result.Contains(role.Name))
                 throw new ValidationException("User already has this role", "");
-            UserRoles userRoles = new UserRoles()
-            {
-                Id = database.UsersRoles.GetAll().Count() == 0 ? 1 : database.UsersRoles.GetAll().OrderBy(o => o.Id).Last().Id + 1,
-                RoleId = role.Id,
-                UserId = user.Id
-            };
-            database.UsersRoles.Create(userRoles);
+            await database.UserManager.AddToRoleAsync(user.Id, role.Name);
             database.Save();
         }
     }

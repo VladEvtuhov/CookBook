@@ -1,22 +1,20 @@
 ﻿using CookBook.BLL.DTO;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace CookBook.BLL.Interfaces
 {
     public interface IUserService
     {
-        void ConfirmEmail(string email);
-        void DeleteUser(string email);
-        void RestoreUser(string email);
+        Task ConfirmEmailAsync(string email);
+        Task DeleteUserAsync(string email);
+        Task RestoreUserAsync(string email);
         IEnumerable<UserDTO> GetUsers();
-        UserDTO GetUser(int id);
-        UserDTO GetUser(string email);
-        void CreateUser(RegisterUserDTO registerUserDTO);
-        void ChangeAboutUser(string email, string about);
-        bool Login(string email, string password);
+        Task<UserDTO> GetUserByIdAsync(string id);
+        Task<UserDTO> GetUserByEmailAsync(string email);
+        Task CreateUserAsync(RegisterUserDTO registerUserDTO);
+        Task ChangeAboutUserAsync(string email, string about);
+        Task<ClaimsIdentity> LoginAsync(string email, string password);
     }
 }

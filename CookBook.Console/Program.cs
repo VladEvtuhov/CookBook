@@ -2,27 +2,28 @@
 using Ninject;
 using Ninject.Modules;
 using CookBook.Console.Util;
-using CookBook.BLL.Infrastructure;
-using CookBook.BLL.Services;
 using CookBook.Console.Controllers;
 using CookBook.Console.Models;
 using System.Collections.Generic;
+using CookBook.BLL.Services;
+using CookBook.BLL.Infrastructure;
+using System.Configuration;
 
 namespace CookBook.Console
 {
     class Program
     {
         private static string userEmail = null;
-        private static List<string> userRoles = new List<string>();
+        private static IList<string> userRoles = new List<string>();
         
         static void Main(string[] args)
         {
             Logger.InitLogger();
             var kernel = Binding();
-            Menu(kernel);
+            MenuAsync(kernel);
         }
 
-        public static void Menu(IKernel kernel)
+        public static void MenuAsync(IKernel kernel)
         {
             int input = -1;
             while(input != 0)
@@ -119,7 +120,7 @@ namespace CookBook.Console
                             };
                             try
                             {
-                                usersController.CreateUser(register);
+                                usersController.CreateUserAsync(register);
                             }
                             catch (Exception e)
                             {
@@ -138,11 +139,12 @@ namespace CookBook.Console
                             var password = System.Console.ReadLine();
                             try
                             {
-                                if (usersController.Login(email, password))
+                                var claims = usersController.LoginAsync(email, password);
+                                if (claims.Result.IsAuthenticated)
                                 {
                                     UsersRolesController usersRolesController = new UsersRolesController(kernel.Get<UserRoleService>());
                                     userEmail = email;
-                                    userRoles = usersRolesController.GetUserRoles(email);
+                                    userRoles = usersRolesController.GetUserRolesAsync(email).Result;
                                     System.Console.WriteLine("Login was successfull");
                                 }
                                 else
@@ -164,8 +166,8 @@ namespace CookBook.Console
                             var email = System.Console.ReadLine();
                             try
                             {
-                                var user = usersController.Get(email);
-                                System.Console.WriteLine(user.Email + "  |  " + user.UserName + "  |  " + user.AverageRating + "  |  " + user.IsDeleted.ToString() + "  |  " + user.Information);
+                                var user = usersController.GetByEmailAsync(email);
+                                System.Console.WriteLine(user.Result.Email + "  |  " + user.Result.UserName + "  |  " + user.Result.AverageRating + "  |  " + user.Result.IsDeleted.ToString() + "  |  " + user.Result.Information);
                                 System.Console.WriteLine("Recipes:");
                                 var recipes = recipeController.GetUserRecipes(email);
                                 foreach (var recipe in recipes)
@@ -188,14 +190,14 @@ namespace CookBook.Console
                         {
                             if(userEmail != null)
                             {
-                                AuthMenu(kernel);
+                                AuthMenuAsync(kernel);
                             }
                             break;
                         }
                     case 7:
                         {
                             if(userRoles.Contains("admin"))
-                                AdminMenu(kernel);
+                                AdminMenuAsync(kernel);
                             break;
                         }
                     case 0:
@@ -210,7 +212,7 @@ namespace CookBook.Console
             }
         }
 
-        public static void AuthMenu(IKernel kernel)
+        public static async System.Threading.Tasks.Task AuthMenuAsync(IKernel kernel)
         {
             int input = -1;
             while (input != 0)
@@ -239,7 +241,7 @@ namespace CookBook.Console
                             int.TryParse(System.Console.ReadLine(), out int value);
                             try
                             {
-                                ratingController.SetRaiting(id, value, userEmail);
+                                await ratingController.SetRaitingAsync(id, value, userEmail);
                             }catch(Exception e)
                             {
                                 Logger.Log.Error(e);
@@ -255,7 +257,7 @@ namespace CookBook.Console
                             var about = System.Console.ReadLine();
                             try
                             {
-                                usersController.SetAbout(userEmail, about);
+                                await usersController.SetAboutAsync(userEmail, about);
                             }
                             catch (Exception e)
                             {
@@ -278,7 +280,7 @@ namespace CookBook.Console
                                     createRecipe.CreatorEmail = email;
                                     try
                                     {
-                                        recipeController.Create(createRecipe);
+                                        await recipeController.CreateAsync(createRecipe);
                                     }
                                     catch (Exception e)
                                     {
@@ -306,7 +308,7 @@ namespace CookBook.Console
                                     editRecipe.CreatorEmail = email;
                                     try
                                     {
-                                        recipeController.Update(id, editRecipe);
+                                        await recipeController.UpdateAsync(id, editRecipe);
                                     }
                                     catch (Exception e)
                                     {
@@ -380,7 +382,7 @@ namespace CookBook.Console
             }
         }
 
-        public static void AdminMenu(IKernel kernel)
+        public static async System.Threading.Tasks.Task AdminMenuAsync(IKernel kernel)
         {
             UsersRolesController usersRolesController = new UsersRolesController(kernel.Get<UserRoleService>());
             int input = -1;
@@ -402,7 +404,7 @@ namespace CookBook.Console
                         {
                             System.Console.WriteLine("Enter email:");
                             var email = System.Console.ReadLine();
-                            var roles = usersRolesController.GetUserRoles(email);
+                            var roles = await usersRolesController.GetUserRolesAsync(email);
                             System.Console.WriteLine(email + " roles: ");
                             foreach (var role in roles)
                             {
@@ -419,7 +421,7 @@ namespace CookBook.Console
                             var role = System.Console.ReadLine();
                             try
                             {
-                                usersRolesController.SetRole(email, role);
+                                await usersRolesController.SetRoleAsync(email, role);
                             }
                             catch (Exception e)
                             {
@@ -437,7 +439,7 @@ namespace CookBook.Console
                             var role = System.Console.ReadLine();
                             try
                             {
-                                usersRolesController.PickUpRole(email, role);
+                                await usersRolesController.PickUpRoleAsync(email, role);
                             }
                             catch (Exception e)
                             {
@@ -449,12 +451,12 @@ namespace CookBook.Console
                         }
                     case 4:
                         {
-                            UsersMenu(kernel);
+                            await UsersMenuAsync(kernel);
                             break;
                         }
                     case 5:
                         {
-                            RolesMenu(kernel);
+                            await RolesMenuAsync(kernel);
                             break;
                         }
                     case 6:
@@ -608,7 +610,7 @@ namespace CookBook.Console
             }
         }
 
-        public static void RolesMenu(IKernel kernel)
+        public static async System.Threading.Tasks.Task RolesMenuAsync(IKernel kernel)
         {
             int input = -1;
             RolesController rolesController = new RolesController(kernel.Get<RoleService>());
@@ -640,7 +642,7 @@ namespace CookBook.Console
                             var name = System.Console.ReadLine();
                             try
                             {
-                                rolesController.Add(name);
+                                await rolesController.AddAsync(name);
                             }
                             catch (Exception e)
                             {
@@ -674,7 +676,7 @@ namespace CookBook.Console
             }
         }
 
-        public static void UsersMenu(IKernel kernel)
+        public static async System.Threading.Tasks.Task UsersMenuAsync(IKernel kernel)
         {
             int input = -1;
             UsersController usersController = new UsersController(kernel.Get<UserService>());
@@ -709,7 +711,7 @@ namespace CookBook.Console
                             var email = System.Console.ReadLine();
                             try
                             {
-                                usersController.DeleteUser(email);
+                                await usersController.DeleteUserAsync(email);
                             }
                             catch (Exception e)
                             {
@@ -725,7 +727,7 @@ namespace CookBook.Console
                             var email = System.Console.ReadLine();
                             try
                             {
-                                usersController.ConfirmEmail(email);
+                                await usersController.ConfirmEmailAsync(email);
                             }catch(Exception e)
                             {
                                 Logger.Log.Error(e);
@@ -737,8 +739,8 @@ namespace CookBook.Console
                     case 4:
                         {
                             System.Console.WriteLine("Enter id:");
-                            int.TryParse(System.Console.ReadLine(), out int id);
-                            var user = usersController.Get(id);
+                            var id = System.Console.ReadLine();
+                            var user = await usersController.GetByIdAsync(id);
                             if(user != null)
                                 System.Console.WriteLine(user.Email + "  |  " + user.UserName + "  |  " + user.AverageRating + "  |  " + user.IsDeleted.ToString() + "  |  " + user.Information);
                             System.Console.ReadKey();
@@ -748,7 +750,7 @@ namespace CookBook.Console
                         {
                             System.Console.WriteLine("Enter email:");
                             var email = System.Console.ReadLine();
-                            var user = usersController.Get(email);
+                            var user = await usersController.GetByEmailAsync(email);
                             if(user != null)
                                 System.Console.WriteLine(user.Email + "  |  " + user.UserName + "  |  " + user.AverageRating + "  |  " + user.IsDeleted.ToString() + "  |  " + user.Information);
                             System.Console.ReadKey();
@@ -760,7 +762,7 @@ namespace CookBook.Console
                             var email = System.Console.ReadLine();
                             try
                             {
-                                usersController.RestoreUser(email);
+                                await usersController.RestoreUserAsync(email);
                             }
                             catch (Exception e)
                             {
@@ -802,8 +804,9 @@ namespace CookBook.Console
 
         public static IKernel Binding()
         {
+            string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
             NinjectModule roleModule = new BindModule();
-            NinjectModule serviceModule = new ServiceModule();
+            NinjectModule serviceModule = new ServiceModule(connectionString);
             return new StandardKernel(roleModule, serviceModule);
         }
     }

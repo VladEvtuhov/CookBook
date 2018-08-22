@@ -4,9 +4,11 @@ using CookBook.BLL.Infrastructure;
 using CookBook.BLL.Interfaces;
 using CookBook.DAL.Entities;
 using CookBook.DAL.Interfaces;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,74 +22,72 @@ namespace CookBook.BLL.Services
             database = _database;
         }
 
-        public void ConfirmEmail(string email)
+        public async Task ConfirmEmailAsync(string email)
         {
-            var user = GetCurrentUser(email);
+            var user = await GetCurrentUserAsync(email);
             user.EmailConfirmed = true;
-            database.Users.Update(user);
+            await database.UserManager.UpdateAsync(user);
             database.Save();
         }
 
-        public void ChangeAboutUser(string email, string about)
+        public async Task ChangeAboutUserAsync(string email, string about)
         {
-            var user = GetCurrentUser(email);
+            var user = await GetCurrentUserAsync(email);
             user.Information = about;
-            database.Users.Update(user);
+            await database.UserManager.UpdateAsync(user);
             database.Save();
         }
 
-        public void CreateUser(RegisterUserDTO registerUserDTO)
+        public async Task CreateUserAsync(RegisterUserDTO registerUserDTO)
         {
             CheckOnValidEmail(registerUserDTO.Email);
             if (registerUserDTO.Password.Length < 6)
                 throw new ValidationException("min password length = 6", "");
-            var user = database.Users.FirstOrDefault(u => u.Email == registerUserDTO.Email);
+            var user = await database.UserManager.FindByEmailAsync(registerUserDTO.Email);
             if (user != null)
                 throw new ValidationException("User is already exist", "");
-            ApplicationUser newbie = new ApplicationUser()
+            user = new ApplicationUser()
             {
-                Id = database.Users.GetAll().Count() == 0 ? 1 : database.Users.GetAll().OrderBy(o => o.Id).Last().Id + 1,
                 Email = registerUserDTO.Email,
-                ImageUrl = "http://missingkids-stage.adobecqms.net/etc/clientlibs/ncmec/poster/images/poster/en_US/noPhotoAvailable.jpg",
-                Password = registerUserDTO.Password.GetHashCode().ToString(),
-                UserName = registerUserDTO.Email,
-                AverageRating = 0,
-                Information = ""
+                UserName = registerUserDTO.Email
             };
-            database.Users.Create(newbie);
+            var result = await database.UserManager.CreateAsync(user, registerUserDTO.Password);
+            if (result.Errors.Count() > 0)
+                throw new ValidationException(result.Errors.FirstOrDefault(), "");
+            await database.UserManager.AddToRoleAsync(user.Id, "reader");
             database.Save();
         }
 
-        public void DeleteUser(string email)
+        public async Task DeleteUserAsync(string email)
         {
-            var user = GetCurrentUser(email);
+            var user = await GetCurrentUserAsync(email);
             user.IsDeleted = true;
-            database.Users.Update(user);
+            await database.UserManager.UpdateAsync(user);
             database.Save();
         }
 
-        public void RestoreUser(string email)
+        public async Task RestoreUserAsync(string email)
         {
-            var user = database.Users.FirstOrDefault(u => u.Email == email);
+            var user = await GetCurrentUserAsync(email);
             if (user == null)
                 throw new ValidationException("User not found", "");
             user.IsDeleted = false;
-            database.Users.Update(user);
+            await database.UserManager.UpdateAsync(user);
             database.Save();
         }
 
-        public UserDTO GetUser(int id)
+        public async Task<UserDTO> GetUserByIdAsync(string id)
         {
-            var user = database.Users.FirstOrDefault(u => u.Id == id);
+            var user = await database.UserManager.FindByIdAsync(id);
             if (user == null)
                 throw new ValidationException("User not found", "");
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ApplicationUser, UserDTO>()).CreateMapper();
             return mapper.Map<ApplicationUser, UserDTO>(user);
         }
 
-        public UserDTO GetUser(string email)
+        public async Task<UserDTO> GetUserByEmailAsync(string email)
         {
-            var user = database.Users.FirstOrDefault(u => u.Email == email);
+            var user = await GetCurrentUserAsync(email);
             if (user == null)
                 throw new ValidationException("User not found", "");
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ApplicationUser, UserDTO>()).CreateMapper();
@@ -97,23 +97,23 @@ namespace CookBook.BLL.Services
         public IEnumerable<UserDTO> GetUsers()
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ApplicationUser, UserDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<ApplicationUser>, List<UserDTO>>(database.Users.GetAll());
+            return mapper.Map<IEnumerable<ApplicationUser>, List<UserDTO>>(database.UserManager.Users);
         }
 
-        public bool Login(string email, string password)
+        public async Task<ClaimsIdentity> LoginAsync(string email, string password)
         {
-            CheckOnValidEmail(email);
-            var user = database.Users.FirstOrDefault(u => u.Email == email);
-            if (user == null)
-                throw new ValidationException("User not found", "");
-            if (user.Password != password.GetHashCode().ToString() || user.IsDeleted)
-                return false;
-            return true;
+
+            ClaimsIdentity claim = null;
+            ApplicationUser user = await database.UserManager.FindAsync(email, password);
+            if (user != null)
+                claim = await database.UserManager.CreateIdentityAsync(user,
+                                            DefaultAuthenticationTypes.ApplicationCookie);
+            return claim;
         }
 
-        private ApplicationUser GetCurrentUser(string email)
+        private async Task<ApplicationUser> GetCurrentUserAsync(string email)
         {
-            var user = database.Users.FirstOrDefault(u => u.Email == email);
+            var user = await database.UserManager.FindByEmailAsync(email);
             if (user == null)
                 throw new ValidationException("User not found", "");
             if(user.IsDeleted)

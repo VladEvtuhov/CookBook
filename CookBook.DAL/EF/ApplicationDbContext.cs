@@ -1,15 +1,13 @@
 ﻿using CookBook.DAL.Entities;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity;
 
 namespace CookBook.DAL.EF
 {
     public class ApplicationDbContext: IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
+        public ApplicationDbContext(string connectionString)
+            : base(connectionString)
         {
         }
 
@@ -23,127 +21,52 @@ namespace CookBook.DAL.EF
         public DbSet<CitchenCountry> CitchenCountries { get; set; }
         public DbSet<Category> Categories { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder builder)
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
-            {
-                relationship.DeleteBehavior = DeleteBehavior.Cascade;
-            }
-            base.OnModelCreating(builder);
+            
+            base.OnModelCreating(modelBuilder);
 
-            builder.Entity<Product>(entity =>
-            {
-                entity.Property(e => e.Name)
-                .IsRequired();
-            });
+            modelBuilder.Entity<Product>().Property(e => e.Name).IsRequired();
 
-            builder.Entity<Category>(entity =>
-            {
-                entity.Property(e => e.Name)
-                .IsRequired();
-            });
+            modelBuilder.Entity<Category>().Property(e => e.Name).IsRequired();
 
-            builder.Entity<CitchenCountry>(entity =>
-            {
-                entity.Property(e => e.Name)
-                .IsRequired();
-            });
+            modelBuilder.Entity<CitchenCountry>().Property(e => e.Name).IsRequired();
 
-            builder.Entity<CookingMethod>(entity =>
-            {
-                entity.Property(e => e.Name)
-                .IsRequired();
-            });
+            modelBuilder.Entity<CookingMethod>().Property(e => e.Name).IsRequired();
 
-            builder.Entity<IngredientType>(entity =>
-            {
-                entity.Property(e => e.Name)
-                .IsRequired();
-            });
+            modelBuilder.Entity<IngredientType>().Property(e => e.Name).IsRequired();
 
-            builder.Entity<Recipe>(entity =>
-            {
-                entity.Property(e => e.Title)
-                .IsRequired();
+            modelBuilder.Entity<Recipe>().Property(e => e.Title).IsRequired();
 
-                entity.Property(e => e.ShortDescription)
-                .IsRequired();
+            modelBuilder.Entity<Recipe>().Property(e => e.ShortDescription).IsRequired();
 
-                entity.Property(e => e.Content)
-                .IsRequired();
+            modelBuilder.Entity<Recipe>().Property(e => e.Content).IsRequired();
 
-                entity.HasOne(e => e.Creator)
-                .WithMany(e => e.UserRecipes)
-                .HasForeignKey(e => e.CreatorId)
-                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Recipe>().HasRequired(e => e.Creator).WithMany(e => e.UserRecipes).HasForeignKey(e => e.CreatorId);
 
-                entity.HasOne(e => e.Category)
-                .WithMany(e => e.UserRecipes)
-                .HasForeignKey(e => e.CategoryId)
-                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Recipe>().HasRequired(e => e.Category).WithMany(e => e.UserRecipes).HasForeignKey(e => e.CategoryId).WillCascadeOnDelete();
 
-                entity.HasOne(e => e.CookingMethod)
-                .WithMany(e => e.UserRecipes)
-                .HasForeignKey(e => e.CookingMethodId)
-                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Recipe>().HasRequired(e => e.CookingMethod).WithMany(e => e.UserRecipes).HasForeignKey(e => e.CookingMethodId).WillCascadeOnDelete();
 
-                entity.HasOne(e => e.Country)
-                .WithMany(e => e.UserRecipes)
-                .HasForeignKey(e => e.CountryId)
-                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Recipe>().HasRequired(e => e.Country).WithMany(e => e.UserRecipes).HasForeignKey(e => e.CountryId).WillCascadeOnDelete();
 
-                entity.HasOne(e => e.IngredientType)
-                .WithMany(e => e.UserRecipes)
-                .HasForeignKey(e => e.IngredientTypeId)
-                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Recipe>().HasRequired(e => e.IngredientType).WithMany(e => e.UserRecipes).HasForeignKey(e => e.IngredientTypeId).WillCascadeOnDelete();
 
-            });
+            modelBuilder.Entity<Comment>().Property(e => e.Content).IsRequired();
 
-            builder.Entity<Comment>(entity =>
-            {
-                entity.Property(e => e.Content)
-                .IsRequired();
+            modelBuilder.Entity<Comment>().HasRequired(e => e.Creator).WithMany(e => e.Comments).HasForeignKey(e => e.CreatorId);
 
-                entity.HasOne(e => e.Creator)
-                .WithMany(e => e.Comments)
-                .HasForeignKey(e => e.CreatorId)
-                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Comment>().HasRequired(e => e.Recipe).WithMany(e => e.Comments).HasForeignKey(e => e.RecipeId).WillCascadeOnDelete();
 
-                entity.HasOne(e => e.Recipe)
-                .WithMany(e => e.Comments)
-                .HasForeignKey(e => e.RecipeId)
-                .OnDelete(DeleteBehavior.Cascade);
-            });
+            modelBuilder.Entity<RecipeProduct>().HasRequired(e => e.UserProduct).WithMany(e => e.UserRecipes).HasForeignKey(e => e.ProductId).WillCascadeOnDelete();
 
-            builder.Entity<RecipeProduct>(entity =>
-            {
-                entity.HasOne(e => e.UserProduct)
-                .WithMany(e => e.UserRecipes)
-                .HasForeignKey(e => e.ProductId)
-                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<RecipeProduct>().HasRequired(e => e.UserRecipe).WithMany(e => e.Products).HasForeignKey(e => e.RecipeId).WillCascadeOnDelete();
 
-                entity.HasOne(e => e.UserRecipe)
-                .WithMany(e => e.Products)
-                .HasForeignKey(e => e.RecipeId)
-                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<RecipeRating>().HasRequired(e => e.Creator).WithMany(e => e.RecipesRatings).HasForeignKey(e => e.CreatorId);
 
-            });
+            modelBuilder.Entity<RecipeRating>().HasRequired(e => e.Recipe).WithMany(e => e.RecipesRatings).HasForeignKey(e => e.RecipeId).WillCascadeOnDelete();
 
-            builder.Entity<RecipeRating>(entity =>
-            {
-                entity.HasOne(e => e.Creator)
-                .WithMany(e => e.RecipesRatings)
-                .HasForeignKey(e => e.CreatorId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-                entity.HasOne(e => e.Recipe)
-                .WithMany(e => e.RecipesRatings)
-                .HasForeignKey(e => e.RecipeId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-                entity.Property(e => e.Rating)
-                .IsRequired();
-            }); 
+            modelBuilder.Entity<RecipeRating>().Property(e => e.Rating).IsRequired();
         }
     }
 }

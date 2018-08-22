@@ -16,7 +16,7 @@ namespace CookBook.DAL.Entities
         public DateTime CreationDate { get; set; }
         public DateTime UpdateDate { get; set; }
         public string ImageUrl { get; set; }
-        public int CreatorId { get; set; }
+        public string CreatorId { get; set; }
         public ApplicationUser Creator { get; set; }
         [XmlIgnore]
         public List<RecipeRating> RecipesRatings { get; set; }

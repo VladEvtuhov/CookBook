@@ -12,8 +12,8 @@ namespace CookBook.BLL.Interfaces
         IEnumerable<RecipesInfoDTO> GetAll();
         IEnumerable<RecipesInfoDTO> GetUserRecipes(string email);
         RecipesInfoDTO Get(int id);
-        void Create(CreateRecipeDTO recipeDTO);
+        Task CreateAsync(CreateRecipeDTO recipeDTO);
         void Remove(int id);
-        void Edit(int id, CreateRecipeDTO recipeDTO);
+        Task EditAsync(int id, CreateRecipeDTO recipeDTO);
     }
 }

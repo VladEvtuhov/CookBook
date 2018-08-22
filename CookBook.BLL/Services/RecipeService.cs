@@ -6,6 +6,7 @@ using CookBook.DAL.Entities;
 using CookBook.DAL.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CookBook.BLL.Services
 {
@@ -17,34 +18,30 @@ namespace CookBook.BLL.Services
             database = _database;
         }
 
-        public void Create(CreateRecipeDTO recipeDTO)
+        public async Task CreateAsync(CreateRecipeDTO recipeDTO)
         {
-            var recipe = SetRecipe(recipeDTO);
-            recipe.Id = database.Recipes.GetAll().Count() == 0 ? 1 : database.Recipes.GetAll().OrderBy(o => o.Id).Last().Id + 1;
-            database.Recipes.Create(recipe);
-            database.Save();
-            var creator = database.Users.FirstOrDefault(c => c.Email == recipeDTO.CreatorEmail);
-            creator.UserRecipes.Add(recipe);
+            var recipe = await SetRecipeAsync(recipeDTO);
+            database.RecipeManager.Create(recipe);
             database.Save();
         }
 
-        public void Edit(int id, CreateRecipeDTO recipeDTO)
+        public async Task EditAsync(int id, CreateRecipeDTO recipeDTO)
         {
-            var recipe = SetRecipe(recipeDTO);
+            var recipe = await SetRecipeAsync(recipeDTO);
             recipe.Id = id;
-            database.Recipes.Update(recipe);
+            database.RecipeManager.Update(recipe);
             database.Save();
         }
 
         public IEnumerable<RecipesInfoDTO> GetUserRecipes(string email)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Recipe, RecipesInfoDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<Recipe>, List<RecipesInfoDTO>>(database.Recipes.Find(n => n.Creator.Email == email));
+            return mapper.Map<IEnumerable<Recipe>, List<RecipesInfoDTO>>(database.RecipeManager.Find(n => n.Creator.Email == email));
         }
 
         public RecipesInfoDTO Get(int id)
         {
-            var recipe = database.Recipes.FirstOrDefault(u => u.Id == id);
+            var recipe = database.RecipeManager.FirstOrDefault(u => u.Id == id);
             if (recipe == null)
                 throw new ValidationException("An error occurred during receipt retrieving", "");
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Recipe, RecipesInfoDTO>()).CreateMapper();
@@ -54,25 +51,25 @@ namespace CookBook.BLL.Services
         public IEnumerable<RecipesInfoDTO> GetAll()
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Recipe, RecipesInfoDTO>()).CreateMapper();
-            var info = mapper.Map<IEnumerable<Recipe>, List<RecipesInfoDTO>>(database.Recipes.GetAll());
+            var info = mapper.Map<IEnumerable<Recipe>, List<RecipesInfoDTO>>(database.RecipeManager.GetAll());
             return info;
         }
 
         public void Remove(int id)
         {
-            if (database.Recipes.FirstOrDefault(r => r.Id == id) == null)
+            if (database.RecipeManager.FirstOrDefault(r => r.Id == id) == null)
                 throw new ValidationException("Recipe not found", "");
-            database.Recipes.Remove(id);
+            database.RecipeManager.Remove(id);
             database.Save();
         }
 
-        private Recipe SetRecipe(CreateRecipeDTO recipeDTO)
+        private async System.Threading.Tasks.Task<Recipe> SetRecipeAsync(CreateRecipeDTO recipeDTO)
         {
-            var category = database.Categories.FirstOrDefault(c => c.Name == recipeDTO.Category);
-            var country = database.Countries.FirstOrDefault(c => c.Name == recipeDTO.Country);
-            var ingridientType = database.IngridientTypes.FirstOrDefault(i => i.Name == recipeDTO.IngredientType);
-            var creator = database.Users.FirstOrDefault(c => c.Email == recipeDTO.CreatorEmail);
-            var cookingMethod = database.CookingMethods.FirstOrDefault(c => c.Name == recipeDTO.CookingMethod);
+            var category = database.CategoryManager.FirstOrDefault(c => c.Name == recipeDTO.Category);
+            var country = database.CitchenCountryManager.FirstOrDefault(c => c.Name == recipeDTO.Country);
+            var ingridientType = database.IngridientTypeManager.FirstOrDefault(i => i.Name == recipeDTO.IngredientType);
+            var creator = await database.UserManager.FindByEmailAsync(recipeDTO.CreatorEmail);
+            var cookingMethod = database.CookingMethodManager.FirstOrDefault(c => c.Name == recipeDTO.CookingMethod);
             if (category == null || country == null || ingridientType == null || creator == null || cookingMethod == null)
                 throw new ValidationException("Unknown info", "");
             Recipe recipe = new Recipe()

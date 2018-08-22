@@ -9,8 +9,8 @@ namespace CookBook.BLL.Interfaces
 {
     public interface IRoleService
     {
-        void CreateRole(RoleDTO roleDTO);
-        IEnumerable<RoleDTO> GetRoles();
-        void RemoveRole(RoleDTO roleDTO);
+        Task CreateRoleAsync(string role);
+        IEnumerable<string> GetRoles();
+        Task RemoveRoleAsync(string role);
     }
 }

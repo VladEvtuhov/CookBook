@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -24,48 +25,48 @@ namespace CookBook.Console.Controllers
             return mapper.Map<IEnumerable<UserDTO>, List<UserViewModel>>(userService.GetUsers());
         }
 
-        public void CreateUser(RegisterViewModel register)
+        public async Task CreateUserAsync(RegisterViewModel register)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<RegisterViewModel, RegisterUserDTO>()).CreateMapper();
             var registerModel = mapper.Map<RegisterViewModel, RegisterUserDTO>(register);
-            userService.CreateUser(registerModel);
+            await userService.CreateUserAsync(registerModel);
         }
 
-        public void DeleteUser(string email)
+        public async Task DeleteUserAsync(string email)
         {
-            userService.DeleteUser(email);
+            await userService.DeleteUserAsync(email);
         }
 
-        public void RestoreUser(string email)
+        public async Task RestoreUserAsync(string email)
         {
-            userService.RestoreUser(email);
+            await userService.RestoreUserAsync(email);
         }
 
-        public void ConfirmEmail(string email)
+        public async Task ConfirmEmailAsync(string email)
         {
-            userService.ConfirmEmail(email);
+            await userService.ConfirmEmailAsync(email);
         }
 
-        public UserViewModel Get(int id)
-        {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<UserDTO, UserViewModel>()).CreateMapper();
-            return mapper.Map<UserDTO, UserViewModel>(userService.GetUser(id));
-        }
-
-        public UserViewModel Get(string email)
+        public async Task<UserViewModel> GetByIdAsync(string id)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<UserDTO, UserViewModel>()).CreateMapper();
-            return mapper.Map<UserDTO, UserViewModel>(userService.GetUser(email));
+            return mapper.Map<UserDTO, UserViewModel>(await userService.GetUserByIdAsync(id));
+        }
+
+        public async Task<UserViewModel> GetByEmailAsync(string email)
+        {
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<UserDTO, UserViewModel>()).CreateMapper();
+            return mapper.Map<UserDTO, UserViewModel>(await userService.GetUserByEmailAsync(email));
         }
         
-        public void SetAbout(string email, string about)
+        public async Task SetAboutAsync(string email, string about)
         {
-            userService.ChangeAboutUser(email, about);
+            await userService.ChangeAboutUserAsync(email, about);
         }
 
-        public bool Login(string email, string password)
+        public async Task<ClaimsIdentity> LoginAsync(string email, string password)
         {
-            return userService.Login(email, password);
+            return await userService.LoginAsync(email, password);
         }
     }
 }

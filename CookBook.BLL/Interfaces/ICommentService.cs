@@ -9,7 +9,7 @@ namespace CookBook.BLL.Interfaces
 {
     public interface ICommentService
     {
-        void CreateComment(int id, string email, string comment);
+        Task CreateCommentAsync(int id, string email, string comment);
         List<CommentDTO> GetRecipeComments(int id);
     }
 }

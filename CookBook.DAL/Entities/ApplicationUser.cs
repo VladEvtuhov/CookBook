@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 

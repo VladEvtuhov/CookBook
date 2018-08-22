@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace CookBook.BLL.Interfaces
 {
-    public interface IRecipeRatingService
+    interface IServiceModule
     {
-        Task SetRatingAsync(int id, string email, int value);
     }
 }

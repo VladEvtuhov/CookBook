@@ -15,19 +15,19 @@ namespace CookBook.Console.Controllers
             userRoleService = _userRoleService;
         }
 
-        public void SetRole(string email, string role)
+        public async Task SetRoleAsync(string email, string role)
         {
-            userRoleService.SetRole(email, role);
+            await userRoleService.SetRoleAsync(email, role);
         }
 
-        public void PickUpRole(string email, string role)
+        public async Task PickUpRoleAsync(string email, string role)
         {
-            userRoleService.PickUpRole(email, role);
+            await userRoleService.PickUpRoleAsync(email, role);
         }
 
-        public List<string> GetUserRoles(string email)
+        public async Task<IList<string>> GetUserRolesAsync(string email)
         {
-            return userRoleService.GetUserRoles(email);
+            return await userRoleService.GetUserRolesAsync(email);
         }
     }
 }
