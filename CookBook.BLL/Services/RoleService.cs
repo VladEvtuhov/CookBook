@@ -26,7 +26,7 @@ namespace CookBook.BLL.Services
             if (isRoleExist)
                 throw new ValidationException("Role is already exist", "");
             var newbieRole = new IdentityRole { Name = "reader" };
-            var roleResult = database.RoleManager.CreateAsync(newbieRole).Result;
+            var roleResult = await database.RoleManager.CreateAsync(newbieRole);
             database.Save();
         }
 

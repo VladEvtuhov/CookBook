@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Xml.Serialization;
 
 namespace CookBook.DAL.Entities
@@ -17,7 +15,7 @@ namespace CookBook.DAL.Entities
         [XmlIgnore]
         public List<RecipeRating> RecipesRatings { get; set; }
         [XmlIgnore]
-        public double? AverageRating { get; set; }
+        public double AverageRating { get; set; }
         public string Information { get; set; }
 
         public ApplicationUser()

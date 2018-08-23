@@ -1,10 +1,9 @@
 ﻿using CookBook.DAL.EF;
-using CookBook.DAL.Entities;
 using CookBook.DAL.Identity;
 using CookBook.DAL.Interfaces;
-using Microsoft.AspNet.Identity;
+using CookBook.DAL.Entities;
 using Microsoft.AspNet.Identity.EntityFramework;
-using System;
+using Microsoft.AspNet.Identity;
 
 namespace CookBook.DAL.Repositories
 {
@@ -16,22 +15,22 @@ namespace CookBook.DAL.Repositories
         private ProductsRepository productManager;
         private CategoriesRepository categoryManager;
         private CookingMethodsRepository cookingMethodManager;
-        private CitchenCountriesRepository citchenCountryManager;
+        private СuisineСountriesRepository citchenCountryManager;
         private IngridientTypesRepository ingredientTypeManager;
         private RecipesRepository recipeManager;
         private RecipeProductsRepository recipeProductManager;
         private CommentsRepository commentManager;
         private RecipeRatingsRepository recipeRatingManager;
 
-        public EFUnitOfWork(string connectionString)
+        public EFUnitOfWork()
         {
-            applicationDbContext = new ApplicationDbContext(connectionString);
+            applicationDbContext = new ApplicationDbContext();
             userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(applicationDbContext));
             roleManager = new ApplicationRoleManager(new RoleStore<IdentityRole>(applicationDbContext));
             productManager = new ProductsRepository(applicationDbContext);
             categoryManager = new CategoriesRepository(applicationDbContext);
             cookingMethodManager = new CookingMethodsRepository(applicationDbContext);
-            citchenCountryManager = new CitchenCountriesRepository(applicationDbContext);
+            citchenCountryManager = new СuisineСountriesRepository(applicationDbContext);
             ingredientTypeManager = new IngridientTypesRepository(applicationDbContext);
             recipeManager = new RecipesRepository(applicationDbContext);
             recipeProductManager = new RecipeProductsRepository(applicationDbContext);
@@ -64,7 +63,7 @@ namespace CookBook.DAL.Repositories
             get { return cookingMethodManager; }
         }
 
-        public IRepository<CitchenCountry> CitchenCountryManager
+        public IRepository<СuisineСountry> CitchenCountryManager
         {
             get { return citchenCountryManager; }
         }

@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace CookBook.BLL.Interfaces
 {
-    interface IServiceModule
+    public interface IServiceModule
     {
+
     }
 }

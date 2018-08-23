@@ -7,7 +7,6 @@ using CookBook.Console.Models;
 using System.Collections.Generic;
 using CookBook.BLL.Services;
 using CookBook.BLL.Infrastructure;
-using System.Configuration;
 
 namespace CookBook.Console
 {
@@ -504,7 +503,7 @@ namespace CookBook.Console
                         }
                     case 2:
                         {
-                            CitchenCountryController countryController = new CitchenCountryController(kernel.Get<CountryService>());
+                            СuisineСountryController countryController = new СuisineСountryController(kernel.Get<СuisineСountryService>());
                             var countries = countryController.GetAll();
                             foreach (var country in countries)
                             {
@@ -555,7 +554,7 @@ namespace CookBook.Console
                         {
                             System.Console.WriteLine("Enter a new country:");
                             var value = System.Console.ReadLine();
-                            CitchenCountryController countryController = new CitchenCountryController(kernel.Get<CountryService>());
+                            СuisineСountryController countryController = new СuisineСountryController(kernel.Get<СuisineСountryService>());
                             try
                             {
                                 countryController.SetCountry(value);
@@ -804,9 +803,8 @@ namespace CookBook.Console
 
         public static IKernel Binding()
         {
-            string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
             NinjectModule roleModule = new BindModule();
-            NinjectModule serviceModule = new ServiceModule(connectionString);
+            NinjectModule serviceModule = new ServiceModule("CookBook");
             return new StandardKernel(roleModule, serviceModule);
         }
     }

@@ -233,26 +233,30 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EF\ApplicationDbContext.cs" />
-    <Compile Include="EF\GenericSerializer.cs" />
+    <Compile Include="Entities\ApplicationUser.cs" />
     <Compile Include="Entities\Category.cs" />
     <Compile Include="Entities\Comment.cs" />
     <Compile Include="Entities\CookingMethod.cs" />
-    <Compile Include="Entities\CitchenCountry.cs" />
     <Compile Include="Entities\IngredientType.cs" />
     <Compile Include="Entities\Product.cs" />
+    <Compile Include="Entities\Recipe.cs" />
     <Compile Include="Entities\RecipeProduct.cs" />
     <Compile Include="Entities\RecipeRating.cs" />
-    <Compile Include="Entities\Recipe.cs" />
-    <Compile Include="Entities\ApplicationUser.cs" />
+    <Compile Include="Entities\СuisineСountry.cs" />
     <Compile Include="Identity\ApplicationRoleManager.cs" />
     <Compile Include="Identity\ApplicationUserManager.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
+    <Compile Include="Migrations\201808231133094_Initial.cs" />
+    <Compile Include="Migrations\201808231133094_Initial.Designer.cs">
+      <DependentUpon>201808231133094_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CategoriesRepository.cs" />
     <Compile Include="Repositories\CommentsRepository.cs" />
     <Compile Include="Repositories\CookingMethodsRepository.cs" />
-    <Compile Include="Repositories\CitchenCountriesRepository.cs" />
+    <Compile Include="Repositories\СuisineСountriesRepository.cs" />
     <Compile Include="Repositories\EFUnitOfWork.cs" />
     <Compile Include="Repositories\IngridientTypesRepository.cs" />
     <Compile Include="Repositories\ProductsRepository.cs" />
@@ -264,6 +268,11 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201808231133094_Initial.resx">
+      <DependentUpon>201808231133094_Initial.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
