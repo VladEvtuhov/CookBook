@@ -36,22 +36,36 @@ namespace CookBook.DAL.Repositories
 
         public IEnumerable<RecipeRating> Find(Func<RecipeRating, bool> predicate)
         {
-            return mobileContext.RecipeRatings.Where(predicate).ToList();
+            var ratings = mobileContext.RecipeRatings.Where(predicate).ToList();
+            foreach(var rating in ratings)
+            {
+                SetRatingRelationship(rating);
+            }
+            return ratings;
         }
 
         public RecipeRating FirstOrDefault(Func<RecipeRating, bool> predicate)
         {
-            return mobileContext.RecipeRatings.FirstOrDefault(predicate);
+            var rating = mobileContext.RecipeRatings.FirstOrDefault(predicate);
+            SetRatingRelationship(rating);
+            return rating;
         }
 
         public RecipeRating Get(int id)
         {
-            return mobileContext.RecipeRatings.First(p => p.Id == id);
+            var rating = mobileContext.RecipeRatings.First(p => p.Id == id);
+            SetRatingRelationship(rating);
+            return rating;
         }
 
         public IEnumerable<RecipeRating> GetAll()
         {
-            return mobileContext.RecipeRatings;
+            var ratings = mobileContext.RecipeRatings;
+            foreach (var rating in ratings)
+            {
+                SetRatingRelationship(rating);
+            }
+            return ratings;
         }
 
         public void Remove(int id)
@@ -79,6 +93,13 @@ namespace CookBook.DAL.Repositories
             {
                 recipeRating.Rating = item.Rating;
             }
+        }
+
+        private RecipeRating SetRatingRelationship(RecipeRating recipeRating)
+        {
+            recipeRating.Creator = mobileContext.Users.First(p => p.Id == recipeRating.CreatorId);
+            recipeRating.Recipe = mobileContext.Recipes.First(p => p.Id == recipeRating.RecipeId);
+            return recipeRating;
         }
     }
 }

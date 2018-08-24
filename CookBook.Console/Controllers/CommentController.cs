@@ -23,7 +23,7 @@ namespace CookBook.Console.Controllers
             commentService.CreateCommentAsync(id, email, content);
         }
 
-        public List<CommentViewModel> GetComments(int id)
+        public List<CommentViewModel> GetCommentsAsync(int id)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<CommentDTO, CommentViewModel>()).CreateMapper();
             return mapper.Map<IEnumerable<CommentDTO>, List<CommentViewModel>>(commentService.GetRecipeComments(id));

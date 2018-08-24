@@ -19,10 +19,10 @@ namespace CookBook.Console
         {
             Logger.InitLogger();
             var kernel = Binding();
-            MenuAsync(kernel);
+            Menu(kernel);
         }
 
-        public static void MenuAsync(IKernel kernel)
+        public static void Menu(IKernel kernel)
         {
             int input = -1;
             while(input != 0)
@@ -73,7 +73,7 @@ namespace CookBook.Console
                                 System.Console.WriteLine(recipe.AverageRating);
                                 System.Console.WriteLine("Comments:");
                                 CommentController commentController = new CommentController(kernel.Get<CommentService>());
-                                var comments = commentController.GetComments(id);
+                                var comments = commentController.GetCommentsAsync(id);
                                 foreach (var comment in comments)
                                 {
                                     System.Console.WriteLine("--------------------------------------------------------");
@@ -119,7 +119,7 @@ namespace CookBook.Console
                             };
                             try
                             {
-                                usersController.CreateUserAsync(register);
+                                usersController.CreateUserAsync(register).Wait();
                             }
                             catch (Exception e)
                             {
@@ -189,14 +189,14 @@ namespace CookBook.Console
                         {
                             if(userEmail != null)
                             {
-                                AuthMenuAsync(kernel);
+                                AuthMenuAsync(kernel).Wait();
                             }
                             break;
                         }
                     case 7:
                         {
                             if(userRoles.Contains("admin"))
-                                AdminMenuAsync(kernel);
+                                AdminMenuAsync(kernel).Wait();
                             break;
                         }
                     case 0:

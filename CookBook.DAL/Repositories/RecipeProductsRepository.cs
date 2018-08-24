@@ -26,22 +26,36 @@ namespace CookBook.DAL.Repositories
 
         public IEnumerable<RecipeProduct> Find(Func<RecipeProduct, bool> predicate)
         {
-            return mobileContext.RecipeProducts.Where(predicate).ToList();
+            var products = mobileContext.RecipeProducts.Where(predicate).ToList();
+            foreach(var product in products)
+            {
+                SetProductRelationship(product);
+            }
+            return products;
         }
 
         public RecipeProduct FirstOrDefault(Func<RecipeProduct, bool> predicate)
         {
-            return mobileContext.RecipeProducts.FirstOrDefault(predicate);
+            var product = mobileContext.RecipeProducts.FirstOrDefault(predicate);
+            SetProductRelationship(product);
+            return product;
         }
 
         public RecipeProduct Get(int id)
         {
-            return mobileContext.RecipeProducts.First(d => d.Id == id);
+            var product = mobileContext.RecipeProducts.First(d => d.Id == id);
+            SetProductRelationship(product);
+            return product;
         }
 
         public IEnumerable<RecipeProduct> GetAll()
         {
-            return mobileContext.RecipeProducts;
+            var products = mobileContext.RecipeProducts;
+            foreach (var product in products)
+            {
+                SetProductRelationship(product);
+            }
+            return products;
         }
 
         public void Remove(int id)
@@ -71,6 +85,13 @@ namespace CookBook.DAL.Repositories
                 recipeProduct.ProductId = item.ProductId;
                 recipeProduct.Quantity = item.Quantity;
             }
+        }
+
+        private RecipeProduct SetProductRelationship(RecipeProduct recipeProduct)
+        {
+            recipeProduct.UserProduct = mobileContext.Products.First(p => p.Id == recipeProduct.ProductId);
+            recipeProduct.UserRecipe = mobileContext.Recipes.First(p => p.Id == recipeProduct.RecipeId);
+            return recipeProduct;
         }
     }
 }

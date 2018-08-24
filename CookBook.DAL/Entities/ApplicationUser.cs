@@ -17,7 +17,7 @@ namespace CookBook.DAL.Entities
         [XmlIgnore]
         public List<RecipeRating> RecipesRatings { get; set; }
         [XmlIgnore]
-        public double? AverageRating { get; set; }
+        public double AverageRating { get; set; }
         public string Information { get; set; }
 
         public ApplicationUser()

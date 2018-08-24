@@ -28,22 +28,36 @@ namespace CookBook.DAL.Repositories
 
         public IEnumerable<Recipe> Find(Func<Recipe, bool> predicate)
         {
-            return mobileContext.Recipes.Where(predicate).ToList();
+            var recipes = mobileContext.Recipes.Where(predicate).ToList();
+            foreach(var recipe in recipes)
+            {
+                SetRecipeRelationship(recipe);
+            }
+            return recipes;
         }
 
         public Recipe FirstOrDefault(Func<Recipe, bool> predicate)
         {
-            return mobileContext.Recipes.FirstOrDefault(predicate);
+            var recipe = mobileContext.Recipes.FirstOrDefault(predicate);
+            SetRecipeRelationship(recipe);
+            return recipe;
         }
 
         public Recipe Get(int id)
         {
-            return mobileContext.Recipes.First(u => u.Id == id);
+            var recipe = mobileContext.Recipes.First(u => u.Id == id);
+            SetRecipeRelationship(recipe);
+            return recipe;
         }
 
         public IEnumerable<Recipe> GetAll()
         {
-            return mobileContext.Recipes;
+            var recipes = mobileContext.Recipes.ToList();
+            foreach (var recipe in recipes)
+            {
+                SetRecipeRelationship(recipe);
+            }
+            return recipes;
         }
 
         public void Remove(int id)
@@ -80,6 +94,16 @@ namespace CookBook.DAL.Repositories
                 recipe.Creator = item.Creator;
                 recipe.IngredientType = item.IngredientType;
             }
+        }
+
+        private Recipe SetRecipeRelationship(Recipe recipe)
+        {
+            recipe.Creator = mobileContext.Users.First(p => p.Id == recipe.CreatorId);
+            recipe.Category = mobileContext.Categories.First(p => p.Id == recipe.CategoryId);
+            recipe.CookingMethod = mobileContext.CookingMethods.First(p => p.Id == recipe.CookingMethodId);
+            recipe.Country = mobileContext.СuisineСountries.First(p => p.Id == recipe.CountryId);
+            recipe.IngredientType = mobileContext.IngredientTypes.First(p => p.Id == recipe.IngredientTypeId);
+            return recipe;
         }
     }
 }

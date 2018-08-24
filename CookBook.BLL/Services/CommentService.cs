@@ -40,7 +40,8 @@ namespace CookBook.BLL.Services
         public List<CommentDTO> GetRecipeComments(int id)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Comment, CommentDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<Comment>, List<CommentDTO>>(database.RecipeManager.Get(id).Comments);
+            var comments = mapper.Map<IEnumerable<Comment>, List<CommentDTO>>(database.CommentManager.Find(p => p.RecipeId == id));
+            return comments;
         }
     }
 }

@@ -28,22 +28,36 @@ namespace CookBook.DAL.Repositories
 
         public IEnumerable<Comment> Find(Func<Comment, bool> predicate)
         {
-            return mobileContext.Comments.Where(predicate).ToList();
+            var comments = mobileContext.Comments.Where(predicate).ToList();
+            foreach(var comment in comments)
+            {
+                SetCommentRelationship(comment);
+            }
+            return comments;
         }
 
         public Comment FirstOrDefault(Func<Comment, bool> predicate)
         {
-            return mobileContext.Comments.FirstOrDefault(predicate);
+            var comment = mobileContext.Comments.FirstOrDefault(predicate);
+            SetCommentRelationship(comment);
+            return comment;
         }
 
         public Comment Get(int id)
         {
-            return mobileContext.Comments.First(p => p.Id == id);
+            var comment = mobileContext.Comments.First(p => p.Id == id);
+            SetCommentRelationship(comment);
+            return comment;
         }
 
         public IEnumerable<Comment> GetAll()
         {
-            return mobileContext.Comments;
+            var comments = mobileContext.Comments;
+            foreach (var comment in comments)
+            {
+                SetCommentRelationship(comment);
+            }
+            return comments;
         }
 
         public void Remove(int id)
@@ -71,6 +85,13 @@ namespace CookBook.DAL.Repositories
             {
                 comment.Content = item.Content;
             }
+        }
+
+        private Comment SetCommentRelationship(Comment comment)
+        {
+            comment.Creator = mobileContext.Users.First(p => p.Id == comment.CreatorId);
+            comment.Recipe = mobileContext.Recipes.First(p => p.Id == comment.RecipeId);
+            return comment;
         }
     }
 }
