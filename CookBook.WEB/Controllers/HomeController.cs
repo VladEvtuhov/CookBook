@@ -1,18 +1,33 @@
 ﻿using CookBook.BLL.Interfaces;
-using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace CookBook.WEB.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ICategoryService categoryService;
-        public HomeController(ICategoryService service)
+        private readonly IUserRoleService userRoleService;
+        public HomeController(IUserRoleService roleService)
         {
-            categoryService = service;
+            userRoleService = roleService;
+        }
+        public ActionResult Index()
+        {
+            //var a = await userRoleService.GetUserRolesAsync("nyti96@gmail.com");
+            return View();
         }
 
-        public IActionResult Index()
+        public ActionResult About()
         {
+            ViewBag.Message = "Your application description page.";
+
+            return View();
+        }
+
+        public ActionResult Contact()
+        {
+            ViewBag.Message = "Your contact page.";
+
             return View();
         }
     }

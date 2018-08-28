@@ -1,0 +1,99 @@
+﻿body {
+    color: #999;
+    background: #f5f5f5;
+    font-family: 'Roboto', sans-serif;
+}
+
+.form-control, .form-control:focus, .input-group-addon {
+    border-color: #e1e1e1;
+    border-radius: 0;
+}
+
+.sign-form {
+    width: 390px;
+    margin: 50px auto;
+    padding: 30px 0;
+}
+
+    .sign-form h2 {
+        color: #636363;
+        margin: 0 0 15px;
+        text-align: center;
+    }
+
+    .sign-form .lead {
+        font-size: 14px;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    .sign-form form {
+        border-radius: 1px;
+        margin-bottom: 15px;
+        background: #fff;
+        border: 1px solid #f3f3f3;
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+        padding: 30px;
+    }
+
+    .sign-form .form-group {
+        margin-bottom: 20px;
+    }
+
+    .sign-form label {
+        font-weight: normal;
+        font-size: 13px;
+    }
+
+    .sign-form .form-control {
+        min-height: 38px;
+        box-shadow: none !important;
+        border-width: 0 0 1px 0;
+    }
+
+    .sign-form .input-group-addon {
+        max-width: 42px;
+        text-align: center;
+        background: none;
+        border-width: 0 0 1px 0;
+        padding-left: 5px;
+    }
+
+    .sign-form .btn {
+        font-size: 16px;
+        font-weight: bold;
+        background: #19aa8d;
+        border-radius: 3px;
+        border: none;
+        min-width: 140px;
+        outline: none !important;
+    }
+
+        .sign-form .btn:hover, .sign-form .btn:focus {
+            background: #179b81;
+        }
+
+    .sign-form a {
+        color: #19aa8d;
+        text-decoration: none;
+    }
+
+        .sign-form a:hover {
+            text-decoration: underline;
+        }
+
+    .sign-form .fa {
+        font-size: 21px;
+    }
+
+    .sign-form .fa-paper-plane {
+        font-size: 17px;
+    }
+
+    .sign-form .fa-check {
+        color: #fff;
+        left: 9px;
+        top: 18px;
+        font-size: 7px;
+        position: absolute;
+    }
