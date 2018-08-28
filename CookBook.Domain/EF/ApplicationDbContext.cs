@@ -6,10 +6,10 @@ namespace CookBook.Domain.EF
 {
     public class ApplicationDbContext: IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext()
-            : base("CookBook")
+        public ApplicationDbContext(string connectionString)
+            : base(connectionString)
         {
-            if(!Database.Exists("CookBook"))
+            if(!Database.Exists(connectionString))
                 Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, DataContextConfiguration>());
         }
 

@@ -804,7 +804,7 @@ namespace CookBook.Console
         public static IKernel Binding()
         {
             NinjectModule roleModule = new BindModule();
-            NinjectModule serviceModule = new ServiceModule("CookBook");
+            NinjectModule serviceModule = new ServiceModule("data source=(localdb)\\MSSQLLocalDB;Initial Catalog=cookbook.mdf;Integrated Security=SSPI;");
             return new StandardKernel(roleModule, serviceModule);
         }
     }

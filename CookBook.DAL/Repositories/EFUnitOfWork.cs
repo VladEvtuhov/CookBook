@@ -22,9 +22,9 @@ namespace CookBook.DAL.Repositories
         private CommentsRepository commentManager;
         private RecipeRatingsRepository recipeRatingManager;
 
-        public EFUnitOfWork()
+        public EFUnitOfWork(string connectionString)
         {
-            applicationDbContext = new ApplicationDbContext();
+            applicationDbContext = new ApplicationDbContext(connectionString);
             userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(applicationDbContext));
             roleManager = new ApplicationRoleManager(new RoleStore<IdentityRole>(applicationDbContext));
             productManager = new ProductsRepository(applicationDbContext);
