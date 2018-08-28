@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EF\ApplicationDbContext.cs" />
+    <Compile Include="EF\DataContextConfiguration.cs" />
     <Compile Include="Entities\ApplicationUser.cs" />
     <Compile Include="Entities\Category.cs" />
     <Compile Include="Entities\Comment.cs" />
@@ -64,11 +65,23 @@
     <Compile Include="Entities\RecipeProduct.cs" />
     <Compile Include="Entities\RecipeRating.cs" />
     <Compile Include="Entities\СuisineСountry.cs" />
+    <Compile Include="Identity\ApplicationRoleManager.cs" />
+    <Compile Include="Identity\ApplicationUserManager.cs" />
+    <Compile Include="Migrations\201808231133094_Initial.cs" />
+    <Compile Include="Migrations\201808231133094_Initial.Designer.cs">
+      <DependentUpon>201808231133094_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201808231133094_Initial.resx">
+      <DependentUpon>201808231133094_Initial.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Xml.Serialization;
 
-namespace CookBook.DAL.Entities
+namespace CookBook.Domain.Entities
 {
     public class Recipe
     {
@@ -18,11 +17,8 @@ namespace CookBook.DAL.Entities
         public string ImageUrl { get; set; }
         public string CreatorId { get; set; }
         public ApplicationUser Creator { get; set; }
-        [XmlIgnore]
         public List<RecipeRating> RecipesRatings { get; set; }
-        [XmlIgnore]
         public List<Comment> Comments { get; set; }
-        [XmlIgnore]
         public List<RecipeProduct> Products { get; set; }
         public int CookingMethodId { get; set; }
         public CookingMethod CookingMethod { get; set; }

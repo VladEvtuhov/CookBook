@@ -1,19 +1,21 @@
-namespace CookBook.DAL.Migrations
-{
-    using CookBook.DAL.Entities;
-    using Microsoft.AspNet.Identity;
-    using Microsoft.AspNet.Identity.EntityFramework;
-    using System.Data.Entity.Migrations;
-    using System.Linq;
+﻿using CookBook.Domain.Entities;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity.Migrations;
+using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<CookBook.DAL.EF.ApplicationDbContext>
+namespace CookBook.Domain.EF
+{
+    sealed class DataContextConfiguration : DbMigrationsConfiguration<ApplicationDbContext>
     {
-        public Configuration()
+        public DataContextConfiguration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = true;
+            ContextKey = "CookBook";
         }
 
-        protected override void Seed(CookBook.DAL.EF.ApplicationDbContext context)
+        protected override void Seed(ApplicationDbContext context)
         {
             var roleStore = new RoleStore<IdentityRole>(context);
             var roleManager = new RoleManager<IdentityRole>(roleStore);

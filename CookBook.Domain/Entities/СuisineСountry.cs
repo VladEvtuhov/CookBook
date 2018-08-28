@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CookBook.DAL.Entities
+namespace CookBook.Domain.Entities
 {
     public class СuisineСountry
     {

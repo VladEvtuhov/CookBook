@@ -1,7 +1,7 @@
-﻿using CookBook.DAL.Entities;
+﻿using CookBook.Domain.Entities;
 using Microsoft.AspNet.Identity;
 
-namespace CookBook.DAL.Identity
+namespace CookBook.Domain.Identity
 {
     public class ApplicationUserManager: UserManager<ApplicationUser>
     {

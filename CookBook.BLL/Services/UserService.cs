@@ -2,14 +2,12 @@
 using CookBook.BLL.DTO;
 using CookBook.BLL.Infrastructure;
 using CookBook.BLL.Interfaces;
-using CookBook.DAL.Entities;
 using CookBook.DAL.Interfaces;
+using CookBook.Domain.Entities;
 using Microsoft.AspNet.Identity;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CookBook.BLL.Services

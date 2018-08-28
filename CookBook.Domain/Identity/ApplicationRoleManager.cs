@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
-namespace CookBook.DAL.Identity
+namespace CookBook.Domain.Identity
 {
     public class ApplicationRoleManager: RoleManager<IdentityRole>
     {

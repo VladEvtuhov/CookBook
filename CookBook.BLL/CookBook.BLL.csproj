@@ -87,7 +87,6 @@
     <Compile Include="Interfaces\IRecipeRatingService.cs" />
     <Compile Include="Interfaces\IRecipeService.cs" />
     <Compile Include="Interfaces\IRoleService.cs" />
-    <Compile Include="Interfaces\IServiceModule.cs" />
     <Compile Include="Interfaces\IUserRoleService.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -112,6 +111,10 @@
     <ProjectReference Include="..\CookBook.DAL\CookBook.DAL.csproj">
       <Project>{44215a70-41aa-4d4d-ae8c-2f63b225260b}</Project>
       <Name>CookBook.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CookBook.Domain\CookBook.Domain.csproj">
+      <Project>{68B18006-0135-407E-8CEA-4505F0305FAF}</Project>
+      <Name>CookBook.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

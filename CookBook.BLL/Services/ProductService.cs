@@ -2,8 +2,8 @@
 using CookBook.BLL.DTO;
 using CookBook.BLL.Infrastructure;
 using CookBook.BLL.Interfaces;
-using CookBook.DAL.Entities;
 using CookBook.DAL.Interfaces;
+using CookBook.Domain.Entities;
 using System.Collections.Generic;
 
 namespace CookBook.BLL.Services

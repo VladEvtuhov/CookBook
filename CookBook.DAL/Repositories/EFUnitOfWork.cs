@@ -1,9 +1,9 @@
-﻿using CookBook.DAL.EF;
-using CookBook.DAL.Identity;
-using CookBook.DAL.Interfaces;
-using CookBook.DAL.Entities;
+﻿using CookBook.DAL.Interfaces;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity;
+using CookBook.Domain.Entities;
+using CookBook.Domain.EF;
+using CookBook.Domain.Identity;
 
 namespace CookBook.DAL.Repositories
 {
@@ -48,10 +48,7 @@ namespace CookBook.DAL.Repositories
             get { return roleManager; }
         }
 
-        public IRepository<Product> ProductManager
-        {
-            get { return productManager; }
-        }
+        public IRepository<Product> ProductManager => productManager;
 
         public IRepository<Category> CategoryManager
         {

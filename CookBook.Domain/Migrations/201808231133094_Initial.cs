@@ -1,4 +1,4 @@
-namespace CookBook.DAL.Migrations
+namespace CookBook.Domain.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;

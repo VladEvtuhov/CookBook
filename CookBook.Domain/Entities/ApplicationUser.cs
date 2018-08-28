@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace CookBook.DAL.Entities
+namespace CookBook.Domain.Entities
 {
     public class ApplicationUser: IdentityUser
     {

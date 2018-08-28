@@ -1,14 +1,16 @@
-﻿using CookBook.DAL.Entities;
+﻿using CookBook.Domain.Entities;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
 
-namespace CookBook.DAL.EF
+namespace CookBook.Domain.EF
 {
     public class ApplicationDbContext: IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
             : base("CookBook")
         {
+            if(!Database.Exists("CookBook"))
+                Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, DataContextConfiguration>());
         }
 
         public DbSet<Recipe> Recipes { get; set; }
@@ -23,7 +25,7 @@ namespace CookBook.DAL.EF
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            
+
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Product>().Property(e => e.Name).IsRequired();
