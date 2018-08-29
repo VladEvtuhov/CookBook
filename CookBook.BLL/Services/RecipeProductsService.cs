@@ -30,11 +30,11 @@ namespace CookBook.BLL.Services
             return products;
         }
 
-        public void UpdateProducts(int id, List<RecipeProductDTO> products)
+        public OperationDetails UpdateProducts(int id, List<RecipeProductDTO> products)
         {
             var recipe = database.RecipeManager.Get(id);
             if (recipe == null)
-                throw new ValidationException("Recipe not found", "");
+                return new OperationDetails(false, "Recipe not found", "");
             foreach(var product in recipe.Products)
             {
                 database.RecipeProductManager.Remove(database.RecipeProductManager.FirstOrDefault(s => s.ProductId == product.Id && s.RecipeId == id));
@@ -52,6 +52,7 @@ namespace CookBook.BLL.Services
                 }
                 AddProduct(product.Quantity, recipe.Id, _product.Id);
             }
+            return new OperationDetails(true, "Products updated successfully", "");
         }
 
         private void AddProduct(string quantity, int recipeId, int productId)
@@ -65,7 +66,6 @@ namespace CookBook.BLL.Services
                 Quantity = quantity
             };
             database.RecipeProductManager.Create(recipeProduct);
-            //recipe.Products.Add(product);
             database.Save();
         }
     }

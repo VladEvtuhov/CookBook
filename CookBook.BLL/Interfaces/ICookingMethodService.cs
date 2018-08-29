@@ -1,4 +1,5 @@
 ﻿using CookBook.BLL.DTO;
+using CookBook.BLL.Infrastructure;
 using System.Collections.Generic;
 
 namespace CookBook.BLL.Interfaces
@@ -6,6 +7,6 @@ namespace CookBook.BLL.Interfaces
     public interface ICookingMethodService
     {
         IEnumerable<CookingMethodDTO> GetAll();
-        void SetCookingMethod(string name);
+        OperationDetails SetCookingMethod(string name);
     }
 }

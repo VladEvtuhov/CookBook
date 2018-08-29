@@ -54,15 +54,16 @@ namespace CookBook.BLL.Services
             return info;
         }
 
-        public void Remove(int id)
+        public OperationDetails Remove(int id)
         {
             if (database.RecipeManager.FirstOrDefault(r => r.Id == id) == null)
-                throw new ValidationException("Recipe not found", "");
+                return new OperationDetails(false, "Recipe not found", "");
             database.RecipeManager.Remove(id);
             database.Save();
+            return new OperationDetails(true, "Recipe removed successfully", "");
         }
 
-        private async System.Threading.Tasks.Task<Recipe> SetRecipeAsync(CreateRecipeDTO recipeDTO)
+        private async Task<Recipe> SetRecipeAsync(CreateRecipeDTO recipeDTO)
         {
             var category = database.CategoryManager.FirstOrDefault(c => c.Name == recipeDTO.Category);
             var country = database.CitchenCountryManager.FirstOrDefault(c => c.Name == recipeDTO.Country);

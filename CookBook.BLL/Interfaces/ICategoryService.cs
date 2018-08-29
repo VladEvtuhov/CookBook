@@ -1,4 +1,5 @@
 ﻿using CookBook.BLL.DTO;
+using CookBook.BLL.Infrastructure;
 using System.Collections.Generic;
 
 namespace CookBook.BLL.Interfaces
@@ -6,6 +7,6 @@ namespace CookBook.BLL.Interfaces
     public interface ICategoryService
     {
         IEnumerable<CategoryDTO> GetAll();
-        void SetCategory(string name);
+        OperationDetails SetCategory(string name);
     }
 }

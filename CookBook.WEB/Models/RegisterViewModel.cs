@@ -6,6 +6,7 @@ namespace CookBook.WEB.Models
     {
         [Required(ErrorMessage = "Email is required.")]
         public string Email { get; set; }
+        [MinLength(6, ErrorMessage ="Password length should be more than 6 characters")]
         [Required(ErrorMessage = "Password is required.")]
         public string Password { get; set; }
         [Required(ErrorMessage = "Confirmation Password is required.")]

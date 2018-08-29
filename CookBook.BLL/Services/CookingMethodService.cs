@@ -22,17 +22,18 @@ namespace CookBook.BLL.Services
             return mapper.Map<IEnumerable<CookingMethod>, List<CookingMethodDTO>>(database.CookingMethodManager.GetAll());
         }
 
-        public void SetCookingMethod(string name)
+        public OperationDetails SetCookingMethod(string name)
         {
             var cook = database.CookingMethodManager.FirstOrDefault(c => c.Name == name);
             if (cook != null)
-                throw new ValidationException("Category is already exist", "");
+                return new OperationDetails(false, "Cooking method is already exist", "");
             cook = new CookingMethod()
             {
                 Name = name
             };
             database.CookingMethodManager.Create(cook);
             database.Save();
+            return new OperationDetails(true, "Cooking method created successfully", "");
         }
     }
 }

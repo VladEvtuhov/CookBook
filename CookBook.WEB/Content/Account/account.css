@@ -9,6 +9,11 @@
     border-radius: 0;
 }
 
+.error{
+    font-size:15px;
+    color: red;
+}
+
 .sign-form {
     width: 390px;
     margin: 50px auto;
@@ -47,7 +52,7 @@
 
     .sign-form .form-control {
         min-height: 38px;
-        box-shadow: none !important;
+        box-shadow: none;
         border-width: 0 0 1px 0;
     }
 
@@ -66,7 +71,7 @@
         border-radius: 3px;
         border: none;
         min-width: 140px;
-        outline: none !important;
+        outline: none;
     }
 
         .sign-form .btn:hover, .sign-form .btn:focus {

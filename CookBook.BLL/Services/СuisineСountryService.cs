@@ -22,17 +22,18 @@ namespace CookBook.BLL.Services
             return mapper.Map<IEnumerable<СuisineСountry>, List<СuisineСountryDTO>>(database.CitchenCountryManager.GetAll());
         }
 
-        public void SetCountry(string name)
+        public OperationDetails SetCountry(string name)
         {
             var country = database.CitchenCountryManager.FirstOrDefault(c => c.Name == name);
             if (country != null)
-                throw new ValidationException("Country is already exist", "");
+                return new OperationDetails(false, "Cuisine country is already exist", "");
             country = new СuisineСountry()
             {
                 Name = name
             };
             database.CitchenCountryManager.Create(country);
             database.Save();
+            return new OperationDetails(true, "Cuisine country created successfully", "");
         }
     }
 }

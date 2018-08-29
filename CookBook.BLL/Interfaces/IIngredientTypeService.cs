@@ -1,4 +1,5 @@
 ﻿using CookBook.BLL.DTO;
+using CookBook.BLL.Infrastructure;
 using System.Collections.Generic;
 
 namespace CookBook.BLL.Interfaces
@@ -6,6 +7,6 @@ namespace CookBook.BLL.Interfaces
     public interface IIngredientTypeService
     {
         IEnumerable<IngredientTypeDTO> GetAll();
-        void SetIngredientType(string name);
+        OperationDetails SetIngredientType(string name);
     }
 }

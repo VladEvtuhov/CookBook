@@ -17,12 +17,12 @@ namespace CookBook.BLL.Services
             database = _database;
         }
 
-        public async Task CreateCommentAsync(int id, string email, string message)
+        public async Task<OperationDetails> CreateCommentAsync(int id, string email, string message)
         {
             var recipe = database.RecipeManager.FirstOrDefault(r => r.Id == id);
             var user = await database.UserManager.FindByEmailAsync(email);
             if (recipe == null || user == null)
-                throw new ValidationException("Unknown information", "");
+                return new OperationDetails(false, "User or recipe not found", "");
             Comment comment = new Comment()
             {
                 CreatorId = user.Id,
@@ -33,6 +33,7 @@ namespace CookBook.BLL.Services
             };
             database.CommentManager.Create(comment);
             database.Save();
+            return new OperationDetails(true, "Comment created successfully", "");
         }
 
         public List<CommentDTO> GetRecipeComments(int id)

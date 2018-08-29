@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using CookBook.BLL.Infrastructure;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace CookBook.BLL.Interfaces
 {
     public interface IRoleService
     {
-        Task CreateRoleAsync(string role);
+        Task<OperationDetails> CreateRoleAsync(string role);
         IEnumerable<string> GetRoles();
-        Task RemoveRoleAsync(string role);
+        Task<OperationDetails> RemoveRoleAsync(string role);
     }
 }

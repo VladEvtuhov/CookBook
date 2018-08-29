@@ -16,16 +16,38 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">RECIPES</a>
                 </li>
+                @if (User.IsInRole("admin"))
+                {
+                    <li class="nav-item">
+                        @Html.ActionLink("ADMIN", "AdminProfile", "Admin", new object { },
+     new { @class = "nav-link" })
+                    </li>
+                }
             </ul>
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    @Html.ActionLink("REGISTER", "Register", "Account", new object { },
-new { @class = "nav-link" })
-                </li>
-                <li class="nav-item">
-                    @Html.ActionLink("LOGIN", "Login", "Account", new object { },
-new { @class = "nav-link" })
-                </li>
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item">
+                        @Html.ActionLink("REGISTER", "Register", "Account", new object { },
+     new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("LOGIN", "Login", "Account", new object { },
+     new { @class = "nav-link" })
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item">
+                        @Html.ActionLink("PROFILE", "UserProfile", "Profile", new object { },
+     new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("LOGOUT", "Logout", "Account", new object { },
+     new { @class = "nav-link" })
+                    </li>
+                }
+
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
@@ -43,6 +65,7 @@ new { @class = "nav-link" })
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/unobtrusive")
     @RenderSection("scripts", required: false)
 </body>
 </html>

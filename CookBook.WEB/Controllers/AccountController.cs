@@ -2,8 +2,10 @@
 using CookBook.BLL.DTO;
 using CookBook.BLL.Interfaces;
 using CookBook.WEB.Models;
-using System;
+using Microsoft.Owin.Security;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 
 namespace CookBook.WEB.Controllers
@@ -23,9 +25,33 @@ namespace CookBook.WEB.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(LoginViewModel model)
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Login(LoginViewModel model)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                ClaimsIdentity claim = await userService.LoginAsync(model.Email, model.Password);
+                if (claim == null)
+                {
+                    ModelState.AddModelError("", "Incorrect login or password");
+                }
+                else
+                {
+                    AuthenticationManager.SignOut();
+                    AuthenticationManager.SignIn(new AuthenticationProperties
+                    {
+                        IsPersistent = true
+                    }, claim);
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            return View(model);
+        }
+
+        public ActionResult Logout()
+        {
+            AuthenticationManager.SignOut();
+            return RedirectToAction("Login");
         }
 
         [HttpGet]
@@ -35,22 +61,26 @@ namespace CookBook.WEB.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            if(model.Password == model.ConfirmPassword)
+            if (ModelState.IsValid)
             {
                 var mapper = new MapperConfiguration(cfg => cfg.CreateMap<RegisterViewModel, RegisterUserDTO>()).CreateMapper();
                 var registerModel = mapper.Map<RegisterViewModel, RegisterUserDTO>(model);
-                try
-                {
-                    await userService.CreateUserAsync(registerModel);
-                }catch(Exception e)
-                {
-                    ViewData["error"] = e.Message;
-                }
-            }else
-                ViewData["error"] = "Passwords don't match";
-            return View();
+                var modelState = await userService.CreateUserAsync(registerModel);
+                if (!modelState.Succedeed)
+                    ModelState.AddModelError(modelState.Property, modelState.Message);
+            }
+            return View(model);
+        }
+
+        private IAuthenticationManager AuthenticationManager
+        {
+            get
+            {
+                return HttpContext.GetOwinContext().Authentication;
+            }
         }
     }
 }

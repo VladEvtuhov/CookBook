@@ -36,14 +36,14 @@ namespace CookBook.BLL.Services
             database.Save();
         }
 
-        public async Task CreateUserAsync(RegisterUserDTO registerUserDTO)
+        public async Task<OperationDetails> CreateUserAsync(RegisterUserDTO registerUserDTO)
         {
             CheckOnValidEmail(registerUserDTO.Email);
             if (registerUserDTO.Password.Length < 6)
-                throw new ValidationException("min password length = 6", "");
+                return new OperationDetails(false, "min password length = 6", "");
             var user = await database.UserManager.FindByEmailAsync(registerUserDTO.Email);
             if (user != null)
-                throw new ValidationException("User is already exist", "");
+                return new OperationDetails(false, "User is already exist", "");
             user = new ApplicationUser()
             {
                 Email = registerUserDTO.Email,
@@ -51,9 +51,10 @@ namespace CookBook.BLL.Services
             };
             var result = await database.UserManager.CreateAsync(user, registerUserDTO.Password);
             if (result.Errors.Count() > 0)
-                throw new ValidationException(result.Errors.FirstOrDefault(), "");
+                return new OperationDetails(false, result.Errors.FirstOrDefault(), "");
             await database.UserManager.AddToRoleAsync(user.Id, "reader");
             database.Save();
+            return new OperationDetails(true, "User created successfully", "");
         }
 
         public async Task DeleteUserAsync(string email)
@@ -64,14 +65,15 @@ namespace CookBook.BLL.Services
             database.Save();
         }
 
-        public async Task RestoreUserAsync(string email)
+        public async Task<OperationDetails> RestoreUserAsync(string email)
         {
             var user = await GetCurrentUserAsync(email);
             if (user == null)
-                throw new ValidationException("User not found", "");
+                return new OperationDetails(false, "User not found", "");
             user.IsDeleted = false;
             await database.UserManager.UpdateAsync(user);
             database.Save();
+            return new OperationDetails(true, "User restored successfully", "");
         }
 
         public async Task<UserDTO> GetUserByIdAsync(string id)

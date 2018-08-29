@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using CookBook.BLL.Infrastructure;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace CookBook.BLL.Interfaces
 {
     public interface IUserRoleService
     {
-        Task SetRoleAsync(string email, string role);
-        Task PickUpRoleAsync(string email, string role);
+        Task<OperationDetails> SetRoleAsync(string email, string role);
+        Task<OperationDetails> PickUpRoleAsync(string email, string role);
         Task<IList<string>> GetUserRolesAsync(string email);
     }
 }

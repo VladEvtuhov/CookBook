@@ -22,17 +22,18 @@ namespace CookBook.BLL.Services
             return mapper.Map<IEnumerable<IngredientType>, List<IngredientTypeDTO>>(database.IngridientTypeManager.GetAll());
         }
 
-        public void SetIngredientType(string name)
+        public OperationDetails SetIngredientType(string name)
         {
             var ingr = database.IngridientTypeManager.FirstOrDefault(c => c.Name == name);
             if (ingr != null)
-                throw new ValidationException("IngredientType is already exist", "");
+                return new OperationDetails(false, "Ingredient type is already exist", "");
             ingr = new IngredientType()
             {
                 Name = name
             };
             database.IngridientTypeManager.Create(ingr);
             database.Save();
+            return new OperationDetails(true, "Ingredient type created successfully", "");
         }
     }
 }

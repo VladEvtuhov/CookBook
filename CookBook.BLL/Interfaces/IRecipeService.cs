@@ -1,4 +1,5 @@
 ﻿using CookBook.BLL.DTO;
+using CookBook.BLL.Infrastructure;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,7 +11,7 @@ namespace CookBook.BLL.Interfaces
         IEnumerable<RecipesInfoDTO> GetUserRecipes(string email);
         RecipesInfoDTO Get(int id);
         Task CreateAsync(CreateRecipeDTO recipeDTO);
-        void Remove(int id);
+        OperationDetails Remove(int id);
         Task EditAsync(int id, CreateRecipeDTO recipeDTO);
     }
 }

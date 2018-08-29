@@ -16,16 +16,17 @@ namespace CookBook.BLL.Services
             database = _database;
         }
 
-        public void CreateProduct(ProductDTO productDTO)
+        public OperationDetails CreateProduct(ProductDTO productDTO)
         {
             if (database.ProductManager.FirstOrDefault(p => p.Name == productDTO.Name) != null)
-                throw new ValidationException("Product is already exist", "");
+                return new OperationDetails(false, "Product is already exist", "");
             var product = new Product()
             {
                 Name = productDTO.Name
             };
             database.ProductManager.Create(product);
             database.Save();
+            return new OperationDetails(true, "Product created successfully", "");
         }
 
         public IEnumerable<ProductDTO> GetProducts()
@@ -34,13 +35,14 @@ namespace CookBook.BLL.Services
             return mapper.Map<IEnumerable<Product>, List<ProductDTO>>(database.ProductManager.GetAll());
         }
 
-        public void RemoveProduct(ProductDTO productDTO)
+        public OperationDetails RemoveProduct(ProductDTO productDTO)
         {
             var product = database.ProductManager.FirstOrDefault(p => p.Name == productDTO.Name);
             if (product == null)
-                throw new ValidationException("Product not found", "");
+                return new OperationDetails(false, "Product not found", "");
             database.ProductManager.Remove(product);
             database.Save();
+            return new OperationDetails(true, "Product removed successfully", "");
         }
     }
 }

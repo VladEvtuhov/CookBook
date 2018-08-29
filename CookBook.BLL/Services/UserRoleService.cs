@@ -24,30 +24,32 @@ namespace CookBook.BLL.Services
             return roles;
         }
 
-        public async Task PickUpRoleAsync(string email, string _role)
+        public async Task<OperationDetails> PickUpRoleAsync(string email, string _role)
         {
             var user = await database.UserManager.FindByEmailAsync(email);
             var role = await database.RoleManager.FindByNameAsync(_role);
             if(user == null || role == null)
-                throw new ValidationException("Incorrect data", "");
+                return new OperationDetails(false, "User or Role not found", "");
             var userRole = database.UserManager.GetRolesAsync(user.Id);
             if(!userRole.Result.Contains(role.Name))
-                throw new ValidationException("User and role combination not found", "");
+                return new OperationDetails(false, "User and role combination not found", "");
             await database.UserManager.RemoveFromRoleAsync(user.Id, role.Name);
             database.Save();
+            return new OperationDetails(true, "Role pickuped successfully", "");
         }
 
-        public async Task SetRoleAsync(string email, string _role)
+        public async Task<OperationDetails> SetRoleAsync(string email, string _role)
         {
             var user = await database.UserManager.FindByEmailAsync(email);
             var role = await database.RoleManager.FindByNameAsync(_role);
             if (user == null || role == null)
-                throw new ValidationException("Incorrect data", "");
+                return new OperationDetails(false, "User or role not found", "");
             var userRole = database.UserManager.GetRolesAsync(user.Id);
             if (userRole.Result.Contains(role.Name))
-                throw new ValidationException("User already has this role", "");
+                return new OperationDetails(false, "User already has this role", "");
             await database.UserManager.AddToRoleAsync(user.Id, role.Name);
             database.Save();
+            return new OperationDetails(true, "Role was setted for user successfully", "");
         }
     }
 }
