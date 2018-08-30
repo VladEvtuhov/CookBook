@@ -28,10 +28,12 @@ namespace CookBook.BLL.Services
             database.Save();
         }
 
-        public async Task ChangeAboutUserAsync(string email, string about)
+        public async Task UpdateUserInformation(UserDTO userDTO)
         {
-            var user = await GetCurrentUserAsync(email);
-            user.Information = about;
+            var user = await GetCurrentUserAsync(userDTO.Email);
+            user.Information = userDTO.Information;
+            user.ImageUrl = userDTO.ImageUrl;
+            user.UserName = userDTO.UserName;
             await database.UserManager.UpdateAsync(user);
             database.Save();
         }

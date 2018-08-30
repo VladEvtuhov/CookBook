@@ -2,57 +2,40 @@
 @{
     Layout = null;
 }
-<div>
-    <h4>UserViewModel</h4>
+
+<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<link href="~/Content/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet">
+<script src="~/Scripts/bootstrap-editable/js/bootstrap-editable.js"></script>
+<script>
+    $.fn.editable.defaults.mode = 'inline';
+    $(document).ready(function () {
+        $('#username').editable({
+            type: "text",
+            url: "/Profile/UpdateInformation",
+            params: { name: $("#username").text() },
+            pk: "1"
+        });
+    });
+</script>
+<div style="margin-top:-30px;">
+    <h4>User information</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
+    <div class="row">
+        <div class="col-4">
+            @if (Model.ImageUrl != null)
+            {
+                <img src="@Model.ImageUrl" style="max-height:400px; max-width:100%" />
+            }
+            else
+            {
+                <img src="http://missingkids-stage.adobecqms.net/etc/clientlibs/ncmec/poster/images/poster/en_US/noPhotoAvailable.jpg" style="max-height:400px; max-width:100%" />
+            }
+        </div>
+        <div class="col-8">
+            <a href="#" id="username" name="UserName" data-title="Enter username">@Model.UserName</a>
 
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.UserName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UserName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Information)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Information)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AverageRating)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AverageRating)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ImageUrl)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ImageUrl)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.IsDeleted)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsDeleted)
-        </dd>
-
-    </dl>
+            <!--<a href="#" class="editable" data-type="text" data-pk="1" id="MiddleName" data-url="@Url.Action("InlineEdit", "User", new { Model.UserName})" data-title="Edit Middle Name">@Model.UserName</a>-->
+        </div>
+    </div>
 </div>

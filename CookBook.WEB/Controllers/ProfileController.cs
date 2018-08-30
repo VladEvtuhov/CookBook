@@ -30,7 +30,8 @@ namespace CookBook.WEB.Controllers
             UserViewModel profile = new UserViewModel();
             try
             {
-                profile = mapper.Map<UserDTO, UserViewModel>(await userService.GetUserByEmailAsync(email));
+                var a = await userService.GetUserByEmailAsync(email);
+                profile = mapper.Map<UserDTO, UserViewModel>(a);
             }
             catch
             {
@@ -40,6 +41,13 @@ namespace CookBook.WEB.Controllers
             return View(profile);
         }
 
-
+        [HttpPost]
+        public async Task<ActionResult> UpdateInformation(string name)
+        {
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<UserViewModel, UserDTO>()).CreateMapper();
+            //var info = mapper.Map<UserViewModel, UserDTO>(model);
+            //await userService.UpdateUserInformation(info);
+            return RedirectToAction("About");
+        }
     }
 }

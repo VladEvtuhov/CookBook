@@ -56,9 +56,11 @@ namespace CookBook.Console.Controllers
             return mapper.Map<UserDTO, UserViewModel>(await userService.GetUserByEmailAsync(email));
         }
         
-        public async Task SetAboutAsync(string email, string about)
+        public async Task SetAboutAsync(UserViewModel model)
         {
-            await userService.ChangeAboutUserAsync(email, about);
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<UserViewModel, UserDTO>()).CreateMapper();
+            var info = mapper.Map<UserViewModel, UserDTO>(model);
+            await userService.UpdateUserInformation(info);
         }
 
         public async Task<ClaimsIdentity> LoginAsync(string email, string password)
