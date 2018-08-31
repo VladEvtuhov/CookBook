@@ -8,18 +8,18 @@ using System.Collections.Generic;
 
 namespace CookBook.BLL.Services
 {
-    public class СuisineСountryService:IСuisineСountryService
+    public class CuisineСountryService:ICuisineСountryService
     {
         IUnitOfWork database;
-        public СuisineСountryService(IUnitOfWork _database)
+        public CuisineСountryService(IUnitOfWork _database)
         {
             database = _database;
         }
 
         public IEnumerable<СuisineСountryDTO> GetAll()
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<СuisineСountry, СuisineСountryDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<СuisineСountry>, List<СuisineСountryDTO>>(database.CitchenCountryManager.GetAll());
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<CuisineСountry, СuisineСountryDTO>()).CreateMapper();
+            return mapper.Map<IEnumerable<CuisineСountry>, List<СuisineСountryDTO>>(database.CitchenCountryManager.GetAll());
         }
 
         public OperationDetails SetCountry(string name)
@@ -27,7 +27,7 @@ namespace CookBook.BLL.Services
             var country = database.CitchenCountryManager.FirstOrDefault(c => c.Name == name);
             if (country != null)
                 return new OperationDetails(false, "Cuisine country is already exist", "");
-            country = new СuisineСountry()
+            country = new CuisineСountry()
             {
                 Name = name
             };

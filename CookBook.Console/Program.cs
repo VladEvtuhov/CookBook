@@ -503,7 +503,7 @@ namespace CookBook.Console
                         }
                     case 2:
                         {
-                            СuisineСountryController countryController = new СuisineСountryController(kernel.Get<СuisineСountryService>());
+                            СuisineСountryController countryController = new СuisineСountryController(kernel.Get<CuisineСountryService>());
                             var countries = countryController.GetAll();
                             foreach (var country in countries)
                             {
@@ -554,7 +554,7 @@ namespace CookBook.Console
                         {
                             System.Console.WriteLine("Enter a new country:");
                             var value = System.Console.ReadLine();
-                            СuisineСountryController countryController = new СuisineСountryController(kernel.Get<СuisineСountryService>());
+                            СuisineСountryController countryController = new СuisineСountryController(kernel.Get<CuisineСountryService>());
                             try
                             {
                                 countryController.SetCountry(value);

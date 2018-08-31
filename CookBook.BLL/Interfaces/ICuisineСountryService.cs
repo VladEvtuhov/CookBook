@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace CookBook.BLL.Interfaces
 {
-    public interface IСuisineСountryService
+    public interface ICuisineСountryService
     {
         IEnumerable<СuisineСountryDTO> GetAll();
         OperationDetails SetCountry(string name);

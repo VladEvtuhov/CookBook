@@ -20,7 +20,7 @@ namespace CookBook.Domain.EF
         public DbSet<IngredientType> IngredientTypes { get; set; }
         public DbSet<CookingMethod> CookingMethods { get; set; }
         public DbSet<Comment> Comments { get; set; }
-        public DbSet<СuisineСountry> СuisineСountries { get; set; }
+        public DbSet<CuisineСountry> CuisineСountries { get; set; }
         public DbSet<Category> Categories { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -32,7 +32,7 @@ namespace CookBook.Domain.EF
 
             modelBuilder.Entity<Category>().Property(e => e.Name).IsRequired();
 
-            modelBuilder.Entity<СuisineСountry>().Property(e => e.Name).IsRequired();
+            modelBuilder.Entity<CuisineСountry>().Property(e => e.Name).IsRequired();
 
             modelBuilder.Entity<CookingMethod>().Property(e => e.Name).IsRequired();
 

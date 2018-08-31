@@ -242,7 +242,7 @@
     <Compile Include="Repositories\CategoriesRepository.cs" />
     <Compile Include="Repositories\CommentsRepository.cs" />
     <Compile Include="Repositories\CookingMethodsRepository.cs" />
-    <Compile Include="Repositories\СuisineСountriesRepository.cs" />
+    <Compile Include="Repositories\CuisineСountriesRepository.cs" />
     <Compile Include="Repositories\EFUnitOfWork.cs" />
     <Compile Include="Repositories\IngridientTypesRepository.cs" />
     <Compile Include="Repositories\ProductsRepository.cs" />

@@ -11,7 +11,7 @@ namespace CookBook.DAL.Interfaces
         IRepository<Product> ProductManager { get; }
         IRepository<Category> CategoryManager { get; }
         IRepository<CookingMethod> CookingMethodManager { get; }
-        IRepository<СuisineСountry> CitchenCountryManager { get; }
+        IRepository<CuisineСountry> CitchenCountryManager { get; }
         IRepository<IngredientType> IngridientTypeManager { get; }
         IRepository<Recipe> RecipeManager { get; }
         IRepository<RecipeProduct> RecipeProductManager { get; }

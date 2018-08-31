@@ -26,6 +26,11 @@ namespace CookBook.DAL.Repositories
                 mobileContext.IngredientTypes.Add(item);
         }
 
+        public IEnumerable<IngredientType> Take(Func<IngredientType, bool> predicate, int skipCount, int takeCount)
+        {
+            return mobileContext.IngredientTypes.Where(predicate).OrderBy(s => s.Id).Skip(skipCount).Take(takeCount);
+        }
+
         public IEnumerable<IngredientType> Find(Func<IngredientType, bool> predicate)
         {
             return mobileContext.IngredientTypes.Where(predicate).ToList();

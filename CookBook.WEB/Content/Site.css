@@ -54,3 +54,7 @@ textarea {
     color: #ffca08;
 }
 /* Set yellow color when star hover */
+
+.input-information {
+    width: 400px;
+}

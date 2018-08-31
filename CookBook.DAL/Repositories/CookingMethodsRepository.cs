@@ -26,6 +26,11 @@ namespace CookBook.DAL.Repositories
                 mobileContext.CookingMethods.Add(item);
         }
 
+        public IEnumerable<CookingMethod> Take(Func<CookingMethod, bool> predicate, int skipCount, int takeCount)
+        {
+            return mobileContext.CookingMethods.Where(predicate).OrderBy(s => s.Id).Skip(skipCount).Take(takeCount);
+        }
+
         public IEnumerable<CookingMethod> Find(Func<CookingMethod, bool> predicate)
         {
             return mobileContext.CookingMethods.Where(predicate).ToList();

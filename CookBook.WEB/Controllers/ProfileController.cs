@@ -2,6 +2,7 @@
 using CookBook.BLL.DTO;
 using CookBook.BLL.Interfaces;
 using CookBook.WEB.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -10,10 +11,12 @@ namespace CookBook.WEB.Controllers
     public class ProfileController : Controller
     {
         private readonly IUserService userService;
+        private readonly IRecipeService recipeService;
 
-        public ProfileController(IUserService service)
+        public ProfileController(IUserService _userService, IRecipeService _recipeService)
         {
-            userService = service;
+            userService = _userService;
+            recipeService = _recipeService;
         }
 
         [HttpGet]
@@ -30,8 +33,7 @@ namespace CookBook.WEB.Controllers
             UserViewModel profile = new UserViewModel();
             try
             {
-                var a = await userService.GetUserByEmailAsync(email);
-                profile = mapper.Map<UserDTO, UserViewModel>(a);
+                profile = mapper.Map<UserDTO, UserViewModel>(await userService.GetUserByEmailAsync(email));
             }
             catch
             {
@@ -42,12 +44,25 @@ namespace CookBook.WEB.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> UpdateInformation(string name)
+        public async Task<ActionResult> UpdateUserName(string email, string value)
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<UserViewModel, UserDTO>()).CreateMapper();
-            //var info = mapper.Map<UserViewModel, UserDTO>(model);
-            //await userService.UpdateUserInformation(info);
+            await userService.UpdateUserInformation(email, User.Identity.Name, userName: value);
             return RedirectToAction("About");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> UpdateInformation(string email, string value)
+        {
+            await userService.UpdateUserInformation(email, User.Identity.Name, information: value);
+            return RedirectToAction("About");
+        }
+
+        public async Task<ActionResult> UserRecipes(string email = null, int page = 1)
+        {
+            email = email ?? User.Identity.Name;
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<RecipesInfoDTO, RecipesViewModel>()).CreateMapper();
+            var recipes = mapper.Map<IEnumerable<RecipesInfoDTO>, List<RecipesViewModel>>(await recipeService.GetUserRecipesAsync(email, page));
+            return View(recipes);
         }
     }
 }

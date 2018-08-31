@@ -32,10 +32,11 @@ namespace CookBook.BLL.Services
             database.Save();
         }
 
-        public IEnumerable<RecipesInfoDTO> GetUserRecipes(string email)
+        public async Task<IEnumerable<RecipesInfoDTO>> GetUserRecipesAsync(string email, int page)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Recipe, RecipesInfoDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<Recipe>, List<RecipesInfoDTO>>(database.RecipeManager.Find(n => n.Creator.Email == email));
+            var user = await database.UserManager.FindByEmailAsync(email);
+            return mapper.Map<IEnumerable<Recipe>, List<RecipesInfoDTO>>(database.RecipeManager.Take(p => p.CreatorId == user.Id, (page -1) * 4, 4));
         }
 
         public RecipesInfoDTO Get(int id)

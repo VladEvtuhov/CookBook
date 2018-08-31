@@ -8,7 +8,7 @@ namespace CookBook.BLL.Interfaces
     public interface IRecipeService
     {
         IEnumerable<RecipesInfoDTO> GetAll();
-        IEnumerable<RecipesInfoDTO> GetUserRecipes(string email);
+        Task<IEnumerable<RecipesInfoDTO>> GetUserRecipesAsync(string email, int page);
         RecipesInfoDTO Get(int id);
         Task CreateAsync(CreateRecipeDTO recipeDTO);
         OperationDetails Remove(int id);

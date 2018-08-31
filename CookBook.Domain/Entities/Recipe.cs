@@ -23,7 +23,7 @@ namespace CookBook.Domain.Entities
         public int CookingMethodId { get; set; }
         public CookingMethod CookingMethod { get; set; }
         public int CountryId { get; set; }
-        public СuisineСountry Country { get; set; }
+        public CuisineСountry Country { get; set; }
         public int IngredientTypeId { get; set; }
         public IngredientType IngredientType { get; set; }
 

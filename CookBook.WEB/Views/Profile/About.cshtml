@@ -4,7 +4,6 @@
 }
 
 <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 <link href="~/Content/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet">
 <script src="~/Scripts/bootstrap-editable/js/bootstrap-editable.js"></script>
 <script>
@@ -12,9 +11,18 @@
     $(document).ready(function () {
         $('#username').editable({
             type: "text",
-            url: "/Profile/UpdateInformation",
-            params: { name: $("#username").text() },
+            url: "/Profile/UpdateUserName",
+            params: { email: '@Model.Email' },
             pk: "1"
+        });
+    });
+    $(document).ready(function () {
+        $('#information').editable({
+            type: "textarea",
+            url: "/Profile/UpdateInformation",
+            params: { email: '@Model.Email' },
+            pk: "1",
+            inputclass: 'input-information'
         });
     });
 </script>
@@ -33,9 +41,48 @@
             }
         </div>
         <div class="col-8">
-            <a href="#" id="username" name="UserName" data-title="Enter username">@Model.UserName</a>
-
-            <!--<a href="#" class="editable" data-type="text" data-pk="1" id="MiddleName" data-url="@Url.Action("InlineEdit", "User", new { Model.UserName})" data-title="Edit Middle Name">@Model.UserName</a>-->
+            <div style="height:30px; float:right" id="rating">
+                @{
+                    var remain = Model.AverageRating - (int)Model.AverageRating;
+                    int i = 0;
+                    for (i = 0; i < (int)Model.AverageRating; i++)
+                    {
+                        <img src="~/Content/Images/icons8-star-filled-50.png" style="height:100%" />
+                    }
+                    if (remain != 0)
+                    {
+                        <img src="~/Content/Images/icons8-star-half-empty-50.png" style="height:100%" />
+                    }
+                    while (i < 5)
+                    {
+                        i++;
+                        <img src="~/Content/Images/icons8-star-50.png" style="height:100%" />
+                    }
+                }
+            </div>
+            <div style="margin-top:35px;">
+                <b>User Email:</b> @Model.Email<br /><br />
+                @if (User.IsInRole("admin") || User.Identity.Name == Model.Email)
+                {
+                    <b>
+                        User name:
+                    </b>
+                    <a href="#" style="color: black; font-size:16px;" id="username" name="UserName" data-title="Enter username">@Model.UserName</a><br /><br />
+                    <b>
+                        About me:
+                    </b>
+                    <a href="#" style="color: black; font-size:16px;" id="information" name="Information" data-title="Enter information">@Model.Information</a>
+                }
+                else
+                {
+                    <b>
+                        User name:
+                    </b>@Model.UserName<br /><br />
+                    <b>
+                        About me:
+                    </b>@Model.Information
+                }
+            </div>
         </div>
     </div>
 </div>

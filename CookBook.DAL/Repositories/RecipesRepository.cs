@@ -41,6 +41,11 @@ namespace CookBook.DAL.Repositories
             return recipe;
         }
 
+        public IEnumerable<Recipe> Take(Func<Recipe, bool> predicate, int skipCount, int takeCount)
+        {
+            return mobileContext.Recipes.Where(predicate).OrderBy(s => s.Id).Skip(skipCount).Take(takeCount);
+        }
+
         public Recipe Get(int id)
         {
             var recipe = mobileContext.Recipes.First(u => u.Id == id);
@@ -99,7 +104,7 @@ namespace CookBook.DAL.Repositories
             recipe.Creator = mobileContext.Users.First(p => p.Id == recipe.CreatorId);
             recipe.Category = mobileContext.Categories.First(p => p.Id == recipe.CategoryId);
             recipe.CookingMethod = mobileContext.CookingMethods.First(p => p.Id == recipe.CookingMethodId);
-            recipe.Country = mobileContext.СuisineСountries.First(p => p.Id == recipe.CountryId);
+            recipe.Country = mobileContext.CuisineСountries.First(p => p.Id == recipe.CountryId);
             recipe.IngredientType = mobileContext.IngredientTypes.First(p => p.Id == recipe.IngredientTypeId);
             return recipe;
         }

@@ -8,8 +8,8 @@ namespace CookBook.Console.Controllers
 {
     public class СuisineСountryController
     {
-        private readonly IСuisineСountryService countryService;
-        public СuisineСountryController(IСuisineСountryService _countryService)
+        private readonly ICuisineСountryService countryService;
+        public СuisineСountryController(ICuisineСountryService _countryService)
         {
             countryService = _countryService;
         }

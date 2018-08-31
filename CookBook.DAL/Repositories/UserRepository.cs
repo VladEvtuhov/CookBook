@@ -36,6 +36,11 @@ namespace CookBook.DAL.Repositories
             return mobileContext.Users.FirstOrDefault(predicate);
         }
 
+        public IEnumerable<ApplicationUser> Take(Func<ApplicationUser, bool> predicate, int skipCount, int takeCount)
+        {
+            return mobileContext.Users.Where(predicate).OrderBy(s => s.Id).Skip(skipCount).Take(takeCount);
+        }
+
         public ApplicationUser Get(int id)
         {
             //Todo: remove ToString();

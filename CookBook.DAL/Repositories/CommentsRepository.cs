@@ -34,6 +34,10 @@ namespace CookBook.DAL.Repositories
             return comments;
         }
 
+        public IEnumerable<Comment> Take(Func<Comment, bool> predicate, int skipCount, int takeCount)
+        {
+            return mobileContext.Comments.Where(predicate).OrderBy(s => s.Id).Skip(skipCount).Take(takeCount);
+        }
         public Comment FirstOrDefault(Func<Comment, bool> predicate)
         {
             var comment = mobileContext.Comments.FirstOrDefault(predicate);

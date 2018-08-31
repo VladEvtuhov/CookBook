@@ -42,6 +42,11 @@ namespace CookBook.DAL.Repositories
             return ratings;
         }
 
+        public IEnumerable<RecipeRating> Take(Func<RecipeRating, bool> predicate, int skipCount, int takeCount)
+        {
+            return mobileContext.RecipeRatings.Where(predicate).OrderBy(s => s.Id).Skip(skipCount).Take(takeCount);
+        }
+
         public RecipeRating FirstOrDefault(Func<RecipeRating, bool> predicate)
         {
             var rating = mobileContext.RecipeRatings.FirstOrDefault(predicate);

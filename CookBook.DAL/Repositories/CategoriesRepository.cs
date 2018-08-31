@@ -31,6 +31,11 @@ namespace CookBook.DAL.Repositories
             return mobileContext.Categories.Where(predicate).ToList();
         }
 
+        public IEnumerable<Category> Take(Func<Category, bool> predicate, int skipCount, int takeCount)
+        {
+            return mobileContext.Categories.Where(predicate).OrderBy(s => s.Id).Skip(skipCount).Take(takeCount);
+        }
+
         public Category FirstOrDefault(Func<Category, bool> predicate)
         {
             return mobileContext.Categories.FirstOrDefault(predicate);

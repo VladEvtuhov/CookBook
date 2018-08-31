@@ -82,14 +82,17 @@
     <Compile Include="Entities\Recipe.cs" />
     <Compile Include="Entities\RecipeProduct.cs" />
     <Compile Include="Entities\RecipeRating.cs" />
-    <Compile Include="Entities\СuisineСountry.cs" />
+    <Compile Include="Entities\CuisineСountry.cs" />
     <Compile Include="Identity\ApplicationRoleManager.cs" />
     <Compile Include="Identity\ApplicationUserManager.cs" />
     <Compile Include="Migrations\201808231133094_Initial.cs" />
     <Compile Include="Migrations\201808231133094_Initial.Designer.cs">
       <DependentUpon>201808231133094_Initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Migrations\201808311207383_Changed character c in cuisine.cs" />
+    <Compile Include="Migrations\201808311207383_Changed character c in cuisine.Designer.cs">
+      <DependentUpon>201808311207383_Changed character c in cuisine.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -99,6 +102,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201808231133094_Initial.resx">
       <DependentUpon>201808231133094_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808311207383_Changed character c in cuisine.resx">
+      <DependentUpon>201808311207383_Changed character c in cuisine.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -8,7 +8,7 @@
         @Ajax.ActionLink("About me", "About", new { email = @Request.Params["email"] }, new AjaxOptions { UpdateTargetId = "results" }, new { @class = "nav-link active", data_toggle = "tab" })
     </li>
     <li class="nav-item">
-        @Ajax.ActionLink("My recipes", "About", new { email = "nyti96@gmail.com" }, new AjaxOptions { UpdateTargetId = "results" }, new { @class = "nav-link", data_toggle = "tab" })
+        @Ajax.ActionLink("My recipes", "UserRecipes", new { email = @Request.Params["email"] }, new AjaxOptions { UpdateTargetId = "results" }, new { @class = "nav-link", data_toggle = "tab" })
     </li>
 </ul>
 <div id="results" style="margin-top:1px;" class="jumbotron">

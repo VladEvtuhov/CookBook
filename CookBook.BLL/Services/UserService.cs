@@ -28,14 +28,23 @@ namespace CookBook.BLL.Services
             database.Save();
         }
 
-        public async Task UpdateUserInformation(UserDTO userDTO)
+        public async Task UpdateUserInformation(string email, string currentUsersEmail, string information=null, string imageUrl=null, string userName=null)
         {
-            var user = await GetCurrentUserAsync(userDTO.Email);
-            user.Information = userDTO.Information;
-            user.ImageUrl = userDTO.ImageUrl;
-            user.UserName = userDTO.UserName;
-            await database.UserManager.UpdateAsync(user);
-            database.Save();
+            bool isAdmin = false;
+            if (email != currentUsersEmail) {
+                var user = await GetCurrentUserAsync(currentUsersEmail);
+                var roles = await database.UserManager.GetRolesAsync(user.Id);
+                isAdmin = roles.Contains("admin");
+            }
+            if (email == currentUsersEmail || isAdmin)
+            {
+                var user = await GetCurrentUserAsync(email);
+                user.Information = information ?? user.Information;
+                user.ImageUrl = imageUrl ?? user.ImageUrl;
+                user.UserName = userName ?? user.UserName;
+                await database.UserManager.UpdateAsync(user);
+                database.Save();
+            }
         }
 
         public async Task<OperationDetails> CreateUserAsync(RegisterUserDTO registerUserDTO)

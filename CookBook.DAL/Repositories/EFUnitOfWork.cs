@@ -15,7 +15,7 @@ namespace CookBook.DAL.Repositories
         private ProductsRepository productManager;
         private CategoriesRepository categoryManager;
         private CookingMethodsRepository cookingMethodManager;
-        private СuisineСountriesRepository citchenCountryManager;
+        private CuisineСountriesRepository citchenCountryManager;
         private IngridientTypesRepository ingredientTypeManager;
         private RecipesRepository recipeManager;
         private RecipeProductsRepository recipeProductManager;
@@ -30,7 +30,7 @@ namespace CookBook.DAL.Repositories
             productManager = new ProductsRepository(applicationDbContext);
             categoryManager = new CategoriesRepository(applicationDbContext);
             cookingMethodManager = new CookingMethodsRepository(applicationDbContext);
-            citchenCountryManager = new СuisineСountriesRepository(applicationDbContext);
+            citchenCountryManager = new CuisineСountriesRepository(applicationDbContext);
             ingredientTypeManager = new IngridientTypesRepository(applicationDbContext);
             recipeManager = new RecipesRepository(applicationDbContext);
             recipeProductManager = new RecipeProductsRepository(applicationDbContext);
@@ -60,7 +60,7 @@ namespace CookBook.DAL.Repositories
             get { return cookingMethodManager; }
         }
 
-        public IRepository<СuisineСountry> CitchenCountryManager
+        public IRepository<CuisineСountry> CitchenCountryManager
         {
             get { return citchenCountryManager; }
         }

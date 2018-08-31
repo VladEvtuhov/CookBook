@@ -15,7 +15,7 @@ namespace CookBook.BLL.Interfaces
         Task<UserDTO> GetUserByIdAsync(string id);
         Task<UserDTO> GetUserByEmailAsync(string email);
         Task<OperationDetails> CreateUserAsync(RegisterUserDTO registerUserDTO);
-        Task UpdateUserInformation(UserDTO userDTO);
+        Task UpdateUserInformation(string email, string currentUsersEmail, string information = null, string imageUrl = null, string userName = null);
         Task<ClaimsIdentity> LoginAsync(string email, string password);
     }
 }

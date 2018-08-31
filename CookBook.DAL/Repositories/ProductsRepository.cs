@@ -36,6 +36,11 @@ namespace CookBook.DAL.Repositories
             return mobileContext.Products.FirstOrDefault(predicate);
         }
 
+        public IEnumerable<Product> Take(Func<Product, bool> predicate, int skipCount, int takeCount)
+        {
+            return mobileContext.Products.Where(predicate).OrderBy(s => s.Id).Skip(skipCount).Take(takeCount);
+        }
+
         public Product Get(int id)
         {
             return mobileContext.Products.First(p => p.Id == id);

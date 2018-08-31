@@ -1,0 +1,28 @@
+﻿@model IEnumerable<CookBook.WEB.Models.RecipesViewModel>
+@{ 
+    Layout = null;
+}
+<div style="height: 410px; margin-top:-30px;">
+    <h4>My recipes</h4>
+    <hr />
+    @foreach (var recipe in Model)
+    {
+        <div class="card" style="width: 24%; height: 400px; float:left; margin-left: 1px;">
+            <div style="height:220px; position:relative; overflow: hidden">
+                @if (recipe.ImageUrl != null)
+                {
+                    <img class="card-img-top" src="@recipe.ImageUrl" style="width: 100%; overflow:hidden">
+                }
+                else
+                {
+                    <img class="card-img-top" src="http://missingkids-stage.adobecqms.net/etc/clientlibs/ncmec/poster/images/poster/en_US/noPhotoAvailable.jpg" style="width: 100%; position:absolute">
+                }
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">@recipe.Title</h5>
+                <p class="card-text">@recipe.ShortDescription</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+        </div>
+    }
+</div>
