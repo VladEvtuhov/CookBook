@@ -96,6 +96,12 @@
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -278,6 +284,8 @@
     <Content Include="Content\Images\icons8-star-50.png" />
     <Content Include="Content\Images\icons8-star-filled-50.png" />
     <Content Include="Content\Images\icons8-star-half-empty-50.png" />
+    <Content Include="Content\Images\plus.png" />
+    <Content Include="Content\Images\plus_h.jpg" />
     <Content Include="Content\inputs-ext\address\address.css" />
     <Content Include="Content\inputs-ext\typeaheadjs\lib\typeahead.js-bootstrap.css" />
     <Content Include="Content\inputs-ext\wysihtml5\bootstrap-wysihtml5-0.0.2\bootstrap-wysihtml5-0.0.2.css" />
@@ -306,6 +314,7 @@
     <Content Include="Content\jqueryui-editable\css\jqueryui-editable.css" />
     <Content Include="Content\jqueryui-editable\img\clear.png" />
     <Content Include="Content\jqueryui-editable\img\loading.gif" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />

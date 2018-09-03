@@ -11,6 +11,9 @@
         @Ajax.ActionLink("My recipes", "UserRecipes", new { email = @Request.Params["email"] }, new AjaxOptions { UpdateTargetId = "results" }, new { @class = "nav-link", data_toggle = "tab" })
     </li>
 </ul>
+<div id="loading" style="display:none; color:Red; font-weight:bold;">
+    <p>Идет загрузка...</p>
+</div>
 <div id="results" style="margin-top:1px;" class="jumbotron">
 
 </div>

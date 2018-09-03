@@ -5,6 +5,7 @@ using CookBook.WEB.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using PagedList;
 
 namespace CookBook.WEB.Controllers
 {
@@ -57,12 +58,22 @@ namespace CookBook.WEB.Controllers
             return RedirectToAction("About");
         }
 
-        public async Task<ActionResult> UserRecipes(string email = null, int page = 1)
+        public async Task<ActionResult> UserRecipes(string email = null, int page = 1, int pageSize = 4)
         {
             email = email ?? User.Identity.Name;
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<RecipesInfoDTO, RecipesViewModel>()).CreateMapper();
-            var recipes = mapper.Map<IEnumerable<RecipesInfoDTO>, List<RecipesViewModel>>(await recipeService.GetUserRecipesAsync(email, page));
-            return View(recipes);
+            var recipes = mapper.Map<IEnumerable<RecipesInfoDTO>, List<RecipesViewModel>>(await recipeService.GetUserRecipesAsync(email));
+            PagedList<RecipesViewModel> model = new PagedList<RecipesViewModel>(recipes, page, pageSize);
+            return View(model);
         }
+
+        public ActionResult GetRecipe(int id)
+        {
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<RecipesInfoDTO, RecipesViewModel>()).CreateMapper();
+            var recipe = mapper.Map<RecipesInfoDTO, RecipesViewModel>(recipeService.Get(id));
+            return View(recipe);
+        }
+
+
     }
 }
