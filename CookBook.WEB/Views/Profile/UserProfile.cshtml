@@ -3,6 +3,9 @@
      $("#results").load('@Url.Action("About", "Profile", new { email = @Request.Params["email"]})')
 });
 </script>
+<div id="newrecipe">
+
+</div>
 <ul style="margin-top: 50px;" class="nav nav-tabs">
     <li class="nav-item">
         @Ajax.ActionLink("About me", "About", new { email = @Request.Params["email"] }, new AjaxOptions { UpdateTargetId = "results" }, new { @class = "nav-link active", data_toggle = "tab" })
@@ -11,9 +14,6 @@
         @Ajax.ActionLink("My recipes", "UserRecipes", new { email = @Request.Params["email"] }, new AjaxOptions { UpdateTargetId = "results" }, new { @class = "nav-link", data_toggle = "tab" })
     </li>
 </ul>
-<div id="loading" style="display:none; color:Red; font-weight:bold;">
-    <p>Идет загрузка...</p>
-</div>
 <div id="results" style="margin-top:1px;" class="jumbotron">
 
 </div>

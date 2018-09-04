@@ -16,10 +16,10 @@ namespace CookBook.BLL.Services
             database = _database;
         }
 
-        public IEnumerable<СuisineСountryDTO> GetAll()
+        public IEnumerable<CuisineСountryDTO> GetAll()
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<CuisineСountry, СuisineСountryDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<CuisineСountry>, List<СuisineСountryDTO>>(database.CitchenCountryManager.GetAll());
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<CuisineСountry, CuisineСountryDTO>()).CreateMapper();
+            return mapper.Map<IEnumerable<CuisineСountry>, List<CuisineСountryDTO>>(database.CitchenCountryManager.GetAll());
         }
 
         public OperationDetails SetCountry(string name)

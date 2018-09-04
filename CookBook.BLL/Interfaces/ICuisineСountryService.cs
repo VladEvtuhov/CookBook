@@ -6,7 +6,7 @@ namespace CookBook.BLL.Interfaces
 {
     public interface ICuisineСountryService
     {
-        IEnumerable<СuisineСountryDTO> GetAll();
+        IEnumerable<CuisineСountryDTO> GetAll();
         OperationDetails SetCountry(string name);
     }
 }

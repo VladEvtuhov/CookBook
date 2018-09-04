@@ -1,5 +1,6 @@
 ﻿@model PagedList.IPagedList<CookBook.WEB.Models.RecipesViewModel>
 @using PagedList.Mvc;
+@using CookBook.WEB.Helpers
 @{
     Layout = null;
 }
@@ -7,58 +8,49 @@
 <div style="margin-top:-30px;height:520px;">
     <div style="height:30px;">
         <h4 style="float:left;">MY RECIPES</h4>
-        <input id="plus" type="image" src="~/Content/Images/plus.png" height="50" width="50"/>
+        @Ajax.ImageActionLink("/Content/Images/plus.png", "", "AddRecipe", null, new AjaxOptions { UpdateTargetId = "newrecipe" }, new { @id = "plus", width = "50", height = "50" })
+
     </div>
     <hr />
     <div style="margin-left:30px;">
         @foreach (var recipe in Model)
         {
-        <div id="@recipe.Id" class="card" style="width: 24%; height: 450px; float:left; margin-left: 1px;">
-            <div style="height:220px; position:relative; overflow: hidden">
-                @if (recipe.ImageUrl != null)
+            <div id="@recipe.Id" class="card" style="width: 24%; height: 450px; float:left; margin-left: 1px;">
+                <div style="height:220px; position:relative; overflow: hidden">
+                    @if (recipe.ImageUrl != null)
+                    {
+                        <img class="card-img-top" src="@recipe.ImageUrl" style="width: 100%; overflow:hidden">
+                    }
+                    else
+                    {
+                        <img class="card-img-top" src="http://missingkids-stage.adobecqms.net/etc/clientlibs/ncmec/poster/images/poster/en_US/noPhotoAvailable.jpg" style="width: 100%; position:absolute">
+                    }
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title" style="min-height:30px; max-height: 75px; overflow:hidden;">@recipe.Title</h5>
+                    <p class="card-text" style="max-height: 50px; overflow:hidden;">@recipe.ShortDescription</p>
+                </div>
+                @if (@Request.Params["email"] == null || @Request.Params["email"] == User.Identity.Name || User.IsInRole("admin"))
                 {
-                    <img class="card-img-top" src="@recipe.ImageUrl" style="width: 100%; overflow:hidden">
-                }
-                else
-                {
-                    <img class="card-img-top" src="http://missingkids-stage.adobecqms.net/etc/clientlibs/ncmec/poster/images/poster/en_US/noPhotoAvailable.jpg" style="width: 100%; position:absolute">
+                    @Html.ActionLink("EDIT", "GetRecipe", "Profile", new { id = recipe.Id }, new { @class = "edit-button" })
                 }
             </div>
-            <div class="card-body">
-                <h5 class="card-title" style="min-height:30px; max-height: 75px; overflow:hidden;">@recipe.Title</h5>
-                <p class="card-text" style="max-height: 50px; overflow:hidden;">@recipe.ShortDescription</p>
-            </div>
-            @if (@Request.Params["email"] == null || @Request.Params["email"] == User.Identity.Name || User.IsInRole("admin"))
-            {
-                @Html.ActionLink("EDIT", "GetRecipe", "Profile", new { id = recipe.Id }, new { @class = "edit-button" })
-            }
-        </div>
         }
     </div>
 </div>
 <div style="text-align:center;">
-@Html.PagedListPager(Model, page => Url.Action("UserRecipes", new { page, email= @Request.Params["email"] }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(
-        new AjaxOptions
-        {
-            InsertionMode = InsertionMode.Replace,
-            HttpMethod = "Get",
-            UpdateTargetId = "results"
-        }))
+    @Html.PagedListPager(Model, page => Url.Action("UserRecipes", new { page, email= @Request.Params["email"] }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(
+            new AjaxOptions
+            {
+                InsertionMode = InsertionMode.Replace,
+                HttpMethod = "Get",
+                UpdateTargetId = "results"
+            }))
 </div>
 <script>
     $(document).ready(function () {
-        $(".card").click(function (e) {
-            $.ajax({
-                type: 'GET',
-                url: '/Profile/GetRecipe',
-                data: { id: this.id },
-                cache: false,
-                success: function (result) {
-                    if (!result) {
-                        window.location.href = '/Profile/GetRecipe'
-                    }
-                }
-            });
+        $(".card").click(function () {
+            window.location.href = '@Url.Action("GetRecipe", "Profile")/' + this.id;
         });
         $(".card a").click(function (e) {
             e.stopPropagation();

@@ -79,16 +79,11 @@ namespace CookBook.BLL.Services
                 ShortDescription = recipeDTO.ShortDescription,
                 Content = recipeDTO.Content,
                 Category = category,
-                CategoryId = category.Id,
                 ImageUrl = recipeDTO.ImageUrl,
                 Creator = creator,
-                CreatorId = creator.Id,
                 CookingMethod = cookingMethod,
-                CookingMethodId = cookingMethod.Id,
                 Country = country,
-                CountryId = country.Id,
                 IngredientType = ingridientType,
-                IngredientTypeId = ingridientType.Id
             };
             return recipe;
         }

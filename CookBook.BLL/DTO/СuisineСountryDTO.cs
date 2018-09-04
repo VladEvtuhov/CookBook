@@ -1,6 +1,6 @@
 ﻿namespace CookBook.BLL.DTO
 {
-    public class СuisineСountryDTO
+    public class CuisineСountryDTO
     {
         public string Name { get; set; }
     }

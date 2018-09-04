@@ -261,6 +261,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ImageActionLinkHelper.cs" />
+    <Compile Include="Models\CreateRecipeViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\RecipesViewModel.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
@@ -453,6 +455,7 @@
     <Content Include="Views\Profile\UserProfile.cshtml" />
     <Content Include="Views\Profile\About.cshtml" />
     <Content Include="Views\Profile\UserRecipes.cshtml" />
+    <Content Include="Views\Profile\AddRecipe.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

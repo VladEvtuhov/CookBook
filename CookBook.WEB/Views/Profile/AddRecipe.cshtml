@@ -1,0 +1,113 @@
+﻿@model CookBook.WEB.Models.CreateRecipeViewModel
+<!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="">Open modal for </button>-->
+@{
+    Layout = null;
+}
+@Scripts.Render("~/bundles/bootstrap")
+<script>
+    $(document).ready(function () {
+        $('#exampleModal').modal('show');
+        $.ajax({
+            type: 'GET',
+            dataType: 'json',
+            url: '/Profile/GetCategories',
+            success: function (response) {
+                $.each(response, function (key, value) {
+                    $('#category').append($("<option/>", {
+                        value: key,
+                        text: value
+                    }));
+                });
+            }
+        });
+        $.ajax({
+            type: 'GET',
+            dataType: 'json',
+            url: '/Profile/GetIngredientTypes',
+            success: function (response) {
+                $.each(response, function (key, value) {
+                    $('#ingredient').append($("<option/>", {
+                        value: key,
+                        text: value
+                    }));
+                });
+            }
+        });
+        $.ajax({
+            type: 'GET',
+            dataType: 'json',
+            url: '/Profile/GetCuisineCountries',
+            success: function (response) {
+                $.each(response, function (key, value) {
+                    $('#cuisine').append($("<option/>", {
+                        value: key,
+                        text: value
+                    }));
+                });
+            }
+        });
+        $.ajax({
+            type: 'GET',
+            dataType: 'json',
+            url: '/Profile/GetCookingMethods',
+            success: function (response) {
+                $.each(response, function (key, value) {
+                    $('#method').append($("<option/>", {
+                        value: key,
+                        text: value
+                    }));
+                });
+            }
+        });
+    });
+</script>
+<style>
+    input, textarea{
+        max-width:800px;
+    }
+</style>
+<div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">ADD RECIPE</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @using (Ajax.BeginForm("AddRecipe", "Profile", null, new AjaxOptions { HttpMethod = "POST" }))
+                {
+                    <div class="form-group">
+                        <label for="recipient-name">Recipient:</label>
+                        <input type="text" class="form-control" id="recipient-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="category">Category:</label>
+                        <select id="category" class="form-control"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="ingredient">Ingredient type:</label>
+                        <select id="ingredient" class="form-control"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="cuisine">Cuisine country:</label>
+                        <select id="cuisine" class="form-control"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="method">Cooking Method:</label>
+                        <select id="method" class="form-control"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Message:</label>
+                        <textarea class="form-control" id="message-text"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
