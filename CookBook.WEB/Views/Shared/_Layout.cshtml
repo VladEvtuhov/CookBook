@@ -30,23 +30,19 @@
                 @if (!User.Identity.IsAuthenticated)
                 {
                     <li class="nav-item">
-                        @Html.ActionLink("REGISTER", "Register", "Account", new object { },
-     new { @class = "nav-link" })
+                        <a class="nav-link" href="Registration">REGISTER</a>
                     </li>
                     <li class="nav-item">
-                        @Html.ActionLink("LOGIN", "Login", "Account", new object { },
-     new { @class = "nav-link" })
+                        <a class="nav-link" href="Login">LOGIN</a>
                     </li>
                 }
                 else
                 {
                     <li class="nav-item">
-                        @Html.ActionLink("PROFILE", "UserProfile", "Profile", new object { },
-     new { @class = "nav-link" })
+                        <a class="nav-link" href="Profile">PROFILE</a>
                     </li>
                     <li class="nav-item">
-                        @Html.ActionLink("LOGOUT", "Logout", "Account", new object { },
-     new { @class = "nav-link" })
+                        <a class="nav-link" href="Logout">LOGOUT</a>
                     </li>
                 }
 

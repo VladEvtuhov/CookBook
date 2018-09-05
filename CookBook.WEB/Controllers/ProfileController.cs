@@ -32,7 +32,7 @@ namespace CookBook.WEB.Controllers
         }
 
         [HttpGet]
-        public ActionResult UserProfile()
+        public ActionResult UserProfile(string email = null)
         {
             return View();
         }
