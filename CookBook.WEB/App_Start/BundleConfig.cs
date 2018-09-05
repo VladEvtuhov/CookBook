@@ -15,18 +15,39 @@ namespace CookBook.WEB
                         "~/Scripts/jquery.validate*"));
             bundles.Add(new ScriptBundle("~/bundles/unobtrusive").Include(
                  "~/Scripts/jquery.unobtrusive*"));
-
-            // Use the development version of Modernizr to develop with and learn from. Then, when you're
-            // ready for production, use the build tool at https://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js"));
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap-editable/js").Include(
+                      "~/Scripts/bootstrap-editable/js/bootstrap-editable.js"));
+            bundles.Add(new ScriptBundle("~/bundles/profile/about/js").Include(
+                      "~/Scripts/profile/about.js"));
+            bundles.Add(new ScriptBundle("~/bundles/profile/create-recipe").Include(
+                      "~/Scripts/profile/create-recipe.js"));
+            bundles.Add(new ScriptBundle("~/bundles/profile").Include(
+                      "~/Scripts/profile/profile.js"));
+            bundles.Add(new ScriptBundle("~/bundles/profile/user-recipes/js").Include(
+                      "~/Scripts/profile/user-recipes.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+            bundles.Add(new StyleBundle("~/Content/Account").Include(
+                "~/Content/Account/account.css"));
+            bundles.Add(new StyleBundle("~/Content/bootstrap-editable/css").Include(
+                "~/Content/bootstrap-editable/css/bootstrap-editable.css"));
+            bundles.Add(new StyleBundle("~/Content/profile/cr").Include(
+                "~/Content/profile/create-recipe.css"));
+            bundles.Add(new StyleBundle("~/Content/profile/about/css").Include(
+                "~/Content/profile/about.css"));
+            bundles.Add(new StyleBundle("~/Content/profile/user-profile").Include(
+                "~/Content/profile/user-profile.css"));
+            bundles.Add(new StyleBundle("~/Content/profile/user-recipes/css").Include(
+                "~/Content/profile/user-recipes.css"));
+            bundles.Add(new StyleBundle("~/Content/pageList").Include(
+                "~/Content/PagedList.css"));
         }
     }
 }

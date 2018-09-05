@@ -1,0 +1,21 @@
+﻿.mg-top--30{
+    margin-top: -30px;
+}
+.col-4 img {
+    max-height: 400px;
+    max-width: 100%;
+}
+.star {
+    height: 30px;
+    float: right;
+}
+.star img {
+    height: 100%
+}
+.mg-top-35 {
+    margin-top: 35px;
+}
+.editable-text {
+    color: black;
+    font-size: 16px;
+}

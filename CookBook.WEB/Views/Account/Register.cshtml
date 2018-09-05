@@ -1,18 +1,12 @@
 ﻿@model CookBook.WEB.Models.RegisterViewModel
 
-<link href="~/Content/Account/account.css" rel="stylesheet">
+@Styles.Render("~/Content/Account")
 <div class="sign-form">
     <form action="Register" method="post">
         @Html.AntiForgeryToken()
         <h2>Create Account</h2>
         <div class="form-group">
-            @foreach (ModelState modelState in ViewData.ModelState.Values)
-            {
-                foreach (ModelError error in modelState.Errors)
-                {
-                    <p style="margin-top: 10px;" class="error">@error.ErrorMessage</p>
-                }
-            }
+            <p class="error mg-top-10">@ViewData["error"]</p>
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-paper-plane"></i></span>
                 <input type="email" class="form-control" name="email" placeholder="Email Address" required="required">

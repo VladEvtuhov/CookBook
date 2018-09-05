@@ -4,31 +4,33 @@
 @{
     Layout = null;
 }
-<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
-<div style="margin-top:-30px;height:520px;">
-    <div style="height:30px;">
-        <h4 style="float:left;">MY RECIPES</h4>
+@Styles.Render("~/Content/pageList")
+@Scripts.Render("~/bundles/profile/user-recipes/js")
+@Styles.Render("~/Content/profile/user-recipes/css")
+<div class="recipes">
+    <div class="title">
+        <h4>MY RECIPES</h4>
         @Ajax.ImageActionLink("/Content/Images/plus.png", "", "AddRecipe", null, new AjaxOptions { UpdateTargetId = "newrecipe" }, new { @id = "plus", width = "50", height = "50" })
 
     </div>
     <hr />
-    <div style="margin-left:30px;">
+    <div class="mg-left-30">
         @foreach (var recipe in Model)
         {
-            <div id="@recipe.Id" class="card" style="width: 24%; height: 450px; float:left; margin-left: 1px;">
-                <div style="height:220px; position:relative; overflow: hidden">
+            <div id="@recipe.Id" class="card card-recipe">
+                <div class="card-image">
                     @if (recipe.ImageUrl != null)
                     {
-                        <img class="card-img-top" src="@recipe.ImageUrl" style="width: 100%; overflow:hidden">
+                        <img class="card-img-top" src="@recipe.ImageUrl">
                     }
                     else
                     {
-                        <img class="card-img-top" src="http://missingkids-stage.adobecqms.net/etc/clientlibs/ncmec/poster/images/poster/en_US/noPhotoAvailable.jpg" style="width: 100%; position:absolute">
+                        <img class="card-img-top" src="http://missingkids-stage.adobecqms.net/etc/clientlibs/ncmec/poster/images/poster/en_US/noPhotoAvailable.jpg">
                     }
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title" style="min-height:30px; max-height: 75px; overflow:hidden;">@recipe.Title</h5>
-                    <p class="card-text" style="max-height: 50px; overflow:hidden;">@recipe.ShortDescription</p>
+                    <h5 class="card-title">@recipe.Title</h5>
+                    <p class="card-text">@recipe.ShortDescription</p>
                 </div>
                 @if (@Request.Params["email"] == null || @Request.Params["email"] == User.Identity.Name || User.IsInRole("admin"))
                 {
@@ -38,7 +40,7 @@
         }
     </div>
 </div>
-<div style="text-align:center;">
+<div class="center">
     @Html.PagedListPager(Model, page => Url.Action("UserRecipes", new { page, email= @Request.Params["email"] }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(
             new AjaxOptions
             {
@@ -47,13 +49,4 @@
                 UpdateTargetId = "results"
             }))
 </div>
-<script>
-    $(document).ready(function () {
-        $(".card").click(function () {
-            window.location.href = '@Url.Action("GetRecipe", "Profile")/' + this.id;
-        });
-        $(".card a").click(function (e) {
-            e.stopPropagation();
-        });
-    })
-</script>
+<div id="getRecipe" data-request-url="@Url.Action("GetRecipe", "Profile")"></div>

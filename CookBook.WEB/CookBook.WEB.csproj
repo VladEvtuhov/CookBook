@@ -317,6 +317,10 @@
     <Content Include="Content\jqueryui-editable\img\clear.png" />
     <Content Include="Content\jqueryui-editable\img\loading.gif" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\profile\about.css" />
+    <Content Include="Content\profile\create-recipe.css" />
+    <Content Include="Content\profile\user-profile.css" />
+    <Content Include="Content\profile\user-recipes.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -423,6 +427,10 @@
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\profile\about.js" />
+    <Content Include="Scripts\profile\create-recipe.js" />
+    <Content Include="Scripts\profile\profile.js" />
+    <Content Include="Scripts\profile\user-recipes.js" />
     <Content Include="Scripts\umd\popper-utils.js" />
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />

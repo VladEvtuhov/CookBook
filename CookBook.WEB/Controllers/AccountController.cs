@@ -70,7 +70,7 @@ namespace CookBook.WEB.Controllers
                 var registerModel = mapper.Map<RegisterViewModel, RegisterUserDTO>(model);
                 var modelState = await userService.CreateUserAsync(registerModel);
                 if (!modelState.Succedeed)
-                    ModelState.AddModelError(modelState.Property, modelState.Message);
+                    ViewData["error"] = modelState.Message;
             }
             return View(model);
         }

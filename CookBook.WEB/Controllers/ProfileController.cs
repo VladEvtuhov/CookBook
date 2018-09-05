@@ -49,8 +49,7 @@ namespace CookBook.WEB.Controllers
             }
             catch
             {
-                //Todo: change here
-                //return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home");
             }
             return View(profile);
         }

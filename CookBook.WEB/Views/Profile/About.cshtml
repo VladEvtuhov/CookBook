@@ -4,74 +4,57 @@
 }
 
 <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
-<link href="~/Content/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet">
-<script src="~/Scripts/bootstrap-editable/js/bootstrap-editable.js"></script>
-<script>
-    $.fn.editable.defaults.mode = 'inline';
-    $(document).ready(function () {
-        $('#username').editable({
-            type: "text",
-            url: "/Profile/UpdateUserName",
-            params: { email: '@Model.Email' },
-            pk: "1"
-        });
-    });
-    $(document).ready(function () {
-        $('#information').editable({
-            type: "textarea",
-            url: "/Profile/UpdateInformation",
-            params: { email: '@Model.Email' },
-            pk: "1",
-            inputclass: 'input-information'
-        });
-    });
-</script>
-<div style="margin-top:-30px;">
+@Styles.Render("~/Content/bootstrap-editable/css")
+@Scripts.Render("~/bundles/bootstrap-editable/js")
+@Scripts.Render("~/bundles/profile/about/js")
+@Styles.Render("~/Content/profile/about/css")
+<input id="userEmail" type="hidden" value="@Model.Email" />
+<div class="mg-top--30">
     <h4>User information</h4>
     <hr />
     <div class="row">
         <div class="col-4">
             @if (Model.ImageUrl != null)
             {
-                <img src="@Model.ImageUrl" style="max-height:400px; max-width:100%" />
+                <img src="@Model.ImageUrl"/>
             }
             else
             {
-                <img src="http://missingkids-stage.adobecqms.net/etc/clientlibs/ncmec/poster/images/poster/en_US/noPhotoAvailable.jpg" style="max-height:400px; max-width:100%" />
+                <img src="http://missingkids-stage.adobecqms.net/etc/clientlibs/ncmec/poster/images/poster/en_US/noPhotoAvailable.jpg"/>
             }
         </div>
         <div class="col-8">
-            <div style="height:30px; float:right" id="rating">
+            <div class="star" id="rating">
                 @{
                     var remain = Model.AverageRating - (int)Model.AverageRating;
                     int i = 0;
                     for (i = 0; i < (int)Model.AverageRating; i++)
                     {
-                        <img src="~/Content/Images/icons8-star-filled-50.png" style="height:100%" />
+                        <img src="~/Content/Images/icons8-star-filled-50.png"/>
                     }
                     if (remain != 0)
                     {
-                        <img src="~/Content/Images/icons8-star-half-empty-50.png" style="height:100%" />
+                        <img src="~/Content/Images/icons8-star-half-empty-50.png"/>
                     }
                     while (i < 5)
                     {
                         i++;
-                        <img src="~/Content/Images/icons8-star-50.png" style="height:100%" />
+                        <img src="~/Content/Images/icons8-star-50.png"/>
                     }
                 }
             </div>
-            <div style="margin-top:35px;">
+            <div class="mg-top-35">
                 <b>User Email:</b> @Model.Email<br /><br />
                 @if (User.IsInRole("admin") || User.Identity.Name == Model.Email)
                 {
                     <b>
                         User name:
                     </b>
-                    <a href="#" style="color: black; font-size:16px;" id="username" name="UserName" data-title="Enter username">@Model.UserName</a><br /><br />
+                    <a href="#" class="editable-text" id="username" name="UserName" data-title="Enter username">@Model.UserName</a><br /><br />
                     <b>
                         About me:
                     </b>
-                    <a href="#" style="color: black; font-size:16px;" id="information" name="Information" data-title="Enter information">@Model.Information</a>
+                    <a href="#" class="editable-text" id="information" name="Information" data-title="Enter information">@Model.Information</a>
                 }
                 else
                 {

@@ -1,12 +1,10 @@
-﻿<script>
-    $(document).ready(function(){
-     $("#results").load('@Url.Action("About", "Profile", new { email = @Request.Params["email"]})')
-});
-</script>
+﻿@Scripts.Render("~/bundles/profile")
+@Styles.Render("~/Content/profile/user-profile")
+<div id="loader" data-request-url="@Url.Action("About", "Profile", new { email = @Request.Params["email"]})"></div>
 <div id="newrecipe">
 
 </div>
-<ul style="margin-top: 50px;" class="nav nav-tabs">
+<ul class="nav nav-tabs mg-top-50">
     <li class="nav-item">
         @Ajax.ActionLink("About me", "About", new { email = @Request.Params["email"] }, new AjaxOptions { UpdateTargetId = "results" }, new { @class = "nav-link active", data_toggle = "tab" })
     </li>
@@ -14,6 +12,6 @@
         @Ajax.ActionLink("My recipes", "UserRecipes", new { email = @Request.Params["email"] }, new AjaxOptions { UpdateTargetId = "results" }, new { @class = "nav-link", data_toggle = "tab" })
     </li>
 </ul>
-<div id="results" style="margin-top:1px;" class="jumbotron">
+<div id="results" class="jumbotron mg-top-1">
 
 </div>
