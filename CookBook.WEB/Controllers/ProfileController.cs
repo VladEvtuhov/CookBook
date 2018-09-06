@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 
 namespace CookBook.WEB.Controllers
 {
-    public class ProfileController : Controller
+    public partial class ProfileController : Controller
     {
         private readonly IUserService userService;
         private readonly IRecipeService recipeService;
@@ -32,13 +32,13 @@ namespace CookBook.WEB.Controllers
         }
 
         [HttpGet]
-        public ActionResult UserProfile(string email = null)
+        public virtual ActionResult UserProfile(string email = null)
         {
             return View();
         }
 
         [HttpGet]
-        public async Task<ActionResult> About(string email = null)
+        public virtual async Task<ActionResult> About(string email = null)
         {
             email = email ?? User.Identity.Name;
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<UserDTO, UserViewModel>()).CreateMapper();
@@ -55,20 +55,20 @@ namespace CookBook.WEB.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> UpdateUserName(string email, string value)
+        public virtual async Task<ActionResult> UpdateUserName(string email, string value)
         {
             await userService.UpdateUserInformation(email, User.Identity.Name, userName: value);
             return RedirectToAction("About");
         }
 
         [HttpPost]
-        public async Task<ActionResult> UpdateInformation(string email, string value)
+        public virtual async Task<ActionResult> UpdateInformation(string email, string value)
         {
             await userService.UpdateUserInformation(email, User.Identity.Name, information: value);
             return RedirectToAction("About");
         }
 
-        public async Task<ActionResult> UserRecipes(string email = null, int page = 1, int pageSize = 4)
+        public virtual async Task<ActionResult> UserRecipes(string email = null, int page = 1, int pageSize = 4)
         {
             email = email ?? User.Identity.Name;
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<RecipesInfoDTO, RecipesViewModel>()).CreateMapper();
@@ -77,7 +77,7 @@ namespace CookBook.WEB.Controllers
             return View(model);
         }
 
-        public ActionResult GetRecipe(int id)
+        public virtual ActionResult GetRecipe(int id)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<RecipesInfoDTO, RecipesViewModel>()).CreateMapper();
             var recipe = mapper.Map<RecipesInfoDTO, RecipesViewModel>(recipeService.Get(id));
@@ -85,15 +85,15 @@ namespace CookBook.WEB.Controllers
         }
 
         [HttpGet]
-        public ActionResult AddRecipe()
+        public virtual ActionResult AddRecipe()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult AddRecipe(CreateRecipeViewModel model)
+        public virtual ActionResult AddRecipe(CreateRecipeViewModel model)
         {
-            if(User.Identity.Name != model.CreatorEmail && !User.IsInRole("admin"))
+            if (User.Identity.Name != model.CreatorEmail && !User.IsInRole("admin"))
                 return RedirectToAction("About");
 
             //await recipeService.CreateAsync()

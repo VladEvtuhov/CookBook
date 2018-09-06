@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace CookBook.WEB.Controllers
 {
-    public class AccountController : Controller
+    public partial class AccountController : Controller
     {
         private readonly IUserService userService;
         public AccountController(IUserService _userService)
@@ -19,14 +19,14 @@ namespace CookBook.WEB.Controllers
         }
 
         [HttpGet]
-        public ActionResult Login()
+        public virtual ActionResult Login()
         {
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model)
+        public virtual async Task<ActionResult> Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -48,21 +48,21 @@ namespace CookBook.WEB.Controllers
             return View(model);
         }
 
-        public ActionResult Logout()
+        public virtual ActionResult Logout()
         {
             AuthenticationManager.SignOut();
             return RedirectToAction("Login");
         }
 
         [HttpGet]
-        public ActionResult Register()
+        public virtual ActionResult Register()
         {
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public virtual async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
