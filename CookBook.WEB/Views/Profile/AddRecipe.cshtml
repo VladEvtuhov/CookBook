@@ -16,35 +16,44 @@
                 </button>
             </div>
             <div class="modal-body">
-                @using (Ajax.BeginForm("AddRecipe", "Profile", null, new AjaxOptions { HttpMethod = "POST" }))
+                @using (Ajax.BeginForm(MVC.Profile.AddRecipe(), new AjaxOptions { HttpMethod = "POST"}))
                 {
+                    <input id="creatorEmail" type="hidden" name="CreatorEmail">
                     <div class="form-group">
-                        <label for="recipient-name">Recipient:</label>
-                        <input type="text" class="form-control" id="recipient-name">
+                        <label for="title-name">Title:</label>
+                        <input type="text" class="form-control" name="Title" id="title-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="sd-name">Short description:</label>
+                        <input type="text" class="form-control" name="ShortDescription" id="sd-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="url-name">Image url:</label>
+                        <input type="text" class="form-control" name="ImageUrl" id="url-name">
                     </div>
                     <div class="form-group">
                         <label for="category">Category:</label>
-                        <select id="category" class="form-control"></select>
+                        <select id="category" class="form-control" name="Category"></select>
                     </div>
                     <div class="form-group">
                         <label for="ingredient">Ingredient type:</label>
-                        <select id="ingredient" class="form-control"></select>
+                        <select id="ingredient" name="IngredientType" class="form-control"></select>
                     </div>
                     <div class="form-group">
                         <label for="cuisine">Cuisine country:</label>
-                        <select id="cuisine" class="form-control"></select>
+                        <select id="cuisine" name="CuisineCountry" class="form-control"></select>
                     </div>
                     <div class="form-group">
-                        <label for="method">Cooking Method:</label>
-                        <select id="method" class="form-control"></select>
+                        <label for="method">Cooking method:</label>
+                        <select id="method" name="CookingMethod" class="form-control"></select>
                     </div>
                     <div class="form-group">
                         <label for="message-text" class="col-form-label">Context:</label>
-                        <textarea class="form-control" id="message-text"></textarea>
+                        <textarea class="form-control" name="Content" id="message-text"></textarea>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Create</button>
+                        <button id="createRecipe" type="submit" class="btn btn-primary">Create</button>
                     </div>
                 }
             </div>

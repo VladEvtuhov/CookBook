@@ -291,15 +291,6 @@ namespace CookBook.WEB.Controllers
         [NonAction]
         partial void AddRecipeOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, CookBook.WEB.Models.CreateRecipeViewModel model);
 
-        [NonAction]
-        public override System.Web.Mvc.ActionResult AddRecipe(CookBook.WEB.Models.CreateRecipeViewModel model)
-        {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.AddRecipe);
-            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
-            AddRecipeOverride(callInfo, model);
-            return callInfo;
-        }
-
     }
 }
 

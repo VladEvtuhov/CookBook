@@ -42,7 +42,7 @@ namespace CookBook.WEB.Controllers
                     {
                         IsPersistent = true
                     }, claim);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction(MVC.Home.Index());
                 }
             }
             return View(model);
@@ -51,7 +51,7 @@ namespace CookBook.WEB.Controllers
         public virtual ActionResult Logout()
         {
             AuthenticationManager.SignOut();
-            return RedirectToAction("Login");
+            return RedirectToAction(MVC.Account.Login());
         }
 
         [HttpGet]

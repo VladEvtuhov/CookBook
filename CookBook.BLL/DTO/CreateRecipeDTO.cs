@@ -8,7 +8,7 @@
         public string ImageUrl { get; set; }
         public string Category { get; set; }
         public string CreatorEmail { get; set; }
-        public string Country { get; set; }
+        public string CuisineCountry { get; set; }
         public string CookingMethod { get; set; }
         public string IngredientType { get; set; }
     }

@@ -1,4 +1,5 @@
 ﻿$(document).ready(function () {
+    $('#creatorEmail').val($('#userEmail').val());
     $('#Modal').modal('show');
     $.ajax({
         type: 'GET',
@@ -7,7 +8,7 @@
         success: function (response) {
             $.each(response, function (key, value) {
                 $('#category').append($("<option/>", {
-                    value: key,
+                    value: value,
                     text: value
                 }));
             });
@@ -20,7 +21,7 @@
         success: function (response) {
             $.each(response, function (key, value) {
                 $('#ingredient').append($("<option/>", {
-                    value: key,
+                    value: value,
                     text: value
                 }));
             });
@@ -33,7 +34,7 @@
         success: function (response) {
             $.each(response, function (key, value) {
                 $('#cuisine').append($("<option/>", {
-                    value: key,
+                    value: value,
                     text: value
                 }));
             });
@@ -46,10 +47,15 @@
         success: function (response) {
             $.each(response, function (key, value) {
                 $('#method').append($("<option/>", {
-                    value: key,
+                    value: value,
                     text: value
                 }));
             });
         }
+    });
+});
+$(function () {
+    $('#createRecipe').click(function () {
+        $('#Modal').modal('hide');
     });
 });

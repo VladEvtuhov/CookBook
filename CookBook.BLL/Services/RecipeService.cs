@@ -67,7 +67,7 @@ namespace CookBook.BLL.Services
         private async Task<Recipe> SetRecipeAsync(CreateRecipeDTO recipeDTO)
         {
             var category = database.CategoryManager.FirstOrDefault(c => c.Name == recipeDTO.Category);
-            var country = database.CitchenCountryManager.FirstOrDefault(c => c.Name == recipeDTO.Country);
+            var country = database.CitchenCountryManager.FirstOrDefault(c => c.Name == recipeDTO.CuisineCountry);
             var ingridientType = database.IngridientTypeManager.FirstOrDefault(i => i.Name == recipeDTO.IngredientType);
             var creator = await database.UserManager.FindByEmailAsync(recipeDTO.CreatorEmail);
             var cookingMethod = database.CookingMethodManager.FirstOrDefault(c => c.Name == recipeDTO.CookingMethod);

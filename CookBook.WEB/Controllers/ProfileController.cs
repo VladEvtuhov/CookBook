@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using PagedList;
 using System.Web.Script.Services;
 using Newtonsoft.Json;
+using System;
 
 namespace CookBook.WEB.Controllers
 {
@@ -19,9 +20,10 @@ namespace CookBook.WEB.Controllers
         private readonly IIngredientTypeService ingredientTypeService;
         private readonly ICuisineСountryService cuisineСountryService;
         private readonly ICookingMethodService cookingMethodService;
+        private readonly IRecipeProductsService recipeProductsService;
 
         public ProfileController(IUserService _userService, IRecipeService _recipeService, ICategoryService _categoryService, IIngredientTypeService _ingredientTypeService,
-            ICuisineСountryService _cuisineСountryService, ICookingMethodService _cookingMethodService)
+            ICuisineСountryService _cuisineСountryService, ICookingMethodService _cookingMethodService, IRecipeProductsService _recipeProductsService)
         {
             userService = _userService;
             recipeService = _recipeService;
@@ -29,6 +31,7 @@ namespace CookBook.WEB.Controllers
             ingredientTypeService = _ingredientTypeService;
             cuisineСountryService = _cuisineСountryService;
             cookingMethodService = _cookingMethodService;
+            recipeProductsService = _recipeProductsService;
         }
 
         [HttpGet]
@@ -49,7 +52,8 @@ namespace CookBook.WEB.Controllers
             }
             catch
             {
-                return RedirectToAction("Index", "Home");
+                //TODO: change redirect to error page, or page with text "user not found"
+                return RedirectToAction(MVC.Home.Index());
             }
             return View(profile);
         }
@@ -58,14 +62,14 @@ namespace CookBook.WEB.Controllers
         public virtual async Task<ActionResult> UpdateUserName(string email, string value)
         {
             await userService.UpdateUserInformation(email, User.Identity.Name, userName: value);
-            return RedirectToAction("About");
+            return RedirectToAction(MVC.Profile.About());
         }
 
         [HttpPost]
         public virtual async Task<ActionResult> UpdateInformation(string email, string value)
         {
             await userService.UpdateUserInformation(email, User.Identity.Name, information: value);
-            return RedirectToAction("About");
+            return RedirectToAction(MVC.Profile.About());
         }
 
         public virtual async Task<ActionResult> UserRecipes(string email = null, int page = 1, int pageSize = 4)
@@ -91,13 +95,14 @@ namespace CookBook.WEB.Controllers
         }
 
         [HttpPost]
-        public virtual ActionResult AddRecipe(CreateRecipeViewModel model)
+        public virtual async Task<ActionResult> AddRecipe(CreateRecipeViewModel model)
         {
             if (User.Identity.Name != model.CreatorEmail && !User.IsInRole("admin"))
                 return RedirectToAction("About");
-
-            //await recipeService.CreateAsync()
-            return RedirectToAction("AddRecipe");
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<CreateRecipeViewModel, CreateRecipeDTO>()).CreateMapper();
+            var recipe = mapper.Map<CreateRecipeViewModel, CreateRecipeDTO>(model);
+            await recipeService.CreateAsync(recipe);
+            return RedirectToAction("UserRecipes");
         }
 
         [HttpGet]

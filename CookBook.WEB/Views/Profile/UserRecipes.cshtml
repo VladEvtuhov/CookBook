@@ -10,7 +10,14 @@
 <div class="recipes">
     <div class="title">
         <h4>MY RECIPES</h4>
-        @Ajax.ImageActionLink("/Content/Images/plus.png", "", "AddRecipe", null, new AjaxOptions { UpdateTargetId = "newrecipe" }, new { @id = "plus", width = "50", height = "50" })
+        @{
+            var email = Request.Params["email"] ?? User.Identity.Name;
+            <input id="userEmail" type="hidden" value=@email>
+        }
+        @if (User.IsInRole("admin") || User.Identity.Name == email)
+        {
+            @Ajax.ImageActionLink("/Content/Images/plus.png", "", "AddRecipe", null, new AjaxOptions { UpdateTargetId = "newrecipe" }, new { @id = "plus", width = "50", height = "50" })
+        }
 
     </div>
     <hr />
@@ -34,14 +41,14 @@
                 </div>
                 @if (@Request.Params["email"] == null || @Request.Params["email"] == User.Identity.Name || User.IsInRole("admin"))
                 {
-                    @Html.ActionLink("EDIT", "GetRecipe", "Profile", new { id = recipe.Id }, new { @class = "edit-button" })
+                    @Html.ActionLink("EDIT", MVC.Profile.GetRecipe(recipe.Id), new { @class = "edit-button" })
                 }
             </div>
         }
     </div>
 </div>
 <div class="center">
-    @Html.PagedListPager(Model, page => Url.Action("UserRecipes", new { page, email= @Request.Params["email"] }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(
+    @Html.PagedListPager(Model, page => Url.Action(MVC.Profile.UserRecipes(@Request.Params["email"], page)), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(
             new AjaxOptions
             {
                 InsertionMode = InsertionMode.Replace,
@@ -49,4 +56,4 @@
                 UpdateTargetId = "results"
             }))
 </div>
-<div id="getRecipe" data-request-url="@Url.Action("GetRecipe", "Profile")"></div>
+<div id="getRecipe" data-request-url="@Url.Action(MVC.Profile.GetRecipe())"></div>
