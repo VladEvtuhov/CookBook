@@ -72,9 +72,9 @@ namespace CookBook.WEB.Controllers
         }
         [NonAction]
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public virtual System.Web.Mvc.ActionResult GetRecipe()
+        public virtual System.Web.Mvc.ActionResult EditableRecipe()
         {
-            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.GetRecipe);
+            return new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.EditableRecipe);
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -97,7 +97,7 @@ namespace CookBook.WEB.Controllers
             public readonly string UpdateUserName = "UpdateUserName";
             public readonly string UpdateInformation = "UpdateInformation";
             public readonly string UserRecipes = "UserRecipes";
-            public readonly string GetRecipe = "GetRecipe";
+            public readonly string EditableRecipe = "EditableRecipe";
             public readonly string AddRecipe = "AddRecipe";
         }
 
@@ -109,7 +109,7 @@ namespace CookBook.WEB.Controllers
             public const string UpdateUserName = "UpdateUserName";
             public const string UpdateInformation = "UpdateInformation";
             public const string UserRecipes = "UserRecipes";
-            public const string GetRecipe = "GetRecipe";
+            public const string EditableRecipe = "EditableRecipe";
             public const string AddRecipe = "AddRecipe";
         }
 
@@ -158,13 +158,14 @@ namespace CookBook.WEB.Controllers
             public readonly string page = "page";
             public readonly string pageSize = "pageSize";
         }
-        static readonly ActionParamsClass_GetRecipe s_params_GetRecipe = new ActionParamsClass_GetRecipe();
+        static readonly ActionParamsClass_EditableRecipe s_params_EditableRecipe = new ActionParamsClass_EditableRecipe();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public ActionParamsClass_GetRecipe GetRecipeParams { get { return s_params_GetRecipe; } }
+        public ActionParamsClass_EditableRecipe EditableRecipeParams { get { return s_params_EditableRecipe; } }
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-        public class ActionParamsClass_GetRecipe
+        public class ActionParamsClass_EditableRecipe
         {
             public readonly string id = "id";
+            public readonly string model = "model";
         }
         static readonly ActionParamsClass_AddRecipe s_params_AddRecipe = new ActionParamsClass_AddRecipe();
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
@@ -186,11 +187,13 @@ namespace CookBook.WEB.Controllers
             {
                 public readonly string About = "About";
                 public readonly string AddRecipe = "AddRecipe";
+                public readonly string EditableRecipe = "EditableRecipe";
                 public readonly string UserProfile = "UserProfile";
                 public readonly string UserRecipes = "UserRecipes";
             }
             public readonly string About = "~/Views/Profile/About.cshtml";
             public readonly string AddRecipe = "~/Views/Profile/AddRecipe.cshtml";
+            public readonly string EditableRecipe = "~/Views/Profile/EditableRecipe.cshtml";
             public readonly string UserProfile = "~/Views/Profile/UserProfile.cshtml";
             public readonly string UserRecipes = "~/Views/Profile/UserRecipes.cshtml";
         }
@@ -266,15 +269,27 @@ namespace CookBook.WEB.Controllers
         }
 
         [NonAction]
-        partial void GetRecipeOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, int id);
+        partial void EditableRecipeOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, int id);
 
         [NonAction]
-        public override System.Web.Mvc.ActionResult GetRecipe(int id)
+        public override System.Web.Mvc.ActionResult EditableRecipe(int id)
         {
-            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.GetRecipe);
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.EditableRecipe);
             ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "id", id);
-            GetRecipeOverride(callInfo, id);
+            EditableRecipeOverride(callInfo, id);
             return callInfo;
+        }
+
+        [NonAction]
+        partial void EditableRecipeOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, CookBook.WEB.Models.EditRecipeViewModel model);
+
+        [NonAction]
+        public override System.Threading.Tasks.Task<System.Web.Mvc.ActionResult> EditableRecipe(CookBook.WEB.Models.EditRecipeViewModel model)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.EditableRecipe);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
+            EditableRecipeOverride(callInfo, model);
+            return System.Threading.Tasks.Task.FromResult(callInfo as System.Web.Mvc.ActionResult);
         }
 
         [NonAction]
@@ -290,6 +305,15 @@ namespace CookBook.WEB.Controllers
 
         [NonAction]
         partial void AddRecipeOverride(T4MVC_System_Web_Mvc_ActionResult callInfo, CookBook.WEB.Models.CreateRecipeViewModel model);
+
+        [NonAction]
+        public override System.Threading.Tasks.Task<System.Web.Mvc.ActionResult> AddRecipe(CookBook.WEB.Models.CreateRecipeViewModel model)
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.AddRecipe);
+            ModelUnbinderHelpers.AddRouteValues(callInfo.RouteValueDictionary, "model", model);
+            AddRecipeOverride(callInfo, model);
+            return System.Threading.Tasks.Task.FromResult(callInfo as System.Web.Mvc.ActionResult);
+        }
 
     }
 }

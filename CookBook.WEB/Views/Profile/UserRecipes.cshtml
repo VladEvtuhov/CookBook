@@ -5,7 +5,6 @@
     Layout = null;
 }
 @Styles.Render("~/Content/pageList")
-@Scripts.Render("~/bundles/profile/user-recipes/js")
 @Styles.Render("~/Content/profile/user-recipes/css")
 <div class="recipes">
     <div class="title">
@@ -23,7 +22,7 @@
     <hr />
     <div class="mg-left-30">
         @foreach (var recipe in Model)
-        {
+        {            
             <div id="@recipe.Id" class="card card-recipe">
                 <div class="card-image">
                     @if (recipe.ImageUrl != null)
@@ -41,7 +40,7 @@
                 </div>
                 @if (@Request.Params["email"] == null || @Request.Params["email"] == User.Identity.Name || User.IsInRole("admin"))
                 {
-                    @Html.ActionLink("EDIT", MVC.Profile.GetRecipe(recipe.Id), new { @class = "edit-button" })
+                    @Ajax.ActionLink("EDIT", MVC.Profile.EditableRecipe(recipe.Id), new AjaxOptions { UpdateTargetId = "newrecipe" }, new { @class = "edit-button" })
                 }
             </div>
         }
@@ -56,4 +55,3 @@
                 UpdateTargetId = "results"
             }))
 </div>
-<div id="getRecipe" data-request-url="@Url.Action(MVC.Profile.GetRecipe())"></div>

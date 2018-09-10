@@ -81,11 +81,21 @@ namespace CookBook.WEB.Controllers
             return View(model);
         }
 
-        public virtual ActionResult GetRecipe(int id)
+        [HttpGet]
+        public virtual ActionResult EditableRecipe(int id)
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<RecipesInfoDTO, RecipesViewModel>()).CreateMapper();
-            var recipe = mapper.Map<RecipesInfoDTO, RecipesViewModel>(recipeService.Get(id));
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<EditRecipeDTO, EditRecipeViewModel>()).CreateMapper();
+            var recipe = mapper.Map<EditRecipeDTO, EditRecipeViewModel>(recipeService.GetEditableRecipe(id));
             return View(recipe);
+        }
+
+        [HttpPost]
+        public virtual async Task<ActionResult> EditableRecipe(EditRecipeViewModel model)
+        {
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<EditRecipeViewModel, CreateRecipeDTO>()).CreateMapper();
+            var recipe = mapper.Map<EditRecipeViewModel, CreateRecipeDTO>(model);
+            await recipeService.EditAsync(model.Id, recipe);
+            return RedirectToAction(MVC.Profile.UserRecipes());
         }
 
         [HttpGet]

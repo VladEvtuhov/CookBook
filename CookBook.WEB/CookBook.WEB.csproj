@@ -266,6 +266,7 @@
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CreateRecipeViewModel.cs" />
+    <Compile Include="Models\EditRecipeViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\RecipesViewModel.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
@@ -443,6 +444,7 @@
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\profile\about.js" />
     <Content Include="Scripts\profile\create-recipe.js" />
+    <Content Include="Scripts\profile\edit-recipe-values.js" />
     <Content Include="Scripts\profile\profile.js" />
     <Content Include="Scripts\profile\user-recipes.js" />
     <Content Include="Scripts\umd\popper-utils.js" />
@@ -484,6 +486,7 @@
     <Content Include="Views\Profile\UserRecipes.cshtml" />
     <Content Include="Views\Profile\AddRecipe.cshtml" />
     <None Include="T4MVC.tt.hooks.t4" />
+    <Content Include="Views\Profile\EditableRecipe.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -5,4 +5,4 @@
     $(".card a").click(function (e) {
         e.stopPropagation();
     });
-})
+});

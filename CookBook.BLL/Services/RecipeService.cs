@@ -48,6 +48,19 @@ namespace CookBook.BLL.Services
             return mapper.Map<Recipe, RecipesInfoDTO>(recipe);
         }
 
+        public EditRecipeDTO GetEditableRecipe(int id)
+        {
+            var recipe = database.RecipeManager.FirstOrDefault(u => u.Id == id);
+            if (recipe == null)
+                throw new ValidationException("An error occurred during receipt retrieving", "");
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Recipe, EditRecipeDTO>()
+            .ForMember(d => d.Category, opt => opt.MapFrom(s => s.Category.Name))
+            .ForMember(d => d.CookingMethod, opt => opt.MapFrom(s => s.CookingMethod.Name))
+            .ForMember(d => d.CuisineCountry, opt => opt.MapFrom(s => s.Country.Name))
+            .ForMember(d => d.IngredientType, opt => opt.MapFrom(s => s.IngredientType.Name))).CreateMapper();
+            return mapper.Map<Recipe, EditRecipeDTO>(recipe);
+        }
+
         public IEnumerable<RecipesInfoDTO> GetAll()
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Recipe, RecipesInfoDTO>()).CreateMapper();

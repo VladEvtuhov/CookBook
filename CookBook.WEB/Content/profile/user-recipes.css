@@ -23,8 +23,8 @@ h4 {
     overflow: hidden;
 }
 .card-image img {
-    width: 100%;
-    position: absolute;
+    height: 100%;
+    width: auto;
 }
 .card-body h5 {
     min-height: 30px;
