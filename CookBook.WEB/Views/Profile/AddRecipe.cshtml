@@ -4,6 +4,7 @@
     Layout = null;
 }
 @Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/bundles/profile/refresh-profile-recipes")
 @Scripts.Render("~/bundles/profile/create-recipe")
 @Styles.Render("~/Content/profile/cr")
 <div class="modal fade bd-example-modal-lg" id="Modal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel">
@@ -16,7 +17,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                @using (Ajax.BeginForm(MVC.Profile.AddRecipe(), new AjaxOptions { HttpMethod = "POST"}))
+                @using (Ajax.BeginForm(MVC.Profile.AddRecipe(), new AjaxOptions { HttpMethod = "POST", OnComplete="refresh" }))
                 {
                     <input id="creatorEmail" type="hidden" name="CreatorEmail">
                     <div class="form-group">

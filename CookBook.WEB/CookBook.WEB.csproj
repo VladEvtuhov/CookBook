@@ -298,6 +298,7 @@
     <Content Include="Content\bootstrap3-editable\css\bootstrap-editable.css" />
     <Content Include="Content\bootstrap3-editable\img\clear.png" />
     <Content Include="Content\bootstrap3-editable\img\loading.gif" />
+    <Content Include="Content\Images\exit.png" />
     <Content Include="Content\Images\icons8-star-50.png" />
     <Content Include="Content\Images\icons8-star-filled-50.png" />
     <Content Include="Content\Images\icons8-star-half-empty-50.png" />
@@ -446,6 +447,7 @@
     <Content Include="Scripts\profile\create-recipe.js" />
     <Content Include="Scripts\profile\edit-recipe-values.js" />
     <Content Include="Scripts\profile\profile.js" />
+    <Content Include="Scripts\profile\refr-rec-profile.js" />
     <Content Include="Scripts\profile\user-recipes.js" />
     <Content Include="Scripts\umd\popper-utils.js" />
     <Content Include="Scripts\umd\popper-utils.min.js" />

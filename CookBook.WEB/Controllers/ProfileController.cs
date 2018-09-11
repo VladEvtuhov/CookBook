@@ -90,12 +90,25 @@ namespace CookBook.WEB.Controllers
         }
 
         [HttpPost]
+        public ActionResult RemoveRecipe(int id, string email = null)
+        {
+            email = email ?? User.Identity.Name;
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<RecipesInfoDTO, RecipesViewModel>()).CreateMapper();
+            var recipe = mapper.Map<RecipesInfoDTO, RecipesViewModel>(recipeService.Get(id));
+            if(recipe.Creator.Email == email || User.IsInRole("admin"))
+                recipeService.Remove(id);
+            return RedirectToAction("UserRecipes", email);
+        }
+
+        [HttpPost]
         public virtual async Task<ActionResult> EditableRecipe(EditRecipeViewModel model)
         {
+            if (User.Identity.Name != model.CreatorEmail && !User.IsInRole("admin"))
+                return RedirectToAction(MVC.Profile.About());
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<EditRecipeViewModel, CreateRecipeDTO>()).CreateMapper();
             var recipe = mapper.Map<EditRecipeViewModel, CreateRecipeDTO>(model);
             await recipeService.EditAsync(model.Id, recipe);
-            return RedirectToAction(MVC.Profile.UserRecipes());
+            return RedirectToAction(MVC.Profile.UserProfile(model.CreatorEmail));
         }
 
         [HttpGet]
@@ -108,11 +121,11 @@ namespace CookBook.WEB.Controllers
         public virtual async Task<ActionResult> AddRecipe(CreateRecipeViewModel model)
         {
             if (User.Identity.Name != model.CreatorEmail && !User.IsInRole("admin"))
-                return RedirectToAction("About");
+                return RedirectToAction(MVC.Profile.About());
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<CreateRecipeViewModel, CreateRecipeDTO>()).CreateMapper();
             var recipe = mapper.Map<CreateRecipeViewModel, CreateRecipeDTO>(model);
             await recipeService.CreateAsync(recipe);
-            return RedirectToAction("UserRecipes");
+            return RedirectToAction(MVC.Profile.UserProfile(model.CreatorEmail));
         }
 
         [HttpGet]

@@ -32,6 +32,8 @@ namespace CookBook.WEB
                       "~/Scripts/profile/user-recipes.js"));
             bundles.Add(new ScriptBundle("~/bundles/profile/edit-values/js").Include(
                       "~/Scripts/profile/edit-recipe-values.js"));
+            bundles.Add(new ScriptBundle("~/bundles/profile/refresh-profile-recipes").Include(
+                      "~/Scripts/profile/refr-rec-profile.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",

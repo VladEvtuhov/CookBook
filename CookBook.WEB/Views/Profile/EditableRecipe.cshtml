@@ -3,6 +3,7 @@
     Layout = null;
 }
 @Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/bundles/profile/refresh-profile-recipes")
 @Scripts.Render("~/bundles/profile/create-recipe")
 @Styles.Render("~/Content/profile/cr")
 @Scripts.Render("~/bundles/profile/edit-values/js")
@@ -16,7 +17,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                @using (Ajax.BeginForm(MVC.Profile.EditableRecipe(null), new AjaxOptions { HttpMethod = "POST" }))
+                @using (Ajax.BeginForm(MVC.Profile.EditableRecipe(null), new AjaxOptions { HttpMethod = "POST", OnComplete = "refresh" }))
                 {
                     <input id="creatorEmail" type="hidden" name="CreatorEmail">
                     <input id="recipeId" type="hidden" name="Id" value="@Model.Id" />
@@ -58,7 +59,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button id="createRecipe" type="submit" class="btn btn-primary">Create</button>
+                        <button id="createRecipe" type="submit" class="btn btn-primary">Save</button>
                     </div>
                 }
             </div>
