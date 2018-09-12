@@ -5,8 +5,9 @@
     Layout = null;
 }
 @Styles.Render("~/Content/pageList")
-@Scripts.Render("~/bundles/profile/user-recipes/js")
 @Styles.Render("~/Content/profile/user-recipes/css")
+@Scripts.Render("~/bundles/profile/refresh-profile-recipes")
+@Scripts.Render("~/bundles/profile/user-recipes/js")
 <div class="recipes">
     <div class="title">
         <h4>MY RECIPES</h4>
@@ -35,19 +36,22 @@
                         <img class="card-img-top" src="http://missingkids-stage.adobecqms.net/etc/clientlibs/ncmec/poster/images/poster/en_US/noPhotoAvailable.jpg">
                     }
                 </div>
+                <div class="remove">
+                    <input type="image" src="~/Content/Images/exit.png" value="@recipe.Id">
+                </div>
                 <div class="card-body">
                     <h5 class="card-title">@recipe.Title</h5>
                     <p class="card-text">@recipe.ShortDescription</p>
                 </div>
                 @if (@Request.Params["email"] == null || @Request.Params["email"] == User.Identity.Name || User.IsInRole("admin"))
                 {
-                    @Html.ActionLink("EDIT", MVC.Profile.GetRecipe(recipe.Id), new { @class = "edit-button" })
+                    @Ajax.ActionLink("EDIT", MVC.Profile.EditableRecipe(recipe.Id), new AjaxOptions { UpdateTargetId = "newrecipe" }, new { @class = "edit-button" })
                 }
             </div>
         }
     </div>
 </div>
-<div class="center">
+<div id="paging" class="center">
     @Html.PagedListPager(Model, page => Url.Action(MVC.Profile.UserRecipes(@Request.Params["email"], page)), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(
             new AjaxOptions
             {
@@ -56,4 +60,3 @@
                 UpdateTargetId = "results"
             }))
 </div>
-<div id="getRecipe" data-request-url="@Url.Action(MVC.Profile.GetRecipe())"></div>

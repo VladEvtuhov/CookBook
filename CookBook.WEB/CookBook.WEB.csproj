@@ -266,6 +266,7 @@
       <DependentUpon>T4MVC.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CreateRecipeViewModel.cs" />
+    <Compile Include="Models\EditRecipeViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\RecipesViewModel.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
@@ -297,6 +298,7 @@
     <Content Include="Content\bootstrap3-editable\css\bootstrap-editable.css" />
     <Content Include="Content\bootstrap3-editable\img\clear.png" />
     <Content Include="Content\bootstrap3-editable\img\loading.gif" />
+    <Content Include="Content\Images\exit.png" />
     <Content Include="Content\Images\icons8-star-50.png" />
     <Content Include="Content\Images\icons8-star-filled-50.png" />
     <Content Include="Content\Images\icons8-star-half-empty-50.png" />
@@ -443,7 +445,9 @@
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\profile\about.js" />
     <Content Include="Scripts\profile\create-recipe.js" />
+    <Content Include="Scripts\profile\edit-recipe-values.js" />
     <Content Include="Scripts\profile\profile.js" />
+    <Content Include="Scripts\profile\refr-rec-profile.js" />
     <Content Include="Scripts\profile\user-recipes.js" />
     <Content Include="Scripts\umd\popper-utils.js" />
     <Content Include="Scripts\umd\popper-utils.min.js" />
@@ -484,6 +488,7 @@
     <Content Include="Views\Profile\UserRecipes.cshtml" />
     <Content Include="Views\Profile\AddRecipe.cshtml" />
     <None Include="T4MVC.tt.hooks.t4" />
+    <Content Include="Views\Profile\EditableRecipe.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

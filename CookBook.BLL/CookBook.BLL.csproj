@@ -119,6 +119,7 @@
     <Compile Include="DTO\CategoryDTO.cs" />
     <Compile Include="DTO\CommentDTO.cs" />
     <Compile Include="DTO\CookingMethodDTO.cs" />
+    <Compile Include="DTO\EditRecipeDTO.cs" />
     <Compile Include="DTO\СuisineСountryDTO.cs" />
     <Compile Include="DTO\IngredientTypeDTO.cs" />
     <Compile Include="DTO\ProductDTO.cs" />
