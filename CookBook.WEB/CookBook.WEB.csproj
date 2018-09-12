@@ -256,15 +256,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
+    <Compile Include="Controllers\RecipesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\ImageActionLinkHelper.cs" />
-    <Compile Include="HomeController.generated.cs">
-      <DependentUpon>T4MVC.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\CreateRecipeViewModel.cs" />
     <Compile Include="Models\EditRecipeViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
@@ -298,6 +295,7 @@
     <Content Include="Content\bootstrap3-editable\css\bootstrap-editable.css" />
     <Content Include="Content\bootstrap3-editable\img\clear.png" />
     <Content Include="Content\bootstrap3-editable\img\loading.gif" />
+    <Content Include="Content\Images\comment.png" />
     <Content Include="Content\Images\exit.png" />
     <Content Include="Content\Images\icons8-star-50.png" />
     <Content Include="Content\Images\icons8-star-filled-50.png" />
@@ -337,6 +335,7 @@
     <Content Include="Content\profile\create-recipe.css" />
     <Content Include="Content\profile\user-profile.css" />
     <Content Include="Content\profile\user-recipes.css" />
+    <Content Include="Content\recipes.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -449,6 +448,7 @@
     <Content Include="Scripts\profile\profile.js" />
     <Content Include="Scripts\profile\refr-rec-profile.js" />
     <Content Include="Scripts\profile\user-recipes.js" />
+    <Content Include="Scripts\recipes.js" />
     <Content Include="Scripts\umd\popper-utils.js" />
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
@@ -469,9 +469,9 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Recipes\GetRecipes.cshtml" />
+    <Content Include="Views\Recipes\Contact.cshtml" />
+    <Content Include="Views\Recipes\Index.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
     <Content Include="Scripts\umd\popper-utils.min.js.map" />

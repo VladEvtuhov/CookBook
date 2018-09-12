@@ -1,0 +1,19 @@
+﻿.content{
+    margin-top: 20px;
+}
+.filter{
+    border-right: 1px solid #aaaaaa;
+    text-align: center;
+}
+.bottom-line {
+    height: 40px;
+    font-size: 20px;
+}
+.rating {
+    float: right;
+    margin-right: 15px;
+}
+.comment {
+    float: left;
+    margin-left: 15px;
+}

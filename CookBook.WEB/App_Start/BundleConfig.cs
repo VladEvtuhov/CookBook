@@ -34,6 +34,8 @@ namespace CookBook.WEB
                       "~/Scripts/profile/edit-recipe-values.js"));
             bundles.Add(new ScriptBundle("~/bundles/profile/refresh-profile-recipes").Include(
                       "~/Scripts/profile/refr-rec-profile.js"));
+            bundles.Add(new ScriptBundle("~/bundles/recipes").Include(
+                      "~/Scripts/recipes.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
@@ -52,6 +54,8 @@ namespace CookBook.WEB
                 "~/Content/profile/user-recipes.css"));
             bundles.Add(new StyleBundle("~/Content/pageList").Include(
                 "~/Content/PagedList.css"));
+            bundles.Add(new StyleBundle("~/Content/recipes").Include(
+                "~/Content/recipes.css"));
         }
     }
 }

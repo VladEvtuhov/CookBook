@@ -42,7 +42,7 @@ namespace CookBook.WEB.Controllers
                     {
                         IsPersistent = true
                     }, claim);
-                    return RedirectToAction(MVC.Home.Index());
+                    return RedirectToAction(MVC.Profile.UserProfile());
                 }
             }
             return View(model);

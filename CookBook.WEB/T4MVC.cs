@@ -28,7 +28,6 @@ using T4MVC;
 public static partial class MVC
 {
     public static CookBook.WEB.Controllers.AccountController Account = new CookBook.WEB.Controllers.T4MVC_AccountController();
-    public static CookBook.WEB.Controllers.HomeController Home = new CookBook.WEB.Controllers.T4MVC_HomeController();
     public static CookBook.WEB.Controllers.ProfileController Profile = new CookBook.WEB.Controllers.T4MVC_ProfileController();
     public static T4MVC.SharedController Shared = new T4MVC.SharedController();
 }

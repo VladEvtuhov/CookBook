@@ -41,6 +41,9 @@ textarea {
             width: 21px;
             background-color: rgba(255,50,50, 0.5);
         }
+.container{
+    max-width: 1350px;
+}
 .nav-item{
     margin-left: 30px;
     margin-right: 15px;
@@ -104,4 +107,33 @@ textarea {
     -moz-box-shadow: inset 0 0 68px -26px rgba(0,0,0,0.47);
     box-shadow: inset 0 0 68px -26px rgba(0,0,0,0.47);
     cursor: pointer;
+}
+.card-recipe {
+    width: 33%;
+    text-align: center;
+    height: 450px;
+    float: left;
+    margin-left: 1px;
+}
+
+.card-image {
+    height: 220px;
+    position: relative;
+    overflow: hidden;
+}
+
+    .card-image img {
+        height: 100%;
+        width: auto;
+    }
+
+.card-body h5 {
+    min-height: 30px;
+    max-height: 75px;
+    overflow: hidden;
+}
+
+.card-body p {
+    max-height: 50px;
+    overflow: hidden;
 }

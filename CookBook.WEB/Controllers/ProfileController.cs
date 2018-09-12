@@ -53,7 +53,7 @@ namespace CookBook.WEB.Controllers
             catch
             {
                 //TODO: change redirect to error page, or page with text "user not found"
-                return RedirectToAction(MVC.Home.Index());
+                return RedirectToAction(MVC.Profile.UserProfile());
             }
             return View(profile);
         }

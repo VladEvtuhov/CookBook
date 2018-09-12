@@ -8,32 +8,11 @@
 h4 {
     float: left;
 }
-.mg-left-30{
-    margin-left: 30px;
+.mg-left-35{
+    margin-left: 35px;
 }
 .card-recipe {
     width: 24%;
-    height: 450px;
-    float: left;
-    margin-left: 1px;
-}
-.card-image {
-    height:220px;
-    position:relative;
-    overflow: hidden;
-}
-.card-image img {
-    height: 100%;
-    width: auto;
-}
-.card-body h5 {
-    min-height: 30px;
-    max-height: 75px;
-    overflow: hidden;
-}
-.card-body p {
-    max-height: 50px;
-    overflow: hidden;
 }
 .center{
     text-align: center;

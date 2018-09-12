@@ -32,6 +32,18 @@ namespace CookBook.BLL.Services
             database.Save();
         }
 
+        public IEnumerable<RecipesInfoDTO> GetRecipesByPage(int page, int countPerPage)
+        {
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Recipe, RecipesInfoDTO>()).CreateMapper();
+            var info = mapper.Map<IEnumerable<Recipe>, List<RecipesInfoDTO>>(database.RecipeManager.Take(s => s.Id != 0, page * countPerPage, countPerPage));
+            return info;
+        }
+
+        public int GetCount()
+        {
+            return database.RecipeManager.Count();
+        }
+
         public async Task<IEnumerable<RecipesInfoDTO>> GetUserRecipesAsync(string email)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Recipe, RecipesInfoDTO>()).CreateMapper();
